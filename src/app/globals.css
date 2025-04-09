@@ -19,3 +19,23 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Custom CSS for loading text fill animation */
+.loading-text-fill {
+  background: linear-gradient(135deg, theme('colors.purple.600') 50%, theme('colors.gray.300') 50%);
+  background-size: 200% 100%;
+  background-position: 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: fill-text 1s linear forwards; /* Match duration with JS timer */
+}
+
+@keyframes fill-text {
+  from {
+    background-position: 100%;
+  }
+  to {
+    background-position: 0%;
+  }
+}

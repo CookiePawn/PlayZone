@@ -1,31 +1,47 @@
 'use client'
 
-import React, { useLayoutEffect } from "react";
-import { GoogleGenAI } from "@google/genai";
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
-const Home = () => {
-
-  useLayoutEffect(() => {
-    const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
-
-    const generateContent = async () => {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: "Explain how AI works",
-      });
-      console.log(response.text);
-    }
-
-    generateContent();
-  }, []);
-
-
+// This is the root page, currently not actively used as main content is in /home
+const LoadingScreen = () => {
   return (
-    <div>
-      <h1>Welcome to PlayZone</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="text-center">
+        {/* Text with custom class for color fill animation */}
+        <p className="loading-text-fill text-4xl font-bold">
+          AI 놀이터
+        </p>
+      </div>
     </div>
-  )
+  );
 };
 
-export default Home;
+const RootPage = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      router.push('/home'); // Redirect to /home after loading
+    }, 1000); // 1 second delay
+
+    console.log('NEXT_PUBLIC_API_KEY', process.env.NEXT_PUBLIC_API_KEY);
+
+    // Cleanup the timer if the component unmounts
+    return () => clearTimeout(timer);
+  }, [router]); // Add router to dependency array
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  // Optional: You could render something briefly here before redirect happens,
+  // but usually, the redirect is fast enough.
+  // Or return null if you only want the loading screen then redirect.
+  return null; 
+};
+
+export default RootPage;
 
