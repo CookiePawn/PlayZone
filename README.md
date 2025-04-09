@@ -9,7 +9,7 @@
 # MEMBER
 
     홍유빈
-    [GitHub](https://github.com/binihaus)
+[GitHub](https://github.com/binihaus)
   
    안준철 - Frontend
    [GitHub](https://github.com/CookiePawn)
