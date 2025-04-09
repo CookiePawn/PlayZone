@@ -91,7 +91,7 @@ const LegalQuizPage = () => {
             setFetchedQuestions(prev => [...prev, ...questionsWithCorrectIds]);
             console.log("Fetched and parsed questions:", questionsWithCorrectIds);
 
-        } catch (e: any) {
+        } catch (e: unknown) {
             console.error("Error fetching or parsing quiz data:", e);
             let errorMessage = "퀴즈 데이터를 가져오는 중 오류가 발생했습니다.";
             if (e instanceof Error) {
