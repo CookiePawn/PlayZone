@@ -14,7 +14,8 @@ type QuizQuestion = {
 
 // --- Constants ---
 const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const NUMBER_OF_QUESTIONS = 10; // Number of questions to fetch
+const NUMBER_OF_QUESTIONS = 5; // Generate 5 questions at a time
+const TOTAL_QUESTIONS = 20; // Total number of questions for the quiz
 
 // --- Main Quiz Component ---
 const LegalQuizPage = () => {
@@ -27,14 +28,13 @@ const LegalQuizPage = () => {
     const [error, setError] = useState<string | null>(null); // State for API errors
     const [fetchedQuestions, setFetchedQuestions] = useState<QuizQuestion[]>([]); // State for questions from API
 
-    const isQuizFinished = fetchedQuestions.length > 0 && currentQuestionIndex >= fetchedQuestions.length;
+    const isQuizFinished = currentQuestionIndex >= TOTAL_QUESTIONS;
     const currentQuestion = fetchedQuestions[currentQuestionIndex];
 
     // --- API Call Function (Updated Structure) ---
     const fetchQuizData = async () => {
         setIsLoading(true);
         setError(null);
-        setFetchedQuestions([]);
 
         if (!API_KEY) {
             setError("API 키가 설정되지 않았습니다. 환경 변수를 확인하세요.");
@@ -46,44 +46,26 @@ const LegalQuizPage = () => {
         const ai = new GoogleGenAI({ apiKey: API_KEY });
 
         const prompt = `
-      세금과 관련된 한국 법률 OX 퀴즈 ${NUMBER_OF_QUESTIONS}개를 생성해 주세요.
-      각 퀴즈는 다음 JSON 형식을 따라야 합니다:
+      한국 법률 OX 퀴즈 ${NUMBER_OF_QUESTIONS}개를 생성해주세요.
+      각 문제는 다음 형식의 JSON 객체여야 합니다:
       {
-        "id": 숫자 (1부터 시작),
-        "statement": "법 관련 O/X 문장 (간결하고 혼동될 수 있게)",
-        "answer": boolean (true는 O, false는 X),
-        "explanation": "정답/오답에 대한 간결한 설명",
-        "legalBasis": "관련 법률 조항 또는 판례 (간단히 명시)"
+        "id": 숫자,
+        "statement": "법 관련 O/X 문장",
+        "answer": boolean,
+        "explanation": "간단한 설명",
+        "legalBasis": "관련 법률"
       }
-      전체 응답은 이 JSON 객체 ${NUMBER_OF_QUESTIONS}개를 포함하는 유효한 JSON 배열이어야 합니다.
-      배열 앞뒤에 다른 텍스트나 설명 없이 JSON 배열만 생성해주세요.
-      예시:
-      [
-        {
-          "id": 1,
-          "statement": "CCTV로 몰래 녹화된 영상도 증거로 인정될 수 있다.",
-          "answer": false,
-          "explanation": "통신비밀보호법 등에 따라 당사자 간 동의 없는 녹화는 일반적으로 증거 능력이 부정됩니다.",
-          "legalBasis": "통신비밀보호법 제14조 등"
-        },
-        {
-          "id": 2,
-          // ... 다음 문제 ...
-        }
-      ]
+      ${NUMBER_OF_QUESTIONS}개의 JSON 객체를 배열로 반환하세요.
+      다른 텍스트 없이 JSON 배열만 반환하세요.
     `;
 
         try {
             console.log("Sending prompt to Gemini using ai.models.generateContent...");
-            // Use the generateContent structure from the provided example
             const response = await ai.models.generateContent({
-                model: "gemini-1.5-flash", // Using the model previously specified
+                model: "gemini-1.5-flash",
                 contents: prompt,
-                // Safety settings can be added here if needed, matching the structure expected by this API call
-                // safety_settings: [...] 
             });
 
-            // Access text directly based on the example
             const text = response.text;
             console.log("Gemini Response Text:", text);
 
@@ -91,34 +73,37 @@ const LegalQuizPage = () => {
                 throw new Error("API로부터 빈 응답을 받았습니다.");
             }
 
-            // Clean the response text to ensure it's valid JSON
+            // Simplified text cleaning
             const cleanedText = text.trim().replace(/^```json|```$/g, '').trim();
-
             console.log("Cleaned Text for Parsing:", cleanedText);
+            
             const parsedQuestions: QuizQuestion[] = JSON.parse(cleanedText);
-
+            
             if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0 || !parsedQuestions[0].statement) {
                 throw new Error("API 응답 형식이 올바르지 않습니다.");
             }
 
-            const questionsWithCorrectIds = parsedQuestions.map((q, index) => ({ ...q, id: index + 1 }));
-            setFetchedQuestions(questionsWithCorrectIds);
+            // Add the new questions to the existing questions array
+            const questionsWithCorrectIds = parsedQuestions.map((q, index) => ({
+                ...q,
+                id: fetchedQuestions.length + index + 1
+            }));
+            setFetchedQuestions(prev => [...prev, ...questionsWithCorrectIds]);
             console.log("Fetched and parsed questions:", questionsWithCorrectIds);
 
-        } catch (error: unknown) {
-            console.error("Error fetching or parsing quiz data:", error);
+        } catch (e: any) {
+            console.error("Error fetching or parsing quiz data:", e);
             let errorMessage = "퀴즈 데이터를 가져오는 중 오류가 발생했습니다.";
-            if (error instanceof Error) {
-                // Adjust error message check if the API throws differently
-                if (error.message.includes('API key not valid') || error.message.includes('API_KEY_INVALID')) {
+            if (e instanceof Error) {
+                if (e.message.includes('API key not valid') || e.message.includes('API_KEY_INVALID')) {
                     errorMessage = "API 키가 유효하지 않습니다. 확인해주세요.";
-                } else if (error instanceof SyntaxError) {
+                } else if (e instanceof SyntaxError) {
                     errorMessage = "API 응답을 파싱하는 중 오류가 발생했습니다. 응답 형식을 확인하세요.";
                 } else {
-                    errorMessage = `오류 발생: ${error.message}`;
+                    errorMessage = `오류 발생: ${e.message}`;
                 }
             } else {
-                errorMessage = String(error);
+                errorMessage = String(e);
             }
             setError(errorMessage);
         } finally {
@@ -129,7 +114,23 @@ const LegalQuizPage = () => {
     // --- Event Handlers ---
     const handleStartQuiz = () => {
         setShowIntro(false);
-        fetchQuizData(); // Fetch data when starting the quiz
+        fetchQuizData(); // Fetch first 5 questions
+        // Start fetching the next batches immediately
+        setTimeout(() => {
+            if (fetchedQuestions.length < TOTAL_QUESTIONS) {
+                fetchQuizData(); // Fetch second batch
+                setTimeout(() => {
+                    if (fetchedQuestions.length < TOTAL_QUESTIONS) {
+                        fetchQuizData(); // Fetch third batch
+                        setTimeout(() => {
+                            if (fetchedQuestions.length < TOTAL_QUESTIONS) {
+                                fetchQuizData(); // Fetch fourth batch
+                            }
+                        }, 1000);
+                    }
+                }, 1000);
+            }
+        }, 1000);
     };
 
     const handleAnswer = (answer: boolean) => {
@@ -160,7 +161,7 @@ const LegalQuizPage = () => {
     };
 
     // --- Calculated Values ---
-    const progressPercentage = fetchedQuestions.length > 0 ? ((currentQuestionIndex) / fetchedQuestions.length) * 100 : 0;
+    const progressPercentage = ((currentQuestionIndex) / TOTAL_QUESTIONS) * 100;
 
     // --- Render Logic ---
 
@@ -179,13 +180,13 @@ const LegalQuizPage = () => {
                         <span className="block mt-2 font-semibold text-purple-600">{"몰랐다고 넘어가기엔 너무 가까운 법"}</span>
                     </p>
                     <div className="text-left text-gray-500 text-sm mb-8 space-y-2 bg-gray-50 p-4 rounded-md border">
-                        <p>⏱️ **예상 소요 시간:** 약 {NUMBER_OF_QUESTIONS === 10 ? '3~5' : `${NUMBER_OF_QUESTIONS}`}분 (문제 수: {NUMBER_OF_QUESTIONS}개)</p>
+                        <p>⏱️ **예상 소요 시간:** 약 5~7분 (문제 수: {TOTAL_QUESTIONS}개)</p>
                         <p>🤖 **AI 해설:** 각 문제의 정답 여부와 함께 Gemini AI가 관련 법률 조항 또는 판례를 바탕으로 명쾌한 해설을 제공합니다.</p>
                         <p>🎯 **목표:** 재미있게 법 상식을 넓히고, 실생활에 도움이 되는 지식을 얻어가세요!</p>
                     </div>
                     <button
                         onClick={handleStartQuiz}
-                        disabled={isLoading} // Disable button while loading
+                        disabled={isLoading}
                         className="w-full max-w-xs px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isLoading ? '로딩 중...' : '시작하기'}
