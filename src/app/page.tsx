@@ -27,7 +27,7 @@ const RootPage = () => {
       router.push('/home'); // Redirect to /home after loading
     }, 1000); // 1 second delay
 
-    console.log('NEXT_PUBLIC_API_KEY', process.env.NEXT_PUBLIC_API_KEY);
+    console.log('NEXT_PUBLIC_GEMINI_API_KEY', process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 
     // Cleanup the timer if the component unmounts
     return () => clearTimeout(timer);
