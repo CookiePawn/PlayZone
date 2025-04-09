@@ -8,10 +8,12 @@
     
 # MEMBER
 
-홍유빈
+홍유빈 - 기획
+
 [GitHub](https://github.com/binihaus)
   
-안준철 - Frontend
+안준철 - 개발
+
 [GitHub](https://github.com/CookiePawn)
 
   
