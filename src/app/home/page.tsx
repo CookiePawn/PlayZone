@@ -15,21 +15,64 @@ const categories = [
 ];
 
 const projects = [
-    { id: 1, title: '⚖️ 법률 OX 퀴즈', description: '일상 속 법 상식, 얼마나 알고 계신가요? OX 퀴즈로 확인해보세요.', category: 'Quiz' },
-    { id: 2, title: 'Project Beta', description: 'Next.js powered application.', category: 'Next.js' },
-    { id: 3, title: 'Project Gamma', description: 'Backend service with Node.js.', category: 'Node.js' },
-    { id: 4, title: 'Project Delta', description: 'Data analysis with Python.', category: 'Python' },
-    { id: 5, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript' },
-    { id: 6, title: 'Project Zeta', description: 'Another React project.', category: 'React' },
-    { id: 7, title: 'Project Eta', description: 'Another React project.', category: 'React' },
-    { id: 8, title: 'Project Theta', description: 'Another React project.', category: 'React' },
-    { id: 9, title: 'Project Iota', description: 'Another React project.', category: 'React' },
-    { id: 10, title: 'Project Kappa', description: 'Another React project.', category: 'React' },
-    { id: 11, title: 'Project Lambda', description: 'Another React project.', category: 'React' },
-    { id: 12, title: 'Project Mu', description: 'Another React project.', category: 'React' },
-    { id: 13, title: 'Project Nu', description: 'Another React project.', category: 'React' },
-    { id: 14, title: 'Project Xi', description: 'Another React project.', category: 'React' },
-    { id: 15, title: 'Project Omicron', description: 'Another React project.', category: 'React' },
+    { 
+        id: 1, 
+        title: '⚖️ 법률 OX 퀴즈', 
+        description: '일상 속 법 상식, 얼마나 알고 계신가요? OX 퀴즈로 확인해보세요.', 
+        category: 'Quiz',
+        href: '/legal-quiz',
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-purple-400 to-indigo-500',
+            icon: '⚖️'
+        }
+    },
+    { 
+        id: 2, 
+        title: '💰 세금 OX 퀴즈', 
+        description: '세금에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.', 
+        category: 'Quiz',
+        href: '/tax-quiz',
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-green-400 to-blue-500',
+            icon: '💰'
+        }
+    },
+    { 
+        id: 3, 
+        title: '🐾 반려동물 OX 퀴즈', 
+        description: '반려동물에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.', 
+        category: 'Quiz',
+        href: '/animal-quiz',
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-orange-400 to-pink-500',
+            icon: '🐾'
+        }
+    },
+    { 
+        id: 4, 
+        title: 'Project Gamma', 
+        description: 'Backend service with Node.js.', 
+        category: 'Node.js',
+        thumbnail: {
+            type: 'placeholder',
+            text: ''
+        }
+    },
+    { id: 5, title: 'Project Delta', description: 'Data analysis with Python.', category: 'Python' },
+    { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript' },
+    { id: 7, title: 'Project Zeta', description: 'Another React project.', category: 'React' },
+    { id: 8, title: 'Project Eta', description: 'Another React project.', category: 'React' },
+    { id: 9, title: 'Project Theta', description: 'Another React project.', category: 'React' },
+    { id: 10, title: 'Project Iota', description: 'Another React project.', category: 'React' },
+    { id: 11, title: 'Project Kappa', description: 'Another React project.', category: 'React' },
+    { id: 12, title: 'Project Lambda', description: 'Another React project.', category: 'React' },
+    { id: 13, title: 'Project Mu', description: 'Another React project.', category: 'React' },
+    { id: 14, title: 'Project Nu', description: 'Another React project.', category: 'React' },
+    { id: 15, title: 'Project Xi', description: 'Another React project.', category: 'React' },
+    { id: 16, title: 'Project Omicron', description: 'Another React project.', category: 'React' },
 ];
 
 const Home = () => {
@@ -58,37 +101,32 @@ const Home = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {projects.map((project, index) => (
-                        index === 0 ? (
-                            <Link key={project.id} href="/legal-quiz" className="block hover:scale-105 transition-transform duration-200">
-                                <div className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full flex flex-col">
-                                    <div className="h-48 bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center text-white text-6xl">
-                                        ⚖️
-                                    </div>
-                                    <div className="p-4 flex-grow">
-                                        <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
-                                        <p className="text-gray-600 mb-3 text-sm">{project.description}</p>
-                                        <span className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">
-                                            {project.category}
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ) : (
-                            <div key={project.id} className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full flex flex-col">
-                                <div className="h-48 bg-gray-200 flex items-center justify-center text-gray-500">
-                                    Thumbnail Placeholder
+                    {projects.map((project) => {
+                        const ProjectCard = (
+                            <div className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full flex flex-col">
+                                <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-200'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500'} text-6xl`}>
+                                    {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
                                 </div>
                                 <div className="p-4 flex-grow">
                                     <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
                                     <p className="text-gray-600 mb-3 text-sm">{project.description}</p>
-                                    <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                                    <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'} rounded-full text-sm font-medium`}>
                                         {project.category}
                                     </span>
                                 </div>
                             </div>
-                        )
-                    ))}
+                        );
+
+                        return project.href ? (
+                            <Link key={project.id} href={project.href} className="block hover:scale-105 transition-transform duration-200">
+                                {ProjectCard}
+                            </Link>
+                        ) : (
+                            <div key={project.id}>
+                                {ProjectCard}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
 
