@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { GoogleGenAI } from "@google/genai";
+import { generateContent } from '@/services';
 
 // --- Type Definition ---
 type QuizQuestion = {
@@ -13,7 +13,6 @@ type QuizQuestion = {
 };
 
 // --- Constants ---
-const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const NUMBER_OF_QUESTIONS = 5; // Generate 5 questions at a time
 const TOTAL_QUESTIONS = 20; // Total number of questions for the quiz
 
@@ -31,68 +30,42 @@ const LegalQuizPage = () => {
     const isQuizFinished = currentQuestionIndex >= TOTAL_QUESTIONS;
     const currentQuestion = fetchedQuestions[currentQuestionIndex];
 
-    // --- API Call Function (Updated Structure) ---
+    // --- API Call Function ---
     const fetchQuizData = async () => {
         setIsLoading(true);
         setError(null);
 
-        if (!API_KEY) {
-            setError("API 키가 설정되지 않았습니다. 환경 변수를 확인하세요.");
-            setIsLoading(false);
-            return;
-        }
-
-        // Instantiate using the provided example structure
-        const ai = new GoogleGenAI({ apiKey: API_KEY });
-
         const prompt = `
-      한국 법률 OX 퀴즈 ${NUMBER_OF_QUESTIONS}개를 생성해주세요.
-      각 문제는 다음 형식의 JSON 객체여야 합니다:
-      {
-        "id": 숫자,
-        "statement": "법 관련 O/X 문장",
-        "answer": boolean,
-        "explanation": "간단한 설명",
-        "legalBasis": "관련 법률"
-      }
-      ${NUMBER_OF_QUESTIONS}개의 JSON 객체를 배열로 반환하세요.
-      다른 텍스트 없이 JSON 배열만 반환하세요.
-    `;
+            한국 법률 OX 퀴즈 ${NUMBER_OF_QUESTIONS}개를 생성해주세요.
+            각 문제는 다음 형식의 JSON 객체여야 합니다:
+            {
+                "id": 숫자,
+                "statement": "법 관련 O/X 문장",
+                "answer": boolean,
+                "explanation": "간단한 설명",
+                "legalBasis": "관련 법률"
+            }
+            ${NUMBER_OF_QUESTIONS}개의 JSON 객체를 배열로 반환하세요.
+            다른 텍스트 없이 JSON 배열만 반환하세요.
+        `;
 
         try {
-            console.log("Sending prompt to Gemini using ai.models.generateContent...");
-            const response = await ai.models.generateContent({
-                model: "gemini-1.5-flash",
-                contents: prompt,
-            });
-
-            const text = response.text;
-            console.log("Gemini Response Text:", text);
-
-            if (!text) {
-                throw new Error("API로부터 빈 응답을 받았습니다.");
-            }
-
-            // Simplified text cleaning
-            const cleanedText = text.trim().replace(/^```json|```$/g, '').trim();
-            console.log("Cleaned Text for Parsing:", cleanedText);
-            
+            const responseText = await generateContent(prompt);
+            const cleanedText = responseText.trim().replace(/^```json|```$/g, '').trim();
             const parsedQuestions: QuizQuestion[] = JSON.parse(cleanedText);
             
             if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0 || !parsedQuestions[0].statement) {
                 throw new Error("API 응답 형식이 올바르지 않습니다.");
             }
 
-            // Add the new questions to the existing questions array
-            const questionsWithCorrectIds = parsedQuestions.map((q, index) => ({
+            const questionsWithIds = parsedQuestions.map((q, index) => ({
                 ...q,
                 id: fetchedQuestions.length + index + 1
             }));
-            setFetchedQuestions(prev => [...prev, ...questionsWithCorrectIds]);
-            console.log("Fetched and parsed questions:", questionsWithCorrectIds);
-
-        } catch (e: unknown) {
-            console.error("Error fetching or parsing quiz data:", e);
+            
+            setFetchedQuestions(prev => [...prev, ...questionsWithIds]);
+        } catch (e) {
+            console.error("Error fetching quiz data:", e);
             let errorMessage = "퀴즈 데이터를 가져오는 중 오류가 발생했습니다.";
             if (e instanceof Error) {
                 if (e.message.includes('API key not valid') || e.message.includes('API_KEY_INVALID')) {
@@ -102,8 +75,6 @@ const LegalQuizPage = () => {
                 } else {
                     errorMessage = `오류 발생: ${e.message}`;
                 }
-            } else {
-                errorMessage = String(e);
             }
             setError(errorMessage);
         } finally {
