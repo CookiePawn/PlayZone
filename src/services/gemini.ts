@@ -1,12 +1,24 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY || '';
 
 if (!API_KEY) {
-    throw new Error("NEXT_PUBLIC_GEMINI_API_KEY is not set");
+    console.warn('Gemini API key is not set. Please check your environment variables.');
 }
 
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+const genAI = new GoogleGenerativeAI(API_KEY);
+
+export const generateContent = async (prompt: string): Promise<string> => {
+    try {
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        return response.text();
+    } catch (error) {
+        console.error('Error generating content:', error);
+        throw error;
+    }
+};
 
 export type QuizQuestion = {
     id: number;
@@ -14,24 +26,4 @@ export type QuizQuestion = {
     answer: boolean;
     explanation: string;
     legalBasis: string;
-};
-
-
-export async function generateContent(prompt: string): Promise<string> {
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-1.5-flash",
-            contents: prompt,
-        });
-
-        const text = response.text;
-        if (!text) {
-            throw new Error("API로부터 빈 응답을 받았습니다.");
-        }
-
-        return text;
-    } catch (error) {
-        console.error("Error generating content:", error);
-        throw error;
-    }
-} 
+}; 

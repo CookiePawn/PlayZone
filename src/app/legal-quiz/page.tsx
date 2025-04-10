@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react';
-import { generateContent } from '@/services';
+import { generateContent } from '@/services/gemini';
 
 // --- Type Definition ---
 type QuizQuestion = {
@@ -15,8 +15,7 @@ type QuizQuestion = {
 type Difficulty = 'easy' | 'hard';
 
 // --- Constants ---
-const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const NUMBER_OF_QUESTIONS = 5; // Generate 5 questions at a time
+const NUMBER_OF_QUESTIONS = 10; // Generate 5 questions at a time
 const TOTAL_QUESTIONS = 10; // Total number of questions for the quiz
 
 // --- Main Quiz Component ---
@@ -31,6 +30,18 @@ const LegalQuizPage = () => {
     const [fetchedQuestions, setFetchedQuestions] = useState<QuizQuestion[]>([]);
     const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
 
+    // Filter valid questions
+    const validQuestions = React.useMemo(() => {
+        return fetchedQuestions.filter(q => 
+            q && 
+            typeof q.statement === 'string' && 
+            q.statement.trim() !== '' &&
+            typeof q.answer === 'boolean' &&
+            typeof q.explanation === 'string' &&
+            typeof q.legalBasis === 'string'
+        );
+    }, [fetchedQuestions]);
+
     // Load initial questions when intro page is shown and difficulty is selected
     React.useEffect(() => {
         if (showIntro && selectedDifficulty && fetchedQuestions.length === 0) {
@@ -38,8 +49,8 @@ const LegalQuizPage = () => {
         }
     }, [showIntro, selectedDifficulty, fetchedQuestions.length]);
 
-    const isQuizFinished = currentQuestionIndex >= TOTAL_QUESTIONS;
-    const currentQuestion = fetchedQuestions[currentQuestionIndex];
+    const isQuizFinished = currentQuestionIndex >= validQuestions.length;
+    const currentQuestion = validQuestions[currentQuestionIndex];
 
     // --- API Call Function ---
     const fetchQuizData = async () => {
@@ -98,7 +109,7 @@ const LegalQuizPage = () => {
             const cleanedText = responseText.trim().replace(/^```json|```$/g, '').trim();
             const parsedQuestions: QuizQuestion[] = JSON.parse(cleanedText);
             
-            if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0 || !parsedQuestions[0].statement) {
+            if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0) {
                 throw new Error("API 응답 형식이 올바르지 않습니다.");
             }
 
@@ -164,7 +175,7 @@ const LegalQuizPage = () => {
     };
 
     // --- Calculated Values ---
-    const progressPercentage = ((currentQuestionIndex) / TOTAL_QUESTIONS) * 100;
+    const progressPercentage = ((currentQuestionIndex) / validQuestions.length) * 100;
 
     // --- Render Logic ---
 
@@ -183,7 +194,7 @@ const LegalQuizPage = () => {
                         <span className="block mt-2 font-semibold text-purple-600">{"몰랐다고 넘어가기엔 너무 가까운 법"}</span>
                     </p>
                     <div className="text-left text-gray-500 text-sm mb-8 space-y-2 bg-gray-50 p-4 rounded-md border">
-                        <p>⏱️ **예상 소요 시간:** 약 3~5분 (문제 수: {TOTAL_QUESTIONS}개)</p>
+                        <p>⏱️ **예상 소요 시간:** 약 3~5분 (문제 수: {validQuestions.length}개)</p>
                         <p>🤖 **AI 해설:** 각 문제의 정답 여부와 함께 Gemini AI가 관련 법률 조항 또는 판례를 바탕으로 명쾌한 해설을 제공합니다.</p>
                         <p>🎯 **목표:** 재미있게 법 상식을 넓히고, 실생활에 도움이 되는 지식을 얻어가세요!</p>
                     </div>
@@ -265,7 +276,7 @@ const LegalQuizPage = () => {
         );
     }
 
-    // Render Quiz Finished screen (using fetchedQuestions.length)
+    // Render Quiz Finished screen (using validQuestions.length)
     if (isQuizFinished) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
@@ -279,11 +290,11 @@ const LegalQuizPage = () => {
 
                     <div className="text-center mb-8">
                         <p className="text-xl mb-4">
-                            총 <span className="font-bold text-purple-600">{fetchedQuestions.length}</span>문제 중
+                            총 <span className="font-bold text-purple-600">{validQuestions.length}</span>문제 중
                             <span className="font-bold text-purple-600"> {score}</span>문제를 맞혔습니다!
                         </p>
                         <p className="text-gray-600">
-                            정답률: <span className="font-bold text-purple-600">{Math.round((score / fetchedQuestions.length) * 100)}%</span>
+                            정답률: <span className="font-bold text-purple-600">{Math.round((score / validQuestions.length) * 100)}%</span>
                         </p>
                     </div>
 
@@ -317,12 +328,22 @@ const LegalQuizPage = () => {
     }
 
     // Render Main Quiz UI (only if questions are fetched)
-    if (fetchedQuestions.length === 0) {
-        // This case should ideally be covered by loading/error states, but as a fallback:
+    if (validQuestions.length === 0) {
         return (
-            <div className="flex items-center justify-center min-h-screen">퀴즈 데이터가 없습니다.</div>
-        )
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="text-center">
+                    <p className="text-gray-600 text-lg">퀴즈 데이터를 불러오는 중입니다...</p>
+                    <button
+                        onClick={handleResetQuiz}
+                        className="mt-4 px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors"
+                    >
+                        돌아가기
+                    </button>
+                </div>
+            </div>
+        );
     }
+
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
             <div className="bg-white p-6 md:p-8 rounded-lg border border-gray-200 w-full max-w-2xl flex flex-col min-h-[650px]">
