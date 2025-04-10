@@ -2,11 +2,6 @@
 
 [홈페이지 바로가기](https://dsautoline.com)
 
-# Project Period
-
-    Main WEB DEV. 2025/04/09 ~
-    법률 퀴즈(Legal Quiz) DEV. 2025/04/09 ~ 2025/04/10
-    
 # MEMBER
 
 홍유빈 - 기획 
@@ -14,6 +9,27 @@
   
 안준철 - 개발
 [GitHub](https://github.com/CookiePawn)
+
+
+# Project Period
+
+    Main WEB DEV. 2025/04/09 ~
+    법률 퀴즈(Legal Quiz) DEV. 2025/04/09 ~ 2025/04/10
+
+## USING
+> https://github.com/CookiePawn/template-cli.git
+>
+> AI - Google Gemini(gemini-1.5-flash)
+
+
+## Version
+> ## v0.0.1
+> [2025-04-09]
+>
+> Create Main Web
+>
+> Create Legal Quiz(법률 퀴즈)
+    
 
   
 # Notion
