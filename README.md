@@ -39,3 +39,6 @@
 # TODO
     Gemini 프롬프트 로드는 각 페이지의 설명부에서 최초 5개 아이템을 로드.
     그 후 시작하기를 누르면 지연 없이 순차적으로 5개씩 로드.
+
+# Gemini 사용량 확인
+  https://console.cloud.google.com/apis/api/generativelanguage.googleapis.com/quotas?invt=AbuWEA&project=gen-lang-client-0198531221
