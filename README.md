@@ -4,7 +4,8 @@
 
 # Project Period
 
-    Main WEB DEV. 2025/04/29 ~
+    Main WEB DEV. 2025/04/09 ~
+    법률 퀴즈(Legal Quiz) DEV. 2025/04/09 ~ 2025/04/10
     
 # MEMBER
 
