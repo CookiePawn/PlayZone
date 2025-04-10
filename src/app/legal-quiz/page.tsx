@@ -16,7 +16,7 @@ type Difficulty = 'easy' | 'hard';
 
 // --- Constants ---
 const NUMBER_OF_QUESTIONS = 10; // Generate 5 questions at a time
-const TOTAL_QUESTIONS = 10; // Total number of questions for the quiz
+// const TOTAL_QUESTIONS = 10; // Total number of questions for the quiz
 
 // --- Main Quiz Component ---
 const LegalQuizPage = () => {
