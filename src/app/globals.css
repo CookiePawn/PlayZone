@@ -86,3 +86,16 @@ body {
 }
 
 /* Remove unused animations */
+
+@keyframes loading-fill {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.loading-fill {
+    animation: loading-fill 2s ease-in-out infinite;
+}

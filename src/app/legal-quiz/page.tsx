@@ -12,9 +12,12 @@ type QuizQuestion = {
     legalBasis: string;
 };
 
+type Difficulty = 'easy' | 'hard';
+
 // --- Constants ---
+const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const NUMBER_OF_QUESTIONS = 5; // Generate 5 questions at a time
-const TOTAL_QUESTIONS = 20; // Total number of questions for the quiz
+const TOTAL_QUESTIONS = 10; // Total number of questions for the quiz
 
 // --- Main Quiz Component ---
 const LegalQuizPage = () => {
@@ -22,10 +25,18 @@ const LegalQuizPage = () => {
     const [score, setScore] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
     const [showResult, setShowResult] = useState(false);
-    const [showIntro, setShowIntro] = useState(true); // State to control intro/quiz view
-    const [isLoading, setIsLoading] = useState(false); // State for loading API data
-    const [error, setError] = useState<string | null>(null); // State for API errors
-    const [fetchedQuestions, setFetchedQuestions] = useState<QuizQuestion[]>([]); // State for questions from API
+    const [showIntro, setShowIntro] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [fetchedQuestions, setFetchedQuestions] = useState<QuizQuestion[]>([]);
+    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+
+    // Load initial questions when intro page is shown and difficulty is selected
+    React.useEffect(() => {
+        if (showIntro && selectedDifficulty && fetchedQuestions.length === 0) {
+            fetchQuizData();
+        }
+    }, [showIntro, selectedDifficulty, fetchedQuestions.length]);
 
     const isQuizFinished = currentQuestionIndex >= TOTAL_QUESTIONS;
     const currentQuestion = fetchedQuestions[currentQuestionIndex];
@@ -35,7 +46,7 @@ const LegalQuizPage = () => {
         setIsLoading(true);
         setError(null);
 
-        const prompt = `
+        const easyPrompt = `
             한국 법률 OX 퀴즈 ${NUMBER_OF_QUESTIONS}개를 생성해주세요.
             각 문제는 다음 형식의 JSON 객체여야 합니다:
             {
@@ -47,7 +58,40 @@ const LegalQuizPage = () => {
             }
             ${NUMBER_OF_QUESTIONS}개의 JSON 객체를 배열로 반환하세요.
             다른 텍스트 없이 JSON 배열만 반환하세요.
+            
+            반드시 실제 존재하는 한국 법률에 기반한 문제만 생성하세요.
+            허구나 잘못된 법률 정보를 포함하지 마세요.
+            모든 설명과 법적 근거는 현행 법령에 기반해야 합니다.
+
+            문제의 난이도는 일반인이 이해하기 쉬운 수준으로 출제해주세요.
+            일상생활에서 자주 접할 수 있는 법적 상황이나
+            기본적인 법률 상식을 테스트하는 문제를 포함해주세요.
         `;
+
+        const hardPrompt = `
+            한국 법률 OX 퀴즈 ${NUMBER_OF_QUESTIONS}개를 생성해주세요.
+            각 문제는 다음 형식의 JSON 객체여야 합니다:
+            {
+                "id": 숫자,
+                "statement": "법 관련 O/X 문장",
+                "answer": boolean,
+                "explanation": "간단한 설명",
+                "legalBasis": "관련 법률"
+            }
+            ${NUMBER_OF_QUESTIONS}개의 JSON 객체를 배열로 반환하세요.
+            다른 텍스트 없이 JSON 배열만 반환하세요.
+            
+            반드시 실제 존재하는 한국 법률에 기반한 문제만 생성하세요.
+            허구나 잘못된 법률 정보를 포함하지 마세요.
+            모든 설명과 법적 근거는 현행 법령에 기반해야 합니다.
+
+            문제의 난이도는 법학적 지식이 필요한 수준으로 출제해주세요.
+            단순한 상식 수준이 아닌, 법조문의 세부적인 내용이나 
+            법률 해석이 필요한 고난도 문제를 포함해주세요.
+            법학 전공자나 법률 실무자들도 도전적으로 느낄 수 있는 수준으로 만들어주세요.
+        `;
+
+        const prompt = selectedDifficulty === 'easy' ? easyPrompt : hardPrompt;
 
         try {
             const responseText = await generateContent(prompt);
@@ -62,8 +106,8 @@ const LegalQuizPage = () => {
                 ...q,
                 id: fetchedQuestions.length + index + 1
             }));
-            
             setFetchedQuestions(prev => [...prev, ...questionsWithIds]);
+            
         } catch (e) {
             console.error("Error fetching quiz data:", e);
             let errorMessage = "퀴즈 데이터를 가져오는 중 오류가 발생했습니다.";
@@ -85,27 +129,14 @@ const LegalQuizPage = () => {
     // --- Event Handlers ---
     const handleStartQuiz = () => {
         setShowIntro(false);
-        fetchQuizData(); // Fetch first 5 questions
-        // Start fetching the next batches immediately
-        setTimeout(() => {
-            if (fetchedQuestions.length < TOTAL_QUESTIONS) {
-                fetchQuizData(); // Fetch second batch
-                setTimeout(() => {
-                    if (fetchedQuestions.length < TOTAL_QUESTIONS) {
-                        fetchQuizData(); // Fetch third batch
-                        setTimeout(() => {
-                            if (fetchedQuestions.length < TOTAL_QUESTIONS) {
-                                fetchQuizData(); // Fetch fourth batch
-                            }
-                        }, 1000);
-                    }
-                }, 1000);
-            }
-        }, 1000);
+    };
+
+    const handleDifficultySelect = (difficulty: Difficulty) => {
+        setSelectedDifficulty(difficulty);
     };
 
     const handleAnswer = (answer: boolean) => {
-        if (showResult || isLoading) return; // Prevent interaction during loading/result
+        if (showResult || isLoading) return;
         setSelectedAnswer(answer);
         setShowResult(true);
         if (answer === currentQuestion.answer) {
@@ -126,9 +157,10 @@ const LegalQuizPage = () => {
         setSelectedAnswer(null);
         setShowResult(false);
         setShowIntro(true);
-        setFetchedQuestions([]); // Clear fetched questions on reset
+        setFetchedQuestions([]);
         setError(null);
         setIsLoading(false);
+        setSelectedDifficulty(null);
     };
 
     // --- Calculated Values ---
@@ -151,25 +183,57 @@ const LegalQuizPage = () => {
                         <span className="block mt-2 font-semibold text-purple-600">{"몰랐다고 넘어가기엔 너무 가까운 법"}</span>
                     </p>
                     <div className="text-left text-gray-500 text-sm mb-8 space-y-2 bg-gray-50 p-4 rounded-md border">
-                        <p>⏱️ **예상 소요 시간:** 약 5~7분 (문제 수: {TOTAL_QUESTIONS}개)</p>
+                        <p>⏱️ **예상 소요 시간:** 약 3~5분 (문제 수: {TOTAL_QUESTIONS}개)</p>
                         <p>🤖 **AI 해설:** 각 문제의 정답 여부와 함께 Gemini AI가 관련 법률 조항 또는 판례를 바탕으로 명쾌한 해설을 제공합니다.</p>
                         <p>🎯 **목표:** 재미있게 법 상식을 넓히고, 실생활에 도움이 되는 지식을 얻어가세요!</p>
                     </div>
-                    <button
-                        onClick={handleStartQuiz}
-                        disabled={isLoading}
-                        className="w-full max-w-xs px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? '로딩 중...' : '시작하기'}
-                    </button>
+                    <div className="mb-8">
+                        <p className="text-lg font-semibold mb-4">난이도를 선택하세요</p>
+                        <div className="flex justify-center space-x-4">
+                            <button
+                                onClick={() => handleDifficultySelect('easy')}
+                                disabled={selectedDifficulty !== null}
+                                className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+                                    selectedDifficulty === 'easy'
+                                        ? 'bg-green-500 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                                }`}
+                            >
+                                쉬움
+                            </button>
+                            <button
+                                onClick={() => handleDifficultySelect('hard')}
+                                disabled={selectedDifficulty !== null}
+                                className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+                                    selectedDifficulty === 'hard'
+                                        ? 'bg-red-500 text-white'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                                }`}
+                            >
+                                어려움
+                            </button>
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <button
+                            onClick={handleStartQuiz}
+                            disabled={isLoading || !selectedDifficulty}
+                            className={`w-full max-w-xs px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden`}
+                        >
+                            <span className="relative z-10">{isLoading ? '로딩 중...' : '시작하기'}</span>
+                            {isLoading && (
+                                <div className="absolute inset-0 bg-purple-700 loading-fill"></div>
+                            )}
+                        </button>
+                    </div>
                     {error && <p className="mt-4 text-red-600">{error}</p>}
                 </div>
             </div>
         );
     }
 
-    // Update the loading state in the LegalQuizPage component
-    if (isLoading) {
+    // Render Loading State (only when not in intro)
+    if (isLoading && !showIntro) {
         return (
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
                 <div className="text-center">
@@ -265,7 +329,7 @@ const LegalQuizPage = () => {
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8">
                     <div className="bg-purple-600 h-2.5 rounded-full transition-all duration-500 ease-out" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
-                <div className="mb-8 text-center">
+                <div className="mb-8 text-center h-[150px]">
                     <p className="text-lg md:text-xl font-medium text-gray-800">{currentQuestion.statement}</p>
                 </div>
                 <div className="flex space-x-4 justify-center mb-8">
@@ -305,9 +369,6 @@ const LegalQuizPage = () => {
                         </div>
                     </div>
                 )}
-                <div className="mt-auto pt-6 text-center text-lg font-semibold text-gray-700 border-t border-gray-200">
-                    Score: {score} / {fetchedQuestions.length}
-                </div>
             </div>
         </div>
     );
