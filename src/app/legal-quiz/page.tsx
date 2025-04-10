@@ -44,10 +44,8 @@ const LegalQuizPage = () => {
 
     // Load initial questions when intro page is shown and difficulty is selected
     React.useEffect(() => {
-        if (showIntro && selectedDifficulty && fetchedQuestions.length === 0) {
-            fetchQuizData();
-        }
-    }, [showIntro, selectedDifficulty, fetchedQuestions.length]);
+        // Remove auto-loading logic
+    }, []);
 
     const isQuizFinished = currentQuestionIndex >= validQuestions.length;
     const currentQuestion = validQuestions[currentQuestionIndex];
@@ -138,8 +136,15 @@ const LegalQuizPage = () => {
     };
 
     // --- Event Handlers ---
-    const handleStartQuiz = () => {
+    const handleStartQuiz = async () => {
+        if (!selectedDifficulty) return;
+        setIsLoading(true);
+        setFetchedQuestions([]); // Reset questions
+        await fetchQuizData(); // Load first batch
         setShowIntro(false);
+        setIsLoading(false);
+        // Load additional questions immediately after first batch
+        fetchQuizData();
     };
 
     const handleDifficultySelect = (difficulty: Difficulty) => {
@@ -147,7 +152,7 @@ const LegalQuizPage = () => {
     };
 
     const handleAnswer = (answer: boolean) => {
-        if (showResult || isLoading) return;
+        if (showResult) return;
         setSelectedAnswer(answer);
         setShowResult(true);
         if (answer === currentQuestion.answer) {
@@ -156,7 +161,6 @@ const LegalQuizPage = () => {
     };
 
     const handleNextQuestion = () => {
-        if (isLoading) return;
         setShowResult(false);
         setSelectedAnswer(null);
         setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -203,22 +207,20 @@ const LegalQuizPage = () => {
                         <div className="flex justify-center space-x-4">
                             <button
                                 onClick={() => handleDifficultySelect('easy')}
-                                disabled={selectedDifficulty !== null}
                                 className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
                                     selectedDifficulty === 'easy'
                                         ? 'bg-green-500 text-white'
-                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                 }`}
                             >
                                 쉬움
                             </button>
                             <button
                                 onClick={() => handleDifficultySelect('hard')}
-                                disabled={selectedDifficulty !== null}
                                 className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
                                     selectedDifficulty === 'hard'
                                         ? 'bg-red-500 text-white'
-                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed'
+                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                                 }`}
                             >
                                 어려움
@@ -243,21 +245,6 @@ const LegalQuizPage = () => {
         );
     }
 
-    // Render Loading State (only when not in intro)
-    if (isLoading && !showIntro) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-100">
-                <div className="text-center">
-                    <p className="loading-text-fill text-4xl font-bold mb-4">
-                        AI 놀이터
-                    </p>
-                    <p className="text-gray-600 text-lg">AI가 퀴즈를 생성 중입니다...</p>
-                    <p className="text-gray-500 text-sm mt-2">잠시만 기다려주세요</p>
-                </div>
-            </div>
-        );
-    }
-
     // Render Error State (after intro)
     if (error) {
         return (
@@ -266,7 +253,7 @@ const LegalQuizPage = () => {
                     <h2 className="text-2xl font-bold text-red-600 mb-4">오류 발생</h2>
                     <p className="text-red-700 mb-6">{error}</p>
                     <button
-                        onClick={handleResetQuiz} // Go back to intro
+                        onClick={handleResetQuiz}
                         className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg shadow hover:bg-red-700 transition-colors"
                     >
                         돌아가기
@@ -300,7 +287,8 @@ const LegalQuizPage = () => {
 
                     <button
                         onClick={handleResetQuiz}
-                        className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors"
+                        disabled={isLoading}
+                        className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         다시 시작하기
                     </button>
@@ -333,6 +321,23 @@ const LegalQuizPage = () => {
             <div className="flex items-center justify-center min-h-screen bg-gray-100">
                 <div className="text-center">
                     <p className="text-gray-600 text-lg">퀴즈 데이터를 불러오는 중입니다...</p>
+                    <button
+                        onClick={handleResetQuiz}
+                        className="mt-4 px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors"
+                    >
+                        돌아가기
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
+    // Check if current question exists
+    if (!currentQuestion) {
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gray-100">
+                <div className="text-center">
+                    <p className="text-gray-600 text-lg">문제를 불러오는 중입니다...</p>
                     <button
                         onClick={handleResetQuiz}
                         className="mt-4 px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors"
@@ -390,6 +395,12 @@ const LegalQuizPage = () => {
                         </div>
                     </div>
                 )}
+                <div className="mt-auto text-center py-4">
+                    <p className="text-lg text-gray-600">
+                        <span className="font-bold text-purple-600">{currentQuestionIndex + 1}</span> / {validQuestions.length} 
+                        <span className="ml-2">(남은 문제: {validQuestions.length - (currentQuestionIndex + 1)}개)</span>
+                    </p>
+                </div>
             </div>
         </div>
     );
