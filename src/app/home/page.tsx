@@ -77,9 +77,9 @@ const projects = [
 
 const Home = () => {
     return (
-        <div className="relative">
-            <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-200 border border-gray-300 z-10 flex items-center justify-center">
-                <span className="text-gray-500">Left Ad (200x600)</span>
+        <div className="relative min-h-screen ">
+            <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 z-10 flex items-center justify-center">
+                <span className="text-gray-500 dark:text-gray-400">Left Ad (200x600)</span>
             </div>
 
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
@@ -92,10 +92,10 @@ const Home = () => {
                     {categories.map((category) => (
                         <button
                             key={category.name}
-                            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                            className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
                         >
                             <span className="text-xl">{category.icon}</span>
-                            <span>{category.name}</span>
+                            <span className="text-gray-900 dark:text-gray-100">{category.name}</span>
                         </button>
                     ))}
                 </div>
@@ -103,14 +103,14 @@ const Home = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project) => {
                         const ProjectCard = (
-                            <div className="bg-white rounded-lg overflow-hidden border border-gray-200 h-full flex flex-col">
-                                <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-200'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500'} text-6xl`}>
+                            <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-200">
+                                <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100 dark:bg-gray-700'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500 dark:text-gray-400'} text-6xl`}>
                                     {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
                                 </div>
                                 <div className="p-4 flex-grow">
-                                    <h3 className="text-xl font-semibold mb-1">{project.title}</h3>
-                                    <p className="text-gray-600 mb-3 text-sm">{project.description}</p>
-                                    <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'} rounded-full text-sm font-medium`}>
+                                    <h3 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white">{project.title}</h3>
+                                    <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">{project.description}</p>
+                                    <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200' : 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200'} rounded-full text-sm font-medium`}>
                                         {project.category}
                                     </span>
                                 </div>
@@ -118,7 +118,7 @@ const Home = () => {
                         );
 
                         return project.href ? (
-                            <Link key={project.id} href={project.href} className="block hover:scale-105 transition-transform duration-200">
+                            <Link key={project.id} href={project.href} className="block">
                                 {ProjectCard}
                             </Link>
                         ) : (
@@ -130,8 +130,8 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-200 border border-gray-300 z-10 flex items-center justify-center">
-                <span className="text-gray-500">Right Ad (200x600)</span>
+            <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 z-10 flex items-center justify-center">
+                <span className="text-gray-500 dark:text-gray-400">Right Ad (200x600)</span>
             </div>
         </div>
     );

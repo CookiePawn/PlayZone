@@ -7,17 +7,15 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 
 /* Custom CSS for loading text fill animation */
@@ -85,17 +83,16 @@ body {
   animation: progress-fill 1s ease-out forwards;
 }
 
-/* Remove unused animations */
-
+/* Loading animation */
 @keyframes loading-fill {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0);
-    }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 .loading-fill {
-    animation: loading-fill 2s ease-in-out infinite;
+  animation: loading-fill 2s ease-in-out infinite;
 }
