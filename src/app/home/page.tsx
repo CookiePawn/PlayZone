@@ -132,6 +132,20 @@ const projects: {
             }
             
         },
+        {
+            id: 18,
+            title: '🔬 과학 TMI 퀴즈',
+            description: '자연 환경, 물리 법칙, 화학 등 과학의 놀라운 사실들을 테스트해보세요!',
+            category: 'Quiz',
+            href: '/science-tmi-quiz',
+            quizType: 'mc',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-blue-500 to-cyan-500',
+                icon: '🔬',
+                text: '과학 TMI 퀴즈'
+            }
+        },
         { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript', thumbnail: { type: 'placeholder', text: 'ε' } },
         {
             id: 'ad-4',
