@@ -123,7 +123,7 @@ export default function AnimalTmiQuizPage() {
                     <MCQuizResult
                         score={score}
                         totalQuestions={validQuestions.length}
-                        percentile={percentile}
+                        percentile={percentile ?? 0}
                         onReset={handleResetQuiz}
                     />
                 ) : (
