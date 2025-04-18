@@ -49,13 +49,13 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
         try {
             const responseText = await generateContent(prompt);
             const cleanedText = responseText.trim().replace(/^```json|```$/g, '').trim();
-            const parsedQuestions: MCQuizQuestion[] = JSON.parse(cleanedText);
+            const parsedResponse = JSON.parse(cleanedText);
             
-            if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0) {
+            if (!parsedResponse.questions || !Array.isArray(parsedResponse.questions) || parsedResponse.questions.length === 0) {
                 throw new Error("API 응답 형식이 올바르지 않습니다.");
             }
 
-            const questionsWithIds = parsedQuestions.map((q, index) => ({
+            const questionsWithIds = parsedResponse.questions.map((q: MCQuizQuestion, index: number) => ({
                 ...q,
                 id: fetchedQuestions.length + index + 1
             }));

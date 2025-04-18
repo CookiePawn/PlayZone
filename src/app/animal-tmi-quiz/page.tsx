@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useMCQuiz } from '@/hooks/useMCQuiz';
 import MCQuizIntro from '@/components/MCQuizLayout/MCQuizIntro';
 import MCQuizQuestion from '@/components/MCQuizLayout/MCQuizQuestion';
 import MCQuizResult from '@/components/MCQuizLayout/MCQuizResult';
 import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
-import LoadingButton from '@/components/OXQuixLayout/LoadingButton';
 
 const animalTmiQuizConfig = {
     title: '🦁 동물 TMI 퀴즈',
@@ -27,7 +26,7 @@ const animalTmiQuizConfig = {
 };
 
 const easyPrompt = `
-    다음 형식으로 동물 TMI 퀴즈 5문제를 생성해주세요:
+    다음 형식으로 동물 TMI 퀴즈 10문제를 생성해주세요:
     {
         "questions": [
             {
@@ -52,7 +51,7 @@ const easyPrompt = `
 `;
 
 const hardPrompt = `
-    다음 형식으로 동물 TMI 퀴즈 5문제를 생성해주세요:
+    다음 형식으로 동물 TMI 퀴즈 10문제를 생성해주세요:
     {
         "questions": [
             {
@@ -129,12 +128,6 @@ export default function AnimalTmiQuizPage() {
                     />
                 ) : (
                     <div className="space-y-8">
-                        <div className="flex justify-between items-center">
-                            <p className="text-gray-600">
-                                문제 {currentQuestionIndex + 1} / {validQuestions.length}
-                            </p>
-                            <p className="text-gray-600">점수: {score}</p>
-                        </div>
 
                         <MCQuizQuestion
                             question={currentQuestion}
@@ -144,6 +137,7 @@ export default function AnimalTmiQuizPage() {
                             onNext={handleNextQuestion}
                             currentIndex={currentQuestionIndex}
                             totalQuestions={validQuestions.length}
+                            score={score}
                         />
 
                         {showResult && (
