@@ -7,15 +7,15 @@ import MCQuizQuestion from '@/components/MCQuizLayout/MCQuizQuestion';
 import MCQuizResult from '@/components/MCQuizLayout/MCQuizResult';
 import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
 
-const animalTmiQuizConfig = {
-    title: '🦁 동물 TMI 퀴즈',
-    description: '동물들의 놀라운 사실과 흥미로운 TMI를 테스트해보세요!',
-    subtitle: '동물들의 놀라운 사실들을 알아보세요!',
-    highlightText: '동물들의 신비로운 세계를 탐험해보세요!',
+const brandTmiQuizConfig = {
+    title: '🏢 브랜드 TMI 퀴즈',
+    description: '유명 브랜드들의 놀라운 비하인드 스토리와 의외의 진실을 테스트해보세요!',
+    subtitle: '브랜드들의 숨겨진 이야기를 알아보세요!',
+    highlightText: '브랜드의 비하인드 스토리를 탐험해보세요!',
     features: {
         time: '약 5분',
-        aiExplanation: 'AI가 생성한 동물 관련 TMI',
-        goal: '동물에 대한 지식 향상'
+        aiExplanation: 'AI가 생성한 브랜드 관련 TMI',
+        goal: '브랜드에 대한 지식 향상'
     },
     startButtonText: '퀴즈 시작하기',
     aiWarning: {
@@ -26,7 +26,7 @@ const animalTmiQuizConfig = {
 };
 
 const easyPrompt = `
-    다음 형식으로 동물 TMI 퀴즈 10문제를 생성해주세요:
+    다음 형식으로 브랜드 TMI 퀴즈 10문제를 생성해주세요:
     {
         "questions": [
             {
@@ -39,7 +39,7 @@ const easyPrompt = `
     }
     
     요구사항:
-    1. 일반적인 동물들의 흥미로운 사실 위주
+    1. 유명 브랜드들의 흥미로운 비하인드 스토리 위주
     2. 쉬운 난이도로 구성
     3. 각 보기는 명확하고 구분되게 작성
     4. 해설은 재미있고 흥미롭게 작성
@@ -51,7 +51,7 @@ const easyPrompt = `
 `;
 
 const hardPrompt = `
-    다음 형식으로 동물 TMI 퀴즈 10문제를 생성해주세요:
+    다음 형식으로 브랜드 TMI 퀴즈 10문제를 생성해주세요:
     {
         "questions": [
             {
@@ -64,7 +64,7 @@ const hardPrompt = `
     }
     
     요구사항:
-    1. 잘 알려지지 않은 동물들의 흥미로운 사실 위주
+    1. 잘 알려지지 않은 브랜드들의 흥미로운 비하인드 스토리 위주
     2. 어려운 난이도로 구성
     3. 각 보기는 명확하고 구분되게 작성
     4. 해설은 자세하고 전문적으로 작성
@@ -75,7 +75,7 @@ const hardPrompt = `
     9. options 배열은 반드시 4개의 보기를 포함
 `;
 
-export default function AnimalTmiQuizPage() {
+export default function BrandTmiQuizPage() {
     const {
         currentQuestionIndex,
         score,
@@ -113,7 +113,7 @@ export default function AnimalTmiQuizPage() {
             <div className="max-w-2xl mx-auto px-4">
                 {showIntro ? (
                     <MCQuizIntro
-                        config={animalTmiQuizConfig}
+                        config={brandTmiQuizConfig}
                         selectedDifficulty={selectedDifficulty}
                         onDifficultySelect={handleDifficultySelect}
                         onStart={handleStartQuiz}
@@ -127,19 +127,16 @@ export default function AnimalTmiQuizPage() {
                         onReset={handleResetQuiz}
                     />
                 ) : (
-                    <div className="space-y-8">
-
-                        <MCQuizQuestion
-                            question={currentQuestion}
-                            selectedAnswer={selectedAnswer}
-                            showResult={showResult}
-                            onAnswer={handleAnswer}
-                            onNext={handleNextQuestion}
-                            currentIndex={currentQuestionIndex}
-                            totalQuestions={validQuestions.length}
-                            score={score}
-                        />
-                    </div>
+                    <MCQuizQuestion
+                        question={currentQuestion}
+                        selectedAnswer={selectedAnswer}
+                        showResult={showResult}
+                        onAnswer={handleAnswer}
+                        onNext={handleNextQuestion}
+                        currentIndex={currentQuestionIndex}
+                        totalQuestions={validQuestions.length}
+                        score={score}
+                    />
                 )}
             </div>
         </div>

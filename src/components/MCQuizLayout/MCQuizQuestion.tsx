@@ -88,6 +88,12 @@ const MCQuizQuestion: React.FC<MCQuizQuestionProps> = ({
                             )}
                         </h2>
                         <p className="text-gray-700">{question.explanation}</p>
+                        <button
+                            onClick={onNext}
+                            className="w-full mt-4 p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                        >
+                            {currentIndex + 1 === totalQuestions ? '결과 보기' : '다음 문제'}
+                        </button>
                     </div>
                 )}
             </div>
