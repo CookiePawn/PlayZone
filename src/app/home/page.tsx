@@ -146,6 +146,20 @@ const projects: {
                 text: '과학 TMI 퀴즈'
             }
         },
+        {
+            id: 19,
+            title: '🌍 국가별 문화 TMI 퀴즈',
+            description: '각 나라별 황당한(하지만 진짜인) 규칙들과 문화적 특이점을 테스트해보세요!',
+            category: 'Quiz',
+            href: '/culture-tmi-quiz',
+            quizType: 'mc',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-green-500 to-teal-500',
+                icon: '🌍',
+                text: '국가별 문화 TMI 퀴즈'
+            }
+        },
         { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript', thumbnail: { type: 'placeholder', text: 'ε' } },
         {
             id: 'ad-4',
