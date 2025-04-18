@@ -14,12 +14,27 @@ const categories = [
     { name: '기타', icon: '🌸' },
 ];
 
-const projects = [
+const projects: {
+    id: string | number;
+    title: string;
+    description: string;
+    category: string;
+    href?: string;
+    isAd?: boolean;
+    quizType?: 'ox' | 'mc';
+    thumbnail: {
+        type: 'gradient' | 'placeholder';
+        gradient?: string;
+        icon?: string;
+        text?: string;
+    };
+}[] = [
     { 
         id: 1, 
-        title: '⚖️ 법률 OX 퀴즈', 
+        title: '⚖️ 법률 퀴즈', 
         description: '일상 속 법 상식, 얼마나 알고 계신가요? OX 퀴즈로 확인해보세요.', 
         category: 'Quiz',
+        quizType: 'ox',
         href: '/legal-quiz',
         thumbnail: {
             type: 'gradient',
@@ -28,10 +43,23 @@ const projects = [
         }
     },
     { 
+        id: 'ad-1',
+        title: '🎯 특별한 기회!', 
+        description: '지금 바로 시작하세요! 최고의 서비스를 만나보세요.', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-yellow-400 to-red-500',
+            icon: '🎯'
+        }
+    },
+    { 
         id: 2, 
-        title: '💰 세금 OX 퀴즈', 
+        title: '💰 세금 퀴즈', 
         description: '세금에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.', 
         category: 'Quiz',
+        quizType: 'ox',
         href: '/tax-quiz',
         thumbnail: {
             type: 'gradient',
@@ -41,9 +69,10 @@ const projects = [
     },
     { 
         id: 3, 
-        title: '🐾 반려동물 OX 퀴즈', 
+        title: '🐾 반려동물 퀴즈', 
         description: '반려동물에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.', 
         category: 'Quiz',
+        quizType: 'ox',
         href: '/animal-quiz',
         thumbnail: {
             type: 'gradient',
@@ -52,27 +81,114 @@ const projects = [
         }
     },
     { 
-        id: 4, 
-        title: 'Project Gamma', 
-        description: 'Backend service with Node.js.', 
-        category: 'Node.js',
+        id: 'ad-2',
+        title: '🌟 한정 기회!', 
+        description: '지금만 특별한 혜택을 누리세요!', 
+        category: '광고',
+        isAd: true,
         thumbnail: {
-            type: 'placeholder',
-            text: ''
+            type: 'gradient',
+            gradient: 'from-blue-400 to-indigo-500',
+            icon: '🌟'
         }
     },
-    { id: 5, title: 'Project Delta', description: 'Data analysis with Python.', category: 'Python' },
-    { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript' },
-    { id: 7, title: 'Project Zeta', description: 'Another React project.', category: 'React' },
-    { id: 8, title: 'Project Eta', description: 'Another React project.', category: 'React' },
-    { id: 9, title: 'Project Theta', description: 'Another React project.', category: 'React' },
-    { id: 10, title: 'Project Iota', description: 'Another React project.', category: 'React' },
-    { id: 11, title: 'Project Kappa', description: 'Another React project.', category: 'React' },
-    { id: 12, title: 'Project Lambda', description: 'Another React project.', category: 'React' },
-    { id: 13, title: 'Project Mu', description: 'Another React project.', category: 'React' },
-    { id: 14, title: 'Project Nu', description: 'Another React project.', category: 'React' },
-    { id: 15, title: 'Project Xi', description: 'Another React project.', category: 'React' },
-    { id: 16, title: 'Project Omicron', description: 'Another React project.', category: 'React' },
+    { 
+        id: 4, 
+        title: '🦁 동물 TMI 퀴즈', 
+        description: '동물들의 놀라운 사실과 흥미로운 TMI를 테스트해보세요!', 
+        category: 'Quiz',
+        quizType: 'mc',
+        href: '/animal-tmi-quiz',
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-amber-400 to-orange-500',
+            icon: '🦁'
+        }
+    },
+    { 
+        id: 'ad-3',
+        title: '💎 프리미엄 혜택', 
+        description: '최고의 서비스로 업그레이드하세요!', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-emerald-400 to-teal-500',
+            icon: '💎'
+        }
+    },
+    { id: 5, title: 'Project Delta', description: 'Data analysis with Python.', category: 'Python', thumbnail: { type: 'placeholder', text: 'Δ' } },
+    { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript', thumbnail: { type: 'placeholder', text: 'ε' } },
+    { 
+        id: 'ad-4',
+        title: '🚀 빠른 시작', 
+        description: '지금 시작하면 50% 할인!', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-rose-400 to-pink-500',
+            icon: '🚀'
+        }
+    },
+    { id: 7, title: 'Project Zeta', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ζ' } },
+    { id: 8, title: 'Project Eta', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'η' } },
+    { 
+        id: 'ad-5',
+        title: '🎁 신규 회원 혜택', 
+        description: '첫 가입 시 10,000포인트 지급!', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-amber-400 to-orange-500',
+            icon: '🎁'
+        }
+    },
+    { id: 9, title: 'Project Theta', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'θ' } },
+    { id: 10, title: 'Project Iota', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ι' } },
+    { 
+        id: 'ad-6',
+        title: '✨ 이벤트 진행중', 
+        description: '참여만 해도 경품 증정!', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-violet-400 to-purple-500',
+            icon: '✨'
+        }
+    },
+    { id: 11, title: 'Project Kappa', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'κ' } },
+    { id: 12, title: 'Project Lambda', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'λ' } },
+    { 
+        id: 'ad-7',
+        title: '🏆 최고의 선택', 
+        description: '수많은 사용자가 선택한 서비스!', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-cyan-400 to-sky-500',
+            icon: '🏆'
+        }
+    },
+    { id: 13, title: 'Project Mu', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'μ' } },
+    { id: 14, title: 'Project Nu', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ν' } },
+    { 
+        id: 'ad-8',
+        title: '🎨 맞춤형 서비스', 
+        description: '당신만을 위한 특별한 경험!', 
+        category: '광고',
+        isAd: true,
+        thumbnail: {
+            type: 'gradient',
+            gradient: 'from-fuchsia-400 to-pink-500',
+            icon: '🎨'
+        } 
+    },
+    { id: 15, title: 'Project Xi', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ξ' } },
+    { id: 16, title: 'Project Omicron', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ο' } }
 ];
 
 const Home = () => {
@@ -103,16 +219,27 @@ const Home = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project) => {
                         const ProjectCard = (
-                            <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-200">
+                            <div className={`bg-white dark:bg-gray-800 rounded-lg overflow-hidden border ${project.isAd ? 'border-yellow-400 dark:border-yellow-500' : 'border-gray-200 dark:border-gray-700'} h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-200 relative`}>
+                                {project.isAd && (
+                                    <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold">
+                                        AD
+                                    </div>
+                                )}
                                 <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100 dark:bg-gray-700'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500 dark:text-gray-400'} text-6xl`}>
                                     {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
                                 </div>
-                                <div className="p-4 flex-grow">
+                                <div className="p-4 flex flex-col h-[150px]">
                                     <h3 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white">{project.title}</h3>
-                                    <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">{project.description}</p>
-                                    <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200' : 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200'} rounded-full text-sm font-medium`}>
-                                        {project.category}
-                                    </span>
+                                    <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm line-clamp-2 h-[40px]">{project.description}</p>
+                                    <div className="mt-auto">
+                                        <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200' : project.category === '광고' ? 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-200' : 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200'} rounded-full text-sm font-medium`}>
+                                            {project.category === 'Quiz' ? 
+                                                (project.quizType === 'ox' ? 'OX 퀴즈' : 
+                                                 project.quizType === 'mc' ? '4지선다 퀴즈' : 
+                                                 project.category) : 
+                                                project.category}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         );

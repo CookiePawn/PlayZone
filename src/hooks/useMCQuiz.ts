@@ -1,34 +1,38 @@
 import { useState, useMemo } from 'react';
-import { QuizQuestion as QuizQuestionType, Difficulty } from '@/models';
+import { MCQuizQuestion, MCQuizDifficulty } from '@/models/MCQuiz';
 import { generateContent } from '@/services/gemini';
 
-interface UseQuizProps {
+interface UseMCQuizProps {
     easyPrompt: string;
     hardPrompt: string;
     numberOfQuestions: number;
 }
 
-export const useQuiz = ({ easyPrompt, hardPrompt }: UseQuizProps) => {
+export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
-    const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
+    const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
     const [showResult, setShowResult] = useState(false);
     const [showIntro, setShowIntro] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [fetchedQuestions, setFetchedQuestions] = useState<QuizQuestionType[]>([]);
-    const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+    const [fetchedQuestions, setFetchedQuestions] = useState<MCQuizQuestion[]>([]);
+    const [selectedDifficulty, setSelectedDifficulty] = useState<MCQuizDifficulty | null>(null);
     const [percentile, setPercentile] = useState<number | null>(null);
 
     // Filter valid questions
     const validQuestions = useMemo(() => {
         return fetchedQuestions.filter(q => 
             q && 
-            typeof q.statement === 'string' && 
-            q.statement.trim() !== '' &&
-            typeof q.answer === 'boolean' &&
-            typeof q.explanation === 'string' &&
-            typeof q.legalBasis === 'string'
+            typeof q.question === 'string' && 
+            q.question.trim() !== '' &&
+            Array.isArray(q.options) &&
+            q.options.length === 4 &&
+            q.options.every(opt => typeof opt === 'string' && opt.trim() !== '') &&
+            typeof q.correctAnswer === 'number' &&
+            q.correctAnswer >= 0 &&
+            q.correctAnswer <= 3 &&
+            typeof q.explanation === 'string'
         );
     }, [fetchedQuestions]);
 
@@ -45,7 +49,7 @@ export const useQuiz = ({ easyPrompt, hardPrompt }: UseQuizProps) => {
         try {
             const responseText = await generateContent(prompt);
             const cleanedText = responseText.trim().replace(/^```json|```$/g, '').trim();
-            const parsedQuestions: QuizQuestionType[] = JSON.parse(cleanedText);
+            const parsedQuestions: MCQuizQuestion[] = JSON.parse(cleanedText);
             
             if (!Array.isArray(parsedQuestions) || parsedQuestions.length === 0) {
                 throw new Error("API 응답 형식이 올바르지 않습니다.");
@@ -87,7 +91,7 @@ export const useQuiz = ({ easyPrompt, hardPrompt }: UseQuizProps) => {
         fetchQuizData();
     };
 
-    const handleDifficultySelect = (difficulty: Difficulty) => {
+    const handleDifficultySelect = (difficulty: MCQuizDifficulty) => {
         setSelectedDifficulty(difficulty);
     };
 
@@ -118,11 +122,11 @@ export const useQuiz = ({ easyPrompt, hardPrompt }: UseQuizProps) => {
         }
     };
 
-    const handleAnswer = (answer: boolean) => {
+    const handleAnswer = (answerIndex: number) => {
         if (showResult) return;
-        setSelectedAnswer(answer);
+        setSelectedAnswer(answerIndex);
         setShowResult(true);
-        if (answer === currentQuestion.answer) {
+        if (answerIndex === currentQuestion.correctAnswer) {
             setScore(score + 1);
         }
     };
@@ -134,7 +138,7 @@ export const useQuiz = ({ easyPrompt, hardPrompt }: UseQuizProps) => {
         
         // 마지막 문제를 풀었을 때 퍼센트 계산
         if (currentQuestionIndex + 1 >= validQuestions.length) {
-            calculatePercentile(score + (selectedAnswer === currentQuestion.answer ? 1 : 0), validQuestions.length);
+            calculatePercentile(score + (selectedAnswer === currentQuestion.correctAnswer ? 1 : 0), validQuestions.length);
         }
     };
 

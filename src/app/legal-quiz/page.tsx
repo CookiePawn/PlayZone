@@ -75,6 +75,7 @@ const LegalQuizPage = () => {
         validQuestions,
         isQuizFinished,
         currentQuestion,
+        percentile,
 
         // Handlers
         handleStartQuiz,
@@ -123,6 +124,7 @@ const LegalQuizPage = () => {
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
                 isLoading={isLoading}
+                percentile={percentile}
             />
         );
     }

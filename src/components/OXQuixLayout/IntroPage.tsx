@@ -20,6 +20,11 @@ interface IntroPageProps {
         goal: string;
     };
     startButtonText: string;
+    aiWarning?: {
+        title?: string;
+        description: string;
+        additionalInfo?: string;
+    };
 }
 
 const IntroPage: React.FC<IntroPageProps> = ({
@@ -33,7 +38,12 @@ const IntroPage: React.FC<IntroPageProps> = ({
     subtitle,
     highlightText,
     features,
-    startButtonText
+    startButtonText,
+    aiWarning = {
+        title: "AI 생성 컨텐츠 안내",
+        description: "본 퀴즈의 모든 문제와 해설은 AI가 생성한 컨텐츠입니다. 정확한 정보를 위해 추가적인 검증이 필요할 수 있습니다. 본 컨텐츠는 참고용으로만 사용하시기 바랍니다.",
+        additionalInfo: ""
+    }
 }) => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8 text-center">
@@ -51,6 +61,18 @@ const IntroPage: React.FC<IntroPageProps> = ({
                     <p>⏱️ {features.time}</p>
                     <p>🤖 {features.aiExplanation}</p>
                     <p>🎯 {features.goal}</p>
+                </div>
+                <div className="mb-8 p-4 bg-yellow-50 border border-yellow-200 rounded-md text-left">
+                    <h3 className="text-yellow-800 font-semibold mb-2 flex items-center">
+                        <span className="mr-2">⚠️</span>
+                        {aiWarning.title}
+                    </h3>
+                    <p className="text-yellow-700 text-sm">
+                        {aiWarning.description}
+                        {aiWarning.additionalInfo && (
+                            <span className="block mt-2">{aiWarning.additionalInfo}</span>
+                        )}
+                    </p>
                 </div>
                 <DifficultySelector
                     selectedDifficulty={selectedDifficulty}
