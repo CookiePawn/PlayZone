@@ -123,6 +123,7 @@ const AnimalQuizPage = () => {
                 score={score}
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
+                percentile={0}
                 isLoading={isLoading}
             />
         );

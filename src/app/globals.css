@@ -15,79 +15,79 @@ body {
 
 /* Custom CSS for loading text fill animation */
 .loading-text-fill {
-  background: linear-gradient(135deg, theme('colors.purple.600') 50%, theme('colors.gray.300') 50%);
-  background-size: 200% 100%;
-  background-position: 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: fill-text 1s linear infinite;
+    background: linear-gradient(135deg, theme('colors.purple.600') 50%, theme('colors.gray.300') 50%);
+    background-size: 200% 100%;
+    background-position: 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: fill-text 1s linear infinite;
 }
 
 @keyframes fill-text {
-  from {
-    background-position: 100%;
-  }
-  to {
-    background-position: 0%;
-  }
+    from {
+        background-position: 100%;
+    }
+    to {
+        background-position: 0%;
+    }
 }
 
 /* Confetti animation */
 .confetti {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background-color: #f00;
-  opacity: 0;
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    opacity: 0;
 }
 
 @keyframes confetti-fall {
-  0% {
-    transform: translateY(-100vh) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(100vh) rotate(360deg);
-    opacity: 0;
-  }
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .confetti-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1000;
-  overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: hidden;
 }
 
 /* Progress bar animation */
 @keyframes progress-fill {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
 }
 
 .progress-fill {
-  animation: progress-fill 1s ease-out forwards;
+    animation: progress-fill 1s ease-out forwards;
 }
 
 /* Loading animation */
 @keyframes loading-fill {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
 }
 
 .loading-fill {
-  animation: loading-fill 2s ease-in-out infinite;
+    animation: loading-fill 2s ease-in-out infinite;
 }
