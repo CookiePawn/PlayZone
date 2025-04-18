@@ -130,7 +130,6 @@ const projects: {
                 icon: '🏢',
                 text: '브랜드 TMI 퀴즈'
             }
-            
         },
         {
             id: 18,
@@ -235,9 +234,9 @@ const projects: {
 
 const Home = () => {
     return (
-        <div className="relative min-h-screen ">
-            <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 z-10 flex items-center justify-center">
-                <span className="text-gray-500 dark:text-gray-400">Left Ad (200x600)</span>
+        <div className="relative min-h-screen">
+            <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
+                <span className="text-gray-500">Left Ad (200x600)</span>
             </div>
 
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
@@ -250,10 +249,10 @@ const Home = () => {
                     {categories.map((category) => (
                         <button
                             key={category.name}
-                            className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors duration-200"
                         >
                             <span className="text-xl">{category.icon}</span>
-                            <span className="text-gray-900 dark:text-gray-100">{category.name}</span>
+                            <span className="text-gray-900">{category.name}</span>
                         </button>
                     ))}
                 </div>
@@ -261,20 +260,20 @@ const Home = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.map((project) => {
                         const ProjectCard = (
-                            <div className={`bg-white dark:bg-gray-800 rounded-lg overflow-hidden border ${project.isAd ? 'border-yellow-400 dark:border-yellow-500' : 'border-gray-200 dark:border-gray-700'} h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-200 relative`}>
+                            <div className={`bg-white rounded-lg overflow-hidden border ${project.isAd ? 'border-yellow-400' : 'border-gray-200'} h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-200 relative`}>
                                 {project.isAd && (
                                     <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold">
                                         AD
                                     </div>
                                 )}
-                                <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100 dark:bg-gray-700'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500 dark:text-gray-400'} text-6xl`}>
+                                <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500'} text-6xl`}>
                                     {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
                                 </div>
                                 <div className="p-4 flex flex-col h-[150px]">
-                                    <h3 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white">{project.title}</h3>
-                                    <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm line-clamp-2 h-[40px]">{project.description}</p>
+                                    <h3 className="text-xl font-semibold mb-1 text-gray-900">{project.title}</h3>
+                                    <p className="text-gray-600 mb-3 text-sm line-clamp-2 h-[40px]">{project.description}</p>
                                     <div className="mt-auto">
-                                        <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-200' : project.category === '광고' ? 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-200' : 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200'} rounded-full text-sm font-medium`}>
+                                        <span className={`px-3 py-1 ${project.category === 'Quiz' ? 'bg-purple-100 text-purple-800' : project.category === '광고' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'} rounded-full text-sm font-medium`}>
                                             {project.category === 'Quiz' ?
                                                 (project.quizType === 'ox' ? 'OX 퀴즈' :
                                                     project.quizType === 'mc' ? '4지선다 퀴즈' :
@@ -299,8 +298,8 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 z-10 flex items-center justify-center">
-                <span className="text-gray-500 dark:text-gray-400">Right Ad (200x600)</span>
+            <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
+                <span className="text-gray-500">Right Ad (200x600)</span>
             </div>
         </div>
     );

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -8,49 +10,50 @@ interface MCQuizResultProps {
     onReset: () => void;
 }
 
-const MCQuizResult: React.FC<MCQuizResultProps> = ({
+export default function MCQuizResult({
     score,
     totalQuestions,
     percentile,
     onReset
-}) => {
+}: MCQuizResultProps) {
     const router = useRouter();
     const percentage = Math.round((score / totalQuestions) * 100);
 
     return (
-        <div className="bg-white p-8 md:p-12 rounded-lg border border-gray-200 max-w-2xl w-full">
-            <div className="text-center space-y-8">
-                <h2 className="text-3xl font-bold text-purple-600">퀴즈 완료!</h2>
-                
-                <div className="space-y-4">
-                    <p className="text-2xl">
-                        최종 점수: <span className="font-bold text-purple-600">{score}</span> / {totalQuestions}
-                    </p>
-                    <p className="text-xl">
-                        정답률: <span className="font-bold text-purple-600">{percentage}%</span>
-                    </p>
-                    <p className="text-lg text-gray-600">
-                        상위 <span className="font-bold text-purple-600">{percentile}%</span>의 성적입니다!
-                    </p>
+        <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full">
+            <h1 className="text-3xl font-bold text-center text-purple-600 mb-8">퀴즈 완료!</h1>
+            
+            <div className="space-y-6 mb-8">
+                <div className="text-center">
+                    <p className="text-4xl font-bold text-purple-600">{score}점</p>
+                    <p className="text-gray-600 mt-2">총 {totalQuestions}문제 중 {score}문제 정답</p>
                 </div>
 
-                <div className="flex flex-col space-y-4">
-                    <button
-                        onClick={onReset}
-                        className="w-full p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                    >
-                        다시 풀기
-                    </button>
-                    <button
-                        onClick={() => router.push('/')}
-                        className="w-full p-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                    >
-                        홈으로 가기
-                    </button>
+                <div className="text-center">
+                    <p className="text-2xl font-semibold text-purple-600">{percentage}%</p>
+                    <p className="text-gray-600 mt-2">정답률</p>
                 </div>
+
+                <div className="text-center">
+                    <p className="text-2xl font-semibold text-purple-600">상위 {percentile}%</p>
+                    <p className="text-gray-600 mt-2">전체 사용자 중</p>
+                </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                    onClick={onReset}
+                    className="flex-1 bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200"
+                >
+                    다시 풀기
+                </button>
+                <button
+                    onClick={() => router.push('/')}
+                    className="flex-1 bg-gray-100 text-gray-800 py-3 rounded-lg hover:bg-gray-200 transition-colors duration-200"
+                >
+                    홈으로 가기
+                </button>
             </div>
         </div>
     );
-};
-
-export default MCQuizResult; 
+} 
