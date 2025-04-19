@@ -118,13 +118,16 @@ const AnimalQuizPage = () => {
     }
 
     if (isQuizFinished) {
+        // Calculate percentile based on score
+        const percentile = Math.round((score / validQuestions.length) * 100);
+        
         return (
             <QuizResult
                 score={score}
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
-                percentile={0}
                 isLoading={isLoading}
+                percentile={percentile}
             />
         );
     }
