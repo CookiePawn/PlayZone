@@ -19,35 +19,32 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
     const [fetchedQuestions, setFetchedQuestions] = useState<MCQuizQuestion[]>([]);
     const [selectedDifficulty, setSelectedDifficulty] = useState<MCQuizDifficulty | null>(null);
     const [percentile, setPercentile] = useState<number | null>(null);
+    const [previousQuestions, setPreviousQuestions] = useState<string[]>([]);
 
-    // Filter valid questions
+    // Filter valid questions and remove duplicates
     const validQuestions = useMemo(() => {
-        return fetchedQuestions.filter(q => 
-            q && 
-            typeof q.question === 'string' && 
-            q.question.trim() !== '' &&
-            Array.isArray(q.options) &&
-            q.options.length === 4 &&
-            q.options.every(opt => typeof opt === 'string' && opt.trim() !== '') &&
-            typeof q.correctAnswer === 'number' &&
-            q.correctAnswer >= 0 &&
-            q.correctAnswer <= 3 &&
-            typeof q.explanation === 'string'
-        );
+        const uniqueQuestions = fetchedQuestions.filter((q, index, self) => {
+            const question = q.question.trim().toLowerCase();
+            return index === self.findIndex(q2 => q2.question.trim().toLowerCase() === question);
+        });
+        return uniqueQuestions;
     }, [fetchedQuestions]);
 
     const isQuizFinished = currentQuestionIndex >= validQuestions.length;
     const currentQuestion = validQuestions[currentQuestionIndex];
 
     // --- API Call Function ---
-    const fetchQuizData = async () => {
+    const fetchQuizData = async (isSecondCall: boolean = false) => {
         setIsLoading(true);
         setError(null);
 
         const prompt = selectedDifficulty === 'easy' ? easyPrompt : hardPrompt;
+        const previousStatements = previousQuestions.join('\n');
+
+        const enhancedPrompt = `${prompt}\n\n다음은 이미 생성된 문제들입니다. 이와 중복되지 않는 새로운 문제를 생성해주세요:\n${previousStatements}\n\n중복을 피하기 위해 다음 사항을 준수해주세요:\n1. 동일하거나 유사한 문장을 사용하지 마세요\n2. 동일한 주제나 내용을 다루더라도 다른 각도에서 접근해주세요\n3. 이미 생성된 문제의 변형이나 재구성된 버전을 만들지 마세요`;
 
         try {
-            const responseText = await generateContent(prompt);
+            const responseText = await generateContent(enhancedPrompt);
             const cleanedText = responseText.trim().replace(/^```json|```$/g, '').trim();
             const parsedResponse = JSON.parse(cleanedText);
             
@@ -55,11 +52,26 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
                 throw new Error("API 응답 형식이 올바르지 않습니다.");
             }
 
+            // Update previous questions list
+            const newStatements = parsedResponse.questions.map((q: MCQuizQuestion) => q.question.trim().toLowerCase());
+            setPreviousQuestions(prev => [...prev, ...newStatements]);
+
             const questionsWithIds = parsedResponse.questions.map((q: MCQuizQuestion, index: number) => ({
                 ...q,
                 id: fetchedQuestions.length + index + 1
             }));
-            setFetchedQuestions(prev => [...prev, ...questionsWithIds]);
+
+            if (isSecondCall) {
+                // For second call, only add questions that don't exist in the first batch
+                const uniqueNewQuestions = questionsWithIds.filter((q: MCQuizQuestion) => 
+                    !fetchedQuestions.some(existing => 
+                        existing.question.trim().toLowerCase() === q.question.trim().toLowerCase()
+                    )
+                );
+                setFetchedQuestions(prev => [...prev, ...uniqueNewQuestions]);
+            } else {
+                setFetchedQuestions(questionsWithIds);
+            }
             
         } catch (e) {
             console.error("Error fetching quiz data:", e);
@@ -83,12 +95,13 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
     const handleStartQuiz = async () => {
         if (!selectedDifficulty) return;
         setIsLoading(true);
-        setFetchedQuestions([]); // Reset questions
-        await fetchQuizData(); // Load first batch
+        setFetchedQuestions([]);
+        setPreviousQuestions([]);
+        await fetchQuizData(false); // Load first batch
         setShowIntro(false);
         setIsLoading(false);
         // Load additional questions immediately after first batch
-        fetchQuizData();
+        fetchQuizData(true);
     };
 
     const handleDifficultySelect = (difficulty: MCQuizDifficulty) => {
@@ -153,6 +166,7 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
         setIsLoading(false);
         setSelectedDifficulty(null);
         setPercentile(null);
+        setPreviousQuestions([]);
     };
 
     return {

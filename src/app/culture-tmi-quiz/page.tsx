@@ -39,6 +39,7 @@ const easyPrompt = `
     }
     
     요구사항:
+    // TODO: 중복 제거
     1. 각 나라별 황당한 규칙이나 문화적 특이점 위주
     2. 쉬운 난이도로 구성
     3. 각 보기는 명확하고 구분되게 작성
@@ -118,6 +119,7 @@ export default function CultureTmiQuizPage() {
                         onDifficultySelect={handleDifficultySelect}
                         onStart={handleStartQuiz}
                         isLoading={isLoading}
+                        error={error}
                     />
                 ) : isQuizFinished ? (
                     <MCQuizResult
