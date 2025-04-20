@@ -23,11 +23,7 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
 
     // Filter valid questions and remove duplicates
     const validQuestions = useMemo(() => {
-        const uniqueQuestions = fetchedQuestions.filter((q, index, self) => {
-            const question = q.question.trim().toLowerCase();
-            return index === self.findIndex(q2 => q2.question.trim().toLowerCase() === question);
-        });
-        return uniqueQuestions;
+        return fetchedQuestions;
     }, [fetchedQuestions]);
 
     const isQuizFinished = currentQuestionIndex >= validQuestions.length;
@@ -62,44 +58,7 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
             }));
 
             if (isSecondCall) {
-                // For second call, ensure we have exactly 10 new questions
-                let retryCount = 0;
-                let uniqueNewQuestions = questionsWithIds.filter((q: MCQuizQuestion) => 
-                    !fetchedQuestions.some(existing => 
-                        existing.question.trim().toLowerCase() === q.question.trim().toLowerCase()
-                    )
-                );
-
-                // If we don't have 10 unique questions, retry until we do
-                while (uniqueNewQuestions.length < 10 && retryCount < 3) {
-                    const retryResponse = await generateContent(enhancedPrompt);
-                    const retryCleanedText = retryResponse.trim().replace(/^```json|```$/g, '').trim();
-                    const retryParsedResponse = JSON.parse(retryCleanedText);
-                    
-                    if (retryParsedResponse.questions && Array.isArray(retryParsedResponse.questions)) {
-                        const retryQuestions = retryParsedResponse.questions.map((q: MCQuizQuestion, index: number) => ({
-                            ...q,
-                            id: fetchedQuestions.length + uniqueNewQuestions.length + index + 1
-                        }));
-
-                        const additionalUniqueQuestions = retryQuestions.filter((q: MCQuizQuestion) => 
-                            !fetchedQuestions.some(existing => 
-                                existing.question.trim().toLowerCase() === q.question.trim().toLowerCase()
-                            ) && !uniqueNewQuestions.some((newQ: MCQuizQuestion) => 
-                                newQ.question.trim().toLowerCase() === q.question.trim().toLowerCase()
-                            )
-                        );
-
-                        uniqueNewQuestions = [...uniqueNewQuestions, ...additionalUniqueQuestions];
-                    }
-                    retryCount++;
-                }
-
-                if (uniqueNewQuestions.length < 10) {
-                    throw new Error("두 번째 배치에서 충분한 고유한 문제를 생성하지 못했습니다.");
-                }
-
-                setFetchedQuestions(prev => [...prev, ...uniqueNewQuestions.slice(0, 10)]);
+                setFetchedQuestions(prev => [...prev, ...questionsWithIds]);
             } else {
                 setFetchedQuestions(questionsWithIds);
             }

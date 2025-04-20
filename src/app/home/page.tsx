@@ -172,7 +172,6 @@ const projects: {
                 icon: '🦁'
             }
         },
-        { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript', thumbnail: { type: 'placeholder', text: 'ε' } },
         {
             id: 'ad-4',
             title: '🚀 빠른 시작',
@@ -185,8 +184,6 @@ const projects: {
                 icon: '🚀'
             }
         },
-        { id: 7, title: 'Project Zeta', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ζ' } },
-        { id: 8, title: 'Project Eta', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'η' } },
         {
             id: 'ad-5',
             title: '🎁 신규 회원 혜택',
@@ -199,8 +196,6 @@ const projects: {
                 icon: '🎁'
             }
         },
-        { id: 9, title: 'Project Theta', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'θ' } },
-        { id: 10, title: 'Project Iota', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ι' } },
         {
             id: 'ad-6',
             title: '✨ 이벤트 진행중',
@@ -213,8 +208,6 @@ const projects: {
                 icon: '✨'
             }
         },
-        { id: 11, title: 'Project Kappa', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'κ' } },
-        { id: 12, title: 'Project Lambda', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'λ' } },
         {
             id: 'ad-7',
             title: '🏆 최고의 선택',
@@ -227,8 +220,6 @@ const projects: {
                 icon: '🏆'
             }
         },
-        { id: 13, title: 'Project Mu', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'μ' } },
-        { id: 14, title: 'Project Nu', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ν' } },
         {
             id: 'ad-8',
             title: '🎨 맞춤형 서비스',
@@ -241,8 +232,19 @@ const projects: {
                 icon: '🎨'
             }
         },
-        { id: 15, title: 'Project Xi', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ξ' } },
-        { id: 16, title: 'Project Omicron', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ο' } },
+        {
+            id: 21,
+            title: '🔢 숫자 규칙 찾기 퀴즈',
+            description: '숫자들의 패턴을 찾아 다음 숫자를 예측해보세요! 4지선다로 테스트해보세요.',
+            category: 'Quiz',
+            quizType: 'mc',
+            href: '/number-sequence-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-indigo-400 to-violet-500',
+                icon: '🔢'
+            }
+        },
     ];
 
 const Home = () => {
