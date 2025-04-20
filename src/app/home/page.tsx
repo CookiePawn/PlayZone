@@ -258,6 +258,18 @@ const projects: {
                 icon: '🧠'
             }
         },
+        {
+            id: 23,
+            title: '🌡️ 문장 온도 측정기',
+            description: '문장을 쓰면 AI가 감정 "온도(℃)"를 수치화해드립니다!',
+            category: 'Quiz',
+            href: '/sentence-temperature',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-red-400 to-orange-500',
+                icon: '🌡️'
+            }
+        },
     ];
 
 const Home = () => {
