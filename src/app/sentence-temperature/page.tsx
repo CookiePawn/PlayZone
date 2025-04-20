@@ -93,12 +93,6 @@ export default function SentenceTemperaturePage() {
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <div className="flex justify-between items-center mb-4">
                         <h1 className="text-2xl font-bold">문장 온도 측정기 🌡️</h1>
-                        <Link 
-                            href="/"
-                            className="text-purple-600 hover:text-purple-700 transition-colors duration-200"
-                        >
-                            홈으로 가기
-                        </Link>
                     </div>
                     <p className="text-gray-600 mb-6">
                         문장을 입력하면 AI가 감정의 '온도(℃)'를 수치화해드립니다.
@@ -135,17 +129,26 @@ export default function SentenceTemperaturePage() {
                     )}
 
                     {result && (
-                        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                            <div className="flex items-center justify-center mb-4">
-                                <div className="text-4xl font-bold text-purple-600">
-                                    {result.temperature}℃
-                                </div>
+                        <div className="mt-6 space-y-4">
+                            <div className="p-4 bg-gray-50 rounded-lg">
+                                <h3 className="font-semibold text-gray-800 mb-2">온도 분석</h3>
+                                <p className="text-gray-700">{result.temperature}</p>
                             </div>
-                            <div className="text-gray-700">
-                                {result.explanation}
+                            <div className="p-4 bg-gray-50 rounded-lg">
+                                <h3 className="font-semibold text-gray-800 mb-2">분석 근거</h3>
+                                <p className="text-gray-700">{result.explanation}</p>
                             </div>
                         </div>
                     )}
+
+                    <div className="mt-6">
+                        <Link 
+                            href="/"
+                            className="block w-full text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+                        >
+                            홈으로 가기
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

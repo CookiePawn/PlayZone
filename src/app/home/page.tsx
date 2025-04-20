@@ -262,12 +262,24 @@ const projects: {
             id: 23,
             title: '🌡️ 문장 온도 측정기',
             description: '문장을 쓰면 AI가 감정 "온도(℃)"를 수치화해드립니다!',
-            category: 'Quiz',
+            category: '온도 측정',
             href: '/sentence-temperature',
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-red-400 to-orange-500',
                 icon: '🌡️'
+            }
+        },
+        {
+            id: 24,
+            title: '🔮 선택 후 결과 예측 테스트',
+            description: '선택을 입력하고 3일 뒤의 결과를 예측해보세요!',
+            category: 'Quiz',
+            href: '/choice-prediction',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-purple-400 to-pink-500',
+                icon: '🔮'
             }
         },
     ];
