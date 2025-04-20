@@ -274,12 +274,24 @@ const projects: {
             id: 24,
             title: '🔮 선택 후 결과 예측 테스트',
             description: '선택을 입력하고 3일 뒤의 결과를 예측해보세요!',
-            category: 'Quiz',
+            category: '결과 예측',
             href: '/choice-prediction',
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-purple-400 to-pink-500',
                 icon: '🔮'
+            }
+        },
+        {
+            id: 25,
+            title: '🎯 오타 찾기 배틀',
+            description: '제한시간 5초 동안 문장의 오타를 찾아보세요!',
+            category: '오타 찾기',
+            href: '/typo-battle',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-orange-400 to-red-500',
+                icon: '🎯'
             }
         },
     ];
