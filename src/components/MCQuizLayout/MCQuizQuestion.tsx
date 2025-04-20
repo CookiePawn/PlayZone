@@ -52,7 +52,7 @@ export default function MCQuizQuestion({
             </div>
 
             {/* Question */}
-            <h2 className="text-xl font-semibold mb-6 text-gray-800">{question.question}</h2>
+            <h2 className="text-xl font-semibold mb-6 text-gray-800 whitespace-pre-line">{question.question}</h2>
 
             {/* Options */}
             <div className="space-y-4 mb-6">

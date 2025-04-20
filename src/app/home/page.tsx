@@ -245,6 +245,19 @@ const projects: {
                 icon: '🔢'
             }
         },
+        {
+            id: 22,
+            title: '🧠 추론 실력 진단 퀴즈',
+            description: '논리적 관계를 파악하고 다음 단계를 추론해보세요! 4지선다로 테스트해보세요.',
+            category: 'Quiz',
+            quizType: 'mc',
+            href: '/logic-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-indigo-500 to-violet-500',
+                icon: '🧠'
+            }
+        },
     ];
 
 const Home = () => {
