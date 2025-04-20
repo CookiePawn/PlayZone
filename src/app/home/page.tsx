@@ -29,19 +29,19 @@ const projects: {
         text?: string;
     };
 }[] = [
-    { 
-        id: 1, 
+        {
+            id: 1,
             title: '⚖️ 법률 퀴즈',
-        description: '일상 속 법 상식, 얼마나 알고 계신가요? OX 퀴즈로 확인해보세요.', 
-        category: 'Quiz',
+            description: '일상 속 법 상식, 얼마나 알고 계신가요? OX 퀴즈로 확인해보세요.',
+            category: 'Quiz',
             quizType: 'ox',
-        href: '/legal-quiz',
-        thumbnail: {
-            type: 'gradient',
-            gradient: 'from-purple-400 to-indigo-500',
-            icon: '⚖️'
-        }
-    },
+            href: '/legal-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-purple-400 to-indigo-500',
+                icon: '⚖️'
+            }
+        },
         {
             id: 'ad-1',
             title: '🎯 특별한 기회!',
@@ -54,32 +54,32 @@ const projects: {
                 icon: '🎯'
             }
         },
-    { 
-        id: 2, 
+        {
+            id: 2,
             title: '💰 세금 퀴즈',
-        description: '세금에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.', 
-        category: 'Quiz',
+            description: '세금에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.',
+            category: 'Quiz',
             quizType: 'ox',
-        href: '/tax-quiz',
-        thumbnail: {
-            type: 'gradient',
-            gradient: 'from-green-400 to-blue-500',
-            icon: '💰'
-        }
-    },
-    { 
-        id: 3, 
+            href: '/tax-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-green-400 to-blue-500',
+                icon: '💰'
+            }
+        },
+        {
+            id: 3,
             title: '🐾 반려동물 퀴즈',
-        description: '반려동물에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.', 
-        category: 'Quiz',
+            description: '반려동물에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.',
+            category: 'Quiz',
             quizType: 'ox',
-        href: '/animal-quiz',
-        thumbnail: {
-            type: 'gradient',
-            gradient: 'from-orange-400 to-pink-500',
-            icon: '🐾'
-        }
-    },
+            href: '/animal-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-orange-400 to-pink-500',
+                icon: '🐾'
+            }
+        },
         {
             id: 'ad-2',
             title: '🌟 한정 기회!',
@@ -92,17 +92,17 @@ const projects: {
                 icon: '🌟'
             }
         },
-    { 
-        id: 4, 
-            title: '🦁 동물 TMI 퀴즈',
-            description: '동물들의 놀라운 사실과 흥미로운 TMI를 테스트해보세요!',
+        {
+            id: 4,
+            title: '🔍 공통 개념 찾기 퀴즈',
+            description: '주어진 단어들의 공통점을 찾아보세요! 4지선다로 테스트해보세요.',
             category: 'Quiz',
             quizType: 'mc',
-            href: '/animal-tmi-quiz',
+            href: '/concept-quiz',
             thumbnail: {
                 type: 'gradient',
-                gradient: 'from-amber-400 to-orange-500',
-                icon: '🦁'
+                gradient: 'from-blue-400 to-cyan-500',
+                icon: '🔍'
             }
         },
         {
@@ -157,6 +157,19 @@ const projects: {
                 gradient: 'from-green-500 to-teal-500',
                 icon: '🌍',
                 text: '국가별 문화 TMI 퀴즈'
+            }
+        },
+        {
+            id: 20,
+            title: '🦁 동물 TMI 퀴즈',
+            description: '동물들의 놀라운 사실과 흥미로운 TMI를 테스트해보세요!',
+            category: 'Quiz',
+            quizType: 'mc',
+            href: '/animal-tmi-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-amber-400 to-orange-500',
+                icon: '🦁'
             }
         },
         { id: 6, title: 'Project Epsilon', description: 'TypeScript for type safety.', category: 'TypeScript', thumbnail: { type: 'placeholder', text: 'ε' } },
@@ -222,7 +235,7 @@ const projects: {
             description: '당신만을 위한 특별한 경험!',
             category: '광고',
             isAd: true,
-        thumbnail: {
+            thumbnail: {
                 type: 'gradient',
                 gradient: 'from-fuchsia-400 to-pink-500',
                 icon: '🎨'
@@ -230,7 +243,7 @@ const projects: {
         },
         { id: 15, title: 'Project Xi', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ξ' } },
         { id: 16, title: 'Project Omicron', description: 'Another React project.', category: 'React', thumbnail: { type: 'placeholder', text: 'ο' } },
-];
+    ];
 
 const Home = () => {
     return (
@@ -279,7 +292,7 @@ const Home = () => {
                                                     project.quizType === 'mc' ? '4지선다 퀴즈' :
                                                         project.category) :
                                                 project.category}
-                                    </span>
+                                        </span>
                                     </div>
                                 </div>
                             </div>

@@ -41,15 +41,15 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
         const prompt = selectedDifficulty === 'easy' ? easyPrompt : hardPrompt;
         const previousStatements = previousQuestions.join('\n');
 
-        const enhancedPrompt = `${prompt}\n\n다음은 이미 생성된 문제들입니다. 이와 중복되지 않는 새로운 문제를 생성해주세요:\n${previousStatements}\n\n중복을 피하기 위해 다음 사항을 준수해주세요:\n1. 동일하거나 유사한 문장을 사용하지 마세요\n2. 동일한 주제나 내용을 다루더라도 다른 각도에서 접근해주세요\n3. 이미 생성된 문제의 변형이나 재구성된 버전을 만들지 마세요`;
+        const enhancedPrompt = `${prompt}\n\n다음은 이미 생성된 문제들입니다. 이와 중복되지 않는 새로운 문제를 생성해주세요:\n${previousStatements}\n\n중복을 피하기 위해 다음 사항을 준수해주세요:\n1. 동일하거나 유사한 문장을 사용하지 마세요\n2. 동일한 주제나 내용을 다루더라도 다른 각도에서 접근해주세요\n3. 이미 생성된 문제의 변형이나 재구성된 버전을 만들지 마세요\n4. 정확히 10개의 문제만 생성해주세요`;
 
         try {
             const responseText = await generateContent(enhancedPrompt);
             const cleanedText = responseText.trim().replace(/^```json|```$/g, '').trim();
             const parsedResponse = JSON.parse(cleanedText);
             
-            if (!parsedResponse.questions || !Array.isArray(parsedResponse.questions) || parsedResponse.questions.length === 0) {
-                throw new Error("API 응답 형식이 올바르지 않습니다.");
+            if (!parsedResponse.questions || !Array.isArray(parsedResponse.questions) || parsedResponse.questions.length !== 10) {
+                throw new Error("API 응답 형식이 올바르지 않거나 문제 수가 10개가 아닙니다.");
             }
 
             // Update previous questions list
@@ -62,13 +62,44 @@ export const useMCQuiz = ({ easyPrompt, hardPrompt }: UseMCQuizProps) => {
             }));
 
             if (isSecondCall) {
-                // For second call, only add questions that don't exist in the first batch
-                const uniqueNewQuestions = questionsWithIds.filter((q: MCQuizQuestion) => 
+                // For second call, ensure we have exactly 10 new questions
+                let retryCount = 0;
+                let uniqueNewQuestions = questionsWithIds.filter((q: MCQuizQuestion) => 
                     !fetchedQuestions.some(existing => 
                         existing.question.trim().toLowerCase() === q.question.trim().toLowerCase()
                     )
                 );
-                setFetchedQuestions(prev => [...prev, ...uniqueNewQuestions]);
+
+                // If we don't have 10 unique questions, retry until we do
+                while (uniqueNewQuestions.length < 10 && retryCount < 3) {
+                    const retryResponse = await generateContent(enhancedPrompt);
+                    const retryCleanedText = retryResponse.trim().replace(/^```json|```$/g, '').trim();
+                    const retryParsedResponse = JSON.parse(retryCleanedText);
+                    
+                    if (retryParsedResponse.questions && Array.isArray(retryParsedResponse.questions)) {
+                        const retryQuestions = retryParsedResponse.questions.map((q: MCQuizQuestion, index: number) => ({
+                            ...q,
+                            id: fetchedQuestions.length + uniqueNewQuestions.length + index + 1
+                        }));
+
+                        const additionalUniqueQuestions = retryQuestions.filter((q: MCQuizQuestion) => 
+                            !fetchedQuestions.some(existing => 
+                                existing.question.trim().toLowerCase() === q.question.trim().toLowerCase()
+                            ) && !uniqueNewQuestions.some((newQ: MCQuizQuestion) => 
+                                newQ.question.trim().toLowerCase() === q.question.trim().toLowerCase()
+                            )
+                        );
+
+                        uniqueNewQuestions = [...uniqueNewQuestions, ...additionalUniqueQuestions];
+                    }
+                    retryCount++;
+                }
+
+                if (uniqueNewQuestions.length < 10) {
+                    throw new Error("두 번째 배치에서 충분한 고유한 문제를 생성하지 못했습니다.");
+                }
+
+                setFetchedQuestions(prev => [...prev, ...uniqueNewQuestions.slice(0, 10)]);
             } else {
                 setFetchedQuestions(questionsWithIds);
             }

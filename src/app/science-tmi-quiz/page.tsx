@@ -118,6 +118,7 @@ export default function ScienceTmiQuizPage() {
                         onDifficultySelect={handleDifficultySelect}
                         onStart={handleStartQuiz}
                         isLoading={isLoading}
+                        error={error}
                     />
                 ) : isQuizFinished ? (
                     <MCQuizResult
