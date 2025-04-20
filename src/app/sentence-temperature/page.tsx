@@ -33,7 +33,7 @@ const prompt = `
     응답 형식:
     {
         "temperature": 32,
-        "explanation": "이 문장은 무감정한 상태를 나타냅니다. '그냥'이라는 표현이 무관심이나 냉담함을 보여줍니다."
+        "explanation": "이 문장은 무감정한 상태를 나타냅니다. [그냥]이라는 표현이 무관심이나 냉담함을 보여줍니다."
     }
     
     요구사항:
@@ -95,7 +95,7 @@ export default function SentenceTemperaturePage() {
                         <h1 className="text-2xl font-bold">문장 온도 측정기 🌡️</h1>
                     </div>
                     <p className="text-gray-600 mb-6">
-                        문장을 입력하면 AI가 감정의 '온도(℃)'를 수치화해드립니다.
+                        문장을 입력하면 AI가 감정의 [온도(℃)]를 수치화해드립니다.
                         <br />
                         <span className="text-sm text-gray-500">
                             0℃: 매우 부정적, 50℃: 중립적, 100℃: 매우 긍정적
