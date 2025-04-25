@@ -1,7 +1,15 @@
-export * from './OXQuiz';
-export * from './MCQuiz';
-export * from './TypoBattle';
-import { TypoQuestion } from './TypoBattle';
+export interface TypoBattleQuestion {
+    id: number;
+    question: string;
+    correctAnswer: string;
+    explanation: string;
+} 
+
+export interface TypoQuestion {
+    sentence: string;
+    typo: string;
+    correct: string;
+}
 
 export interface TypoBattleQuestionProps {
     question: TypoQuestion;
@@ -13,5 +21,4 @@ export interface TypoBattleQuestionProps {
     isTimeUp: boolean;
     onAnswer: (answer: string) => void;
     onNext: () => void;
-    mistakes: number;
 }
