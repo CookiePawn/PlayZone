@@ -2,33 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { generateContent } from '@/services/gemini';
+import prompts from './prompt.json';
+import GameIntro from '@/components/GameIntro/GameIntro';
 
-const prompt = `
-    한국어 문장을 생성해주세요. 반드시 반환값은 JSON 형식이어야 합니다.
-    
-    요구사항:
-    1. 다양한 주제와 상황의 문장을 생성
-       - 일상 대화
-       - 뉴스 기사
-       - 소설 문장
-       - 기술 문서
-       - 게임 대사
-       - 영화 대사
-       - 시 문장
-    2. 문장 내에 한 개의 타이핑 오타가 포함되어야 함
-    3. 오타는 키보드에서 인접한 자판을 잘못 눌러서 단어가 완전히 다른 의미로 바뀌는 경우만 허용
-       - 예: 'ㅉ'을 'ㅊ'으로 잘못 눌러서 '짜장면' → '차장면'
-       - 예: 'ㅁ'을 'ㅎ'으로 잘못 눌러서 '맑다' → '핡다'
-    4. 응답은 반드시 JSON 형식으로만 제공
-    
-    예시 응답:
-    {
-        "sentence": "차장면이 먹고 싶어요.",
-        "typo": "차장면",
-        "correct": "짜장면"
+const gameInfo = {
+    title: "오타 찾기 배틀 🎯",
+    description: "한국어 문장에서 오타를 찾는 게임입니다.",
+    subtitle: "제한시간 5초 동안 문장을 보고 오타를 찾아보세요!",
+    highlightText: "목숨이 0이 되면 게임 오버!",
+    features: {
+        time: "제한시간: 5초",
+        aiExplanation: "AI가 생성한 다양한 문장들",
+        goal: "목표: 최대한 많은 오타 찾기"
+    },
+    startButtonText: "게임 시작하기",
+    aiWarning: {
+        title: "AI 생성 컨텐츠 안내",
+        description: "본 게임의 모든 문장은 AI가 생성한 컨텐츠입니다. 정확한 정보를 위해 추가적인 검증이 필요할 수 있습니다. 본 컨텐츠는 참고용으로만 사용하시기 바랍니다."
     }
-`;
+};
 
 export default function TypoBattlePage() {
     const [currentSentence, setCurrentSentence] = useState<string>('');
@@ -38,26 +30,31 @@ export default function TypoBattlePage() {
     const [showSentence, setShowSentence] = useState(false);
     const [showInput, setShowInput] = useState(false);
     const [score, setScore] = useState(0);
+    const [lives, setLives] = useState(5);
     const [gameOver, setGameOver] = useState(false);
     const [round, setRound] = useState(1);
     const [message, setMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [countdown, setCountdown] = useState(5);
-    const [sentences, setSentences] = useState<Array<{
+    const [questions, setQuestions] = useState<Array<{
         sentence: string;
         typo: string;
         correct: string;
-        category: string;
     }>>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [showExplanation, setShowExplanation] = useState(true);
+    const [isInitialized, setIsInitialized] = useState(false);
 
     useEffect(() => {
-        if (round <= 10) {
-            generateNewSentence();
-        } else {
-            setGameOver(true);
+        if (!isInitialized && !showExplanation) {
+            initializeGame();
         }
-    }, [round]);
+    }, [showExplanation, isInitialized]);
+
+    useEffect(() => {
+        if (isInitialized && !gameOver) {
+            generateNewSentence();
+        }
+    }, [round, isInitialized, gameOver]);
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
@@ -72,39 +69,23 @@ export default function TypoBattlePage() {
         return () => clearInterval(timer);
     }, [showSentence, countdown]);
 
-    const generateNewSentence = async () => {
-        setIsLoading(true);
+    const initializeGame = () => {
+        const shuffled = [...prompts].sort(() => 0.5 - Math.random());
+        setQuestions(shuffled);
+        setIsInitialized(true);
+    };
+
+    const generateNewSentence = () => {
         setShowSentence(false);
         setShowInput(false);
         setUserAnswer('');
         setMessage('');
         setCountdown(5);
 
-        try {
-            const response = await generateContent(prompt);
-            console.log(response);
-            const jsonMatch = response.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) {
-                throw new Error('JSON 형식의 응답을 찾을 수 없습니다.');
-            }
-
-            const parsedResponse = JSON.parse(jsonMatch[0]);
-            if (parsedResponse.sentences && Array.isArray(parsedResponse.sentences)) {
-                setSentences(parsedResponse.sentences);
-                setCurrentIndex(0);
-                setCurrentSentence(parsedResponse.sentences[0].sentence);
-                setCurrentTypo(parsedResponse.sentences[0].typo);
-                setCurrentCorrect(parsedResponse.sentences[0].correct);
-                setShowSentence(true);
-            } else {
-                throw new Error('올바른 형식의 문장 데이터가 없습니다.');
-            }
-        } catch (err) {
-            console.error('Error details:', err);
-            setMessage('문장 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
-        } finally {
-            setIsLoading(false);
-        }
+        setCurrentSentence(questions[currentIndex].sentence);
+        setCurrentTypo(questions[currentIndex].typo);
+        setCurrentCorrect(questions[currentIndex].correct);
+        setShowSentence(true);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -114,50 +95,53 @@ export default function TypoBattlePage() {
             setScore(score + 1);
             setMessage(`정답입니다! 🎉 (올바른 표현: "${currentCorrect}")`);
         } else {
+            setLives(lives - 1);
             setMessage(`틀렸습니다. 정답은 "${currentTypo}" 입니다. (올바른 표현: "${currentCorrect}")`);
+            
+            if (lives <= 1) {
+                setGameOver(true);
+            }
         }
 
         setTimeout(() => {
-            if (currentIndex < sentences.length - 1) {
+            if (currentIndex < questions.length - 1 && !gameOver) {
                 setCurrentIndex(currentIndex + 1);
-                setCurrentSentence(sentences[currentIndex + 1].sentence);
-                setCurrentTypo(sentences[currentIndex + 1].typo);
-                setCurrentCorrect(sentences[currentIndex + 1].correct);
+                setCurrentSentence(questions[currentIndex + 1].sentence);
+                setCurrentTypo(questions[currentIndex + 1].typo);
+                setCurrentCorrect(questions[currentIndex + 1].correct);
                 setShowSentence(true);
                 setShowInput(false);
                 setUserAnswer('');
                 setMessage('');
                 setCountdown(5);
-            } else {
                 setRound(round + 1);
             }
         }, 2000);
     };
+
+    if (showExplanation) {
+        return <GameIntro gameInfo={gameInfo} onStart={() => setShowExplanation(false)} />;
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 py-12">
             <div className="max-w-2xl mx-auto px-4">
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <div className="flex justify-between items-center mb-4">
-                        <h1 className="text-2xl font-bold">오타 찾기 배틀 🎯</h1>
-                        <div className="text-lg font-semibold">점수: {score}/10</div>
+                        <h1 className="text-2xl font-bold">{gameInfo.title}</h1>
+                        <div className="text-lg font-semibold">
+                            점수: {score}&nbsp;&nbsp;&nbsp;&nbsp;목숨: {lives}/5
+                        </div>
                     </div>
                     <p className="text-gray-600 mb-6">
-                        제한시간 5초 동안 문장을 보고 오타를 찾아보세요!
+                        {gameInfo.subtitle}
                         <br />
                         <span className="text-sm text-gray-500">
-                            {round}/10 라운드
+                            {round}번째 문제
                         </span>
                     </p>
 
-                    {isLoading ? (
-                        <div className="space-y-4">
-                            <div className="p-8 bg-purple-50 rounded-lg animate-pulse">
-                                <div className="h-6 bg-purple-200 rounded w-full mb-2"></div>
-                                <div className="h-6 bg-purple-200 rounded w-5/6"></div>
-                            </div>
-                        </div>
-                    ) : !gameOver ? (
+                    {!gameOver ? (
                         <div className="space-y-6">
                             {showSentence && (
                                 <div className="space-y-4">
@@ -208,18 +192,21 @@ export default function TypoBattlePage() {
                     ) : (
                         <div className="text-center space-y-6">
                             <div className="text-2xl font-bold text-purple-800">
-                                게임 종료! 최종 점수: {score}/10
+                                게임 종료! 최종 점수: {score}
                             </div>
                             <p className="text-gray-600">
-                                {score >= 8 ? '🎉 훌륭합니다! 거의 모든 오타를 찾았네요!' :
-                                 score >= 5 ? '👍 잘했어요! 더 연습하면 더 잘할 수 있을 거예요!' :
+                                {score >= 20 ? '🎉 훌륭합니다! 정말 많은 오타를 찾았네요!' :
+                                 score >= 10 ? '👍 잘했어요! 더 연습하면 더 잘할 수 있을 거예요!' :
                                  '😊 다음에는 더 잘할 수 있을 거예요! 계속 도전해보세요!'}
                             </p>
                             <button
                                 onClick={() => {
                                     setScore(0);
+                                    setLives(5);
                                     setRound(1);
                                     setGameOver(false);
+                                    setCurrentIndex(0);
+                                    setIsInitialized(false);
                                 }}
                                 className="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition-colors duration-200"
                             >
