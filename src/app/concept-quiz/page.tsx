@@ -1,11 +1,20 @@
 'use client';
 
 import React from 'react';
-import { useMCQuiz } from '@/hooks/useMCQuiz';
+import { useLocalMCQuiz } from '@/hooks/useLocalMCQuiz';
 import MCQuizIntro from '@/components/MCQuizLayout/MCQuizIntro';
-import MCQuizQuestion from '@/components/MCQuizLayout/MCQuizQuestion';
-import MCQuizResult from '@/components/MCQuizLayout/MCQuizResult';
-import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
+import LocalMCQuizQuestion from '@/components/MCQuizLayout/LocalMCQuizQuestion';
+import LocalMCQuizResult from '@/components/MCQuizLayout/LocalMCQuizResult';
+import easyQuestions from './easy.json';
+import hardQuestions from './hard.json';
+
+interface Question {
+    question: string;
+    options: string[];
+    correctAnswer: number;
+    explanation: string;
+    [key: string]: any; // Allow additional properties
+}
 
 const conceptQuizConfig = {
     title: '🔍 공통 개념 찾기 퀴즈',
@@ -25,56 +34,6 @@ const conceptQuizConfig = {
     }
 };
 
-const easyPrompt = `
-    다음 형식으로 공통 개념 찾기 퀴즈 10문제를 생성해주세요:
-    {
-        "questions": [
-            {
-                "question": "다음 단어들의 공통 개념은 무엇일까요? [단어1, 단어2, 단어3, 단어4]",
-                "options": ["보기1", "보기2", "보기3", "보기4"],
-                "correctAnswer": 0,
-                "explanation": "해설"
-            }
-        ]
-    }
-    
-    요구사항:
-    1. 일상생활에서 자주 접할 수 있는 단어들로 구성
-    2. 쉬운 난이도로 구성
-    3. 각 보기는 명확하고 구분되게 작성
-    4. 해설은 이해하기 쉽게 작성
-    5. 응답은 반드시 JSON 형식으로만 제공
-    6. JSON 형식 외의 추가 텍스트는 포함하지 않음
-    7. 모든 필드(question, options, correctAnswer, explanation)는 반드시 포함
-    8. correctAnswer는 0부터 3 사이의 숫자로만 표시
-    9. options 배열은 반드시 4개의 보기를 포함
-`;
-
-const hardPrompt = `
-    다음 형식으로 공통 개념 찾기 퀴즈 10문제를 생성해주세요:
-    {
-        "questions": [
-            {
-                "question": "다음 단어들의 공통 개념은 무엇일까요? [단어1, 단어2, 단어3, 단어4]",
-                "options": ["보기1", "보기2", "보기3", "보기4"],
-                "correctAnswer": 0,
-                "explanation": "해설"
-            }
-        ]
-    }
-    
-    요구사항:
-    1. 전문적인 지식이나 복잡한 개념을 포함하는 단어들로 구성
-    2. 어려운 난이도로 구성
-    3. 각 보기는 명확하고 구분되게 작성
-    4. 해설은 자세하고 전문적으로 작성
-    5. 응답은 반드시 JSON 형식으로만 제공
-    6. JSON 형식 외의 추가 텍스트는 포함하지 않음
-    7. 모든 필드(question, options, correctAnswer, explanation)는 반드시 포함
-    8. correctAnswer는 0부터 3 사이의 숫자로만 표시
-    9. options 배열은 반드시 4개의 보기를 포함
-`;
-
 export default function ConceptQuizPage() {
     const {
         currentQuestionIndex,
@@ -82,31 +41,29 @@ export default function ConceptQuizPage() {
         selectedAnswer,
         showResult,
         showIntro,
-        isLoading,
-        error,
         selectedDifficulty,
         validQuestions,
         isQuizFinished,
         currentQuestion,
-        percentile,
         handleStartQuiz,
         handleDifficultySelect,
         handleAnswer,
+        handleShowExplanation,
         handleNextQuestion,
         handleResetQuiz,
-    } = useMCQuiz({
-        easyPrompt,
-        hardPrompt,
-        numberOfQuestions: 10,
+    } = useLocalMCQuiz({
+        easyQuestions: (easyQuestions.questions as Question[]).map((q, i) => ({ 
+            ...q, 
+            id: i + 1,
+            correctAnswer: q.correctAnswer ?? q['correct correctAnswer']
+        })),
+        hardQuestions: (hardQuestions.questions as Question[]).map((q, i) => ({ 
+            ...q, 
+            id: i + 1,
+            correctAnswer: q.correctAnswer ?? q['correct correctAnswer']
+        })),
+        numberOfQuestions: 20,
     });
-
-    if (error) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
-                <ErrorPage error={error} onReset={handleResetQuiz} />
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen bg-gray-50 py-12">
@@ -117,23 +74,24 @@ export default function ConceptQuizPage() {
                         selectedDifficulty={selectedDifficulty}
                         onDifficultySelect={handleDifficultySelect}
                         onStart={handleStartQuiz}
-                        isLoading={isLoading}
-                        error={error}
+                        isLoading={false}
+                        error={null}
                     />
                 ) : isQuizFinished ? (
-                    <MCQuizResult
+                    <LocalMCQuizResult
                         score={score}
                         totalQuestions={validQuestions.length}
-                        percentile={percentile ?? 0}
                         onReset={handleResetQuiz}
                     />
                 ) : (
                     <div className="space-y-8">
-                        <MCQuizQuestion
+                        <LocalMCQuizQuestion
                             question={currentQuestion}
                             selectedAnswer={selectedAnswer}
                             showResult={showResult}
+                            showExplanation={showResult}
                             onAnswer={handleAnswer}
+                            onShowExplanation={handleShowExplanation}
                             onNext={handleNextQuestion}
                             currentIndex={currentQuestionIndex}
                             totalQuestions={validQuestions.length}
