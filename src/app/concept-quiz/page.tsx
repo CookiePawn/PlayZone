@@ -13,7 +13,7 @@ interface Question {
     options: string[];
     correctAnswer: number;
     explanation: string;
-    [key: string]: any; // Allow additional properties
+    'correct correctAnswer'?: number; // Optional property for alternative correct answer format
 }
 
 const conceptQuizConfig = {
