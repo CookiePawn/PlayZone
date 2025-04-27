@@ -59,14 +59,24 @@ export const useTypoBattle = () => {
         if (isCorrect) {
             setScore(prev => prev + 1);
         } else {
-            setMistakes(prev => prev + 1);
+            setMistakes(prev => {
+                const newMistakes = prev + 1;
+                if (newMistakes >= 5) {
+                    setTimeout(() => {
+                        setGameState('result');
+                    }, 1500);
+                }
+                return newMistakes;
+            });
         }
 
         setShowExplanation(true);
-        setTimeout(() => {
-            nextQuestion();
-        }, 1500);
-    }, [currentQuestion, nextQuestion]);
+        if (mistakes < 4) {  // 실수가 4 미만일 때만 다음 문제로
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+    }, [currentQuestion, nextQuestion, mistakes]);
 
     const handleTimeUp = useCallback(() => {
         if (!showResult) {
