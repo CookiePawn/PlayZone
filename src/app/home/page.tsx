@@ -306,7 +306,7 @@ const Home = () => {
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
                 <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-12 text-center">
                     <h1 className="text-4xl font-bold mb-2">AI 놀이터</h1>
-                    <p className="text-xl">Your hub for exciting side projects!</p>
+                    <p className="text-xl">AI가 준비한 심심풀이 컨텐츠!</p>
                 </div>
 
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
