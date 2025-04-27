@@ -294,6 +294,18 @@ const projects: {
                 icon: '🎯'
             }
         },
+        {
+            id: 26,
+            title: '🎭 가짜 선택지 구별 퀴즈',
+            description: '제한시간 5초 동안 문장의 오타를 찾아보세요!',
+            category: '오타 찾기',
+            href: '/fake-options-quiz',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-indigo-500 to-violet-500',
+                icon: '🎭'
+            }
+        },
     ];
 
 const Home = () => {
