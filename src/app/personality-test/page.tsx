@@ -5,7 +5,6 @@ import { usePersonalityTest } from '@/hooks/usePersonalityTest';
 import PersonalityIntro from '@/components/PersonalityTest/PersonalityIntro';
 import PersonalityQuestion from '@/components/PersonalityTest/PersonalityQuestion';
 import MCPersonalityResult from '@/components/PersonalityTest/MCPersonalityResult';
-import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
 import personalityQuestions from './personalityQuestions.json';
 import { PersonalityQuestions } from '@/types/personalityTest';
 
@@ -34,7 +33,6 @@ export default function PersonalityTestPage() {
         currentQuestionIndex,
         isFinished,
         result,
-        isLoading,
         handleAnswer,
         resetTest
     } = usePersonalityTest((personalityQuestions as PersonalityQuestions).questions);

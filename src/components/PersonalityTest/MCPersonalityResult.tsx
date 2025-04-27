@@ -9,7 +9,6 @@ interface MCPersonalityResultProps {
 }
 
 export default function MCPersonalityResult({
-    traits,
     dominantTraits,
     personalityDescription,
     traitPercentages,
