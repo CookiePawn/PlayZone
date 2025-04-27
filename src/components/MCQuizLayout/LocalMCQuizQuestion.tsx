@@ -26,6 +26,14 @@ export default function LocalMCQuizQuestion({
 }: LocalMCQuizQuestionProps) {
     const isCorrect = selectedAnswer === question.correctAnswer;
 
+    // 질문에 \n이 있을 경우 <br /> 태그로 변환
+    const formattedQuestion = question.question.split('\n').map((line, index) => (
+        <React.Fragment key={index}>
+            {line}
+            {index < question.question.split('\n').length - 1 && <br />}
+        </React.Fragment>
+    ));
+
     return (
         <div className="bg-white rounded-lg p-6 border border-gray-200">
             {/* Progress Bar */}
@@ -46,7 +54,9 @@ export default function LocalMCQuizQuestion({
             </div>
 
             {/* Question */}
-            <h2 className="text-xl font-semibold mb-6 text-gray-800">{question.question}</h2>
+            <h2 className="text-xl font-semibold mb-6 text-gray-800 whitespace-pre-line">
+                {formattedQuestion}
+            </h2>
 
             {/* Options */}
             <div className="space-y-4 mb-6">
