@@ -306,6 +306,18 @@ const projects: {
                 icon: '🎭'
             }
         },
+        {
+            id: 27,
+            title: '👤 성격 퀴즈',
+            description: '제한시간 5초 동안 문장의 오타를 찾아보세요!',
+            category: '오타 찾기',
+            href: '/personality-test',
+            thumbnail: {
+                type: 'gradient',
+                gradient: 'from-cyan-400 to-sky-500',
+                icon: '👤'
+            }
+        },
     ];
 
 const Home = () => {
