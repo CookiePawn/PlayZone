@@ -1,247 +1,15 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-
-const categories = [
-    { name: 'ALL', icon: '⭐' },
-    { name: '상식퀴즈', icon: '🧠' },
-    { name: '패턴탐구', icon: '🔢' },
-    { name: '논리추론', icon: '🔮' },
-    { name: '언어챌린지', icon: '💬' },
-    { name: '시뮬레이션', icon: '📖' },
-    { name: '심리검사', icon: '🔍' },
-];
-
-const projects: {
-    id: string | number;
-    title: string;
-    description: string;
-    category: string;
-    href?: string;
-    isAd?: boolean;
-    quizType?: 'ox' | 'mc';
-    thumbnail: {
-        type: 'gradient' | 'placeholder';
-        gradient?: string;
-        icon?: string;
-        text?: string;
-    };
-}[] = [
-        {
-            id: 1,
-            title: '⚖️ 법률 퀴즈',
-            description: '일상 속 법 상식, 얼마나 알고 계신가요? OX 퀴즈로 확인해보세요.',
-            category: 'Quiz',
-            quizType: 'ox',
-            href: '/legal-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-purple-400 to-indigo-500',
-                icon: '⚖️'
-            }
-        },
-        {
-            id: 2,
-            title: '💰 세금 퀴즈',
-            description: '세금에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.',
-            category: 'Quiz',
-            quizType: 'ox',
-            href: '/tax-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-green-400 to-blue-500',
-                icon: '💰'
-            }
-        },
-        {
-            id: 3,
-            title: '🐾 반려동물 퀴즈',
-            description: '반려동물에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.',
-            category: 'Quiz',
-            quizType: 'ox',
-            href: '/animal-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-orange-400 to-pink-500',
-                icon: '🐾'
-            }
-        },
-        {
-            id: 4,
-            title: '🔍 공통 개념 찾기 퀴즈',
-            description: '주어진 단어들의 공통점을 찾아보세요! 4지선다로 테스트해보세요.',
-            category: 'Quiz',
-            quizType: 'mc',
-            href: '/concept-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-blue-400 to-cyan-500',
-                icon: '🔍'
-            }
-        },
-        {
-            id: 17,
-            title: '브랜드 TMI 퀴즈',
-            description: '유명 브랜드들의 놀라운 비하인드 스토리와 의외의 진실을 테스트해보세요!',
-            category: 'Quiz',
-            href: '/brand-tmi-quiz',
-            quizType: 'mc',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-purple-500 to-pink-500',
-                icon: '🏢',
-                text: '브랜드 TMI 퀴즈'
-            }
-        },
-        {
-            id: 18,
-            title: '🔬 과학 TMI 퀴즈',
-            description: '자연 환경, 물리 법칙, 화학 등 과학의 놀라운 사실들을 테스트해보세요!',
-            category: 'Quiz',
-            href: '/science-tmi-quiz',
-            quizType: 'mc',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-blue-500 to-cyan-500',
-                icon: '🔬',
-                text: '과학 TMI 퀴즈'
-            }
-        },
-        {
-            id: 19,
-            title: '🌍 국가별 문화 TMI 퀴즈',
-            description: '각 나라별 황당한(하지만 진짜인) 규칙들과 문화적 특이점을 테스트해보세요!',
-            category: 'Quiz',
-            href: '/culture-tmi-quiz',
-            quizType: 'mc',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-green-500 to-teal-500',
-                icon: '🌍',
-                text: '국가별 문화 TMI 퀴즈'
-            }
-        },
-        {
-            id: 20,
-            title: '🦁 동물 TMI 퀴즈',
-            description: '동물들의 놀라운 사실과 흥미로운 TMI를 테스트해보세요!',
-            category: 'Quiz',
-            quizType: 'mc',
-            href: '/animal-tmi-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-amber-400 to-orange-500',
-                icon: '🦁'
-            }
-        },
-        {
-            id: 21,
-            title: '🔢 숫자 규칙 찾기 퀴즈',
-            description: '숫자들의 패턴을 찾아 다음 숫자를 예측해보세요! 4지선다로 테스트해보세요.',
-            category: 'Quiz',
-            quizType: 'mc',
-            href: '/number-sequence-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-indigo-400 to-violet-500',
-                icon: '🔢'
-            }
-        },
-        {
-            id: 22,
-            title: '🧠 추론 실력 진단 퀴즈',
-            description: '논리적 관계를 파악하고 다음 단계를 추론해보세요! 4지선다로 테스트해보세요.',
-            category: 'Quiz',
-            quizType: 'mc',
-            href: '/logic-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-indigo-500 to-violet-500',
-                icon: '🧠'
-            }
-        },
-        {
-            id: 23,
-            title: '🌡️ 문장 온도 측정기',
-            description: '문장을 쓰면 AI가 감정 "온도(℃)"를 수치화해드립니다!',
-            category: '온도 측정',
-            href: '/sentence-temperature',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-red-400 to-orange-500',
-                icon: '🌡️'
-            }
-        },
-        {
-            id: 24,
-            title: '🔮 선택 후 결과 예측 테스트',
-            description: '선택을 입력하고 3일 뒤의 결과를 예측해보세요!',
-            category: '결과 예측',
-            href: '/choice-prediction',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-purple-400 to-pink-500',
-                icon: '🔮'
-            }
-        },
-        {
-            id: 25,
-            title: '🎯 오타 찾기 배틀',
-            description: '제한시간 5초 동안 문장의 오타를 찾아보세요!',
-            category: '오타 찾기',
-            href: '/typo-battle',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-orange-400 to-red-500',
-                icon: '🎯'
-            }
-        },
-        {
-            id: 26,
-            title: '🎭 가짜 선택지 구별 퀴즈',
-            description: '가짜 선택지를 구별해보세요!',
-            category: '오답 찾기',
-            href: '/fake-options-quiz',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-indigo-500 to-violet-500',
-                icon: '🎭'
-            }
-        },
-        {
-            id: 27,
-            title: '👤 성향 테스트',
-            description: '당신의 성향을 테스트해보세요!',
-            category: '테스트',
-            href: '/personality-test',
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-cyan-400 to-sky-500',
-                icon: '👤'
-            }
-        },
-        // {
-        //     id: 'ad-7',
-        //     title: '🏆 최고의 선택',
-        //     description: '수많은 사용자가 선택한 서비스!',
-        //     category: '광고',
-        //     isAd: true,
-        //     thumbnail: {
-        //         type: 'gradient',
-        //         gradient: 'from-cyan-400 to-sky-500',
-        //         icon: '🏆'
-        //     }
-        // },
-    ];
+import { projects } from './list';
+import { categories } from './category';
 
 const Home = () => {
+    const [selectedCategory, setSelectedCategory] = useState('all');
+
     return (
         <div className="relative min-h-screen">
-            {/* <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
-                <span className="text-gray-500">Left Ad (200x600)</span>
-            </div> */}
-
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
                 <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-12 text-center">
                     <h1 className="text-4xl font-bold mb-2">AI 놀이터</h1>
@@ -252,10 +20,16 @@ const Home = () => {
                     {categories.map((category) => (
                         <button
                             key={category.name}
-                            className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                            className={`flex items-center px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200 active:scale-95 relative ${
+                                selectedCategory === category.id 
+                                    ? 'after:absolute after:inset-[-1px] after:rounded-lg after:bg-gradient-to-r after:from-pink-500 after:to-purple-600 after:-z-10 bg-gradient-to-r from-pink-500 to-purple-600' 
+                                    : 'after:absolute after:inset-[-1px] after:rounded-lg after:bg-gray-200 after:-z-10 bg-white'
+                            }`}
+                            onClick={() => setSelectedCategory(category.id)}
                         >
-                            <span className="text-xl">{category.icon}</span>
-                            <span className="text-gray-900">{category.name}</span>
+                            <div className={`absolute inset-[2px] rounded-md ${selectedCategory === category.id ? 'bg-white' : 'bg-white'}`}></div>
+                            <span className="relative z-10">{category.icon}</span>
+                            <span className="text-gray-900 relative z-10 ml-2">{category.name}</span>
                         </button>
                     ))}
                 </div>
@@ -300,10 +74,6 @@ const Home = () => {
                     })}
                 </div>
             </div>
-
-            {/* <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
-                <span className="text-gray-500">Right Ad (200x600)</span>
-            </div> */}
         </div>
     );
 };
