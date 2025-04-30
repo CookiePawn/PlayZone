@@ -37,7 +37,7 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
             <div className="space-y-4">
                 {question.options.map((option, index) => (
                     <button
-                        key={index}
+                        key={`${currentIndex}-${index}`}
                         onClick={() => onAnswer(index)}
                         className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-left"
                     >
