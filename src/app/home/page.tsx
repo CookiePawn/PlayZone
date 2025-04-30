@@ -5,13 +5,12 @@ import Link from 'next/link';
 
 const categories = [
     { name: 'ALL', icon: '⭐' },
-    { name: '성격', icon: '👤' },
-    { name: '연애', icon: '❤️' },
-    { name: '시뮬레이션', icon: '💬' },
-    { name: '사주/운세', icon: '🔮' },
-    { name: '전자책', icon: '📖' },
-    { name: '프로모션', icon: '🎁' },
-    { name: '기타', icon: '🌸' },
+    { name: '상식퀴즈', icon: '🧠' },
+    { name: '패턴탐구', icon: '🔢' },
+    { name: '논리추론', icon: '🔮' },
+    { name: '언어챌린지', icon: '💬' },
+    { name: '시뮬레이션', icon: '📖' },
+    { name: '심리검사', icon: '🔍' },
 ];
 
 const projects: {
@@ -43,18 +42,6 @@ const projects: {
             }
         },
         {
-            id: 'ad-1',
-            title: '🎯 특별한 기회!',
-            description: '지금 바로 시작하세요! 최고의 서비스를 만나보세요.',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-yellow-400 to-red-500',
-                icon: '🎯'
-            }
-        },
-        {
             id: 2,
             title: '💰 세금 퀴즈',
             description: '세금에 대해 얼마나 알고 있을까? OX 퀴즈로 확인해보세요.',
@@ -81,18 +68,6 @@ const projects: {
             }
         },
         {
-            id: 'ad-2',
-            title: '🌟 한정 기회!',
-            description: '지금만 특별한 혜택을 누리세요!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-blue-400 to-indigo-500',
-                icon: '🌟'
-            }
-        },
-        {
             id: 4,
             title: '🔍 공통 개념 찾기 퀴즈',
             description: '주어진 단어들의 공통점을 찾아보세요! 4지선다로 테스트해보세요.',
@@ -103,18 +78,6 @@ const projects: {
                 type: 'gradient',
                 gradient: 'from-blue-400 to-cyan-500',
                 icon: '🔍'
-            }
-        },
-        {
-            id: 'ad-3',
-            title: '💎 프리미엄 혜택',
-            description: '최고의 서비스로 업그레이드하세요!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-emerald-400 to-teal-500',
-                icon: '💎'
             }
         },
         {
@@ -170,66 +133,6 @@ const projects: {
                 type: 'gradient',
                 gradient: 'from-amber-400 to-orange-500',
                 icon: '🦁'
-            }
-        },
-        {
-            id: 'ad-4',
-            title: '🚀 빠른 시작',
-            description: '지금 시작하면 50% 할인!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-rose-400 to-pink-500',
-                icon: '🚀'
-            }
-        },
-        {
-            id: 'ad-5',
-            title: '🎁 신규 회원 혜택',
-            description: '첫 가입 시 10,000포인트 지급!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-amber-400 to-orange-500',
-                icon: '🎁'
-            }
-        },
-        {
-            id: 'ad-6',
-            title: '✨ 이벤트 진행중',
-            description: '참여만 해도 경품 증정!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-violet-400 to-purple-500',
-                icon: '✨'
-            }
-        },
-        {
-            id: 'ad-7',
-            title: '🏆 최고의 선택',
-            description: '수많은 사용자가 선택한 서비스!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-cyan-400 to-sky-500',
-                icon: '🏆'
-            }
-        },
-        {
-            id: 'ad-8',
-            title: '🎨 맞춤형 서비스',
-            description: '당신만을 위한 특별한 경험!',
-            category: '광고',
-            isAd: true,
-            thumbnail: {
-                type: 'gradient',
-                gradient: 'from-fuchsia-400 to-pink-500',
-                icon: '🎨'
             }
         },
         {
@@ -297,8 +200,8 @@ const projects: {
         {
             id: 26,
             title: '🎭 가짜 선택지 구별 퀴즈',
-            description: '제한시간 5초 동안 문장의 오타를 찾아보세요!',
-            category: '오타 찾기',
+            description: '가짜 선택지를 구별해보세요!',
+            category: '오답 찾기',
             href: '/fake-options-quiz',
             thumbnail: {
                 type: 'gradient',
@@ -310,7 +213,7 @@ const projects: {
             id: 27,
             title: '👤 성향 테스트',
             description: '당신의 성향을 테스트해보세요!',
-            category: '오타 찾기',
+            category: '테스트',
             href: '/personality-test',
             thumbnail: {
                 type: 'gradient',
@@ -318,14 +221,26 @@ const projects: {
                 icon: '👤'
             }
         },
+        // {
+        //     id: 'ad-7',
+        //     title: '🏆 최고의 선택',
+        //     description: '수많은 사용자가 선택한 서비스!',
+        //     category: '광고',
+        //     isAd: true,
+        //     thumbnail: {
+        //         type: 'gradient',
+        //         gradient: 'from-cyan-400 to-sky-500',
+        //         icon: '🏆'
+        //     }
+        // },
     ];
 
 const Home = () => {
     return (
         <div className="relative min-h-screen">
-            <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
+            {/* <div className="hidden 2xl:block fixed top-20 left-[calc(50%-540px-200px-2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
                 <span className="text-gray-500">Left Ad (200x600)</span>
-            </div>
+            </div> */}
 
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
                 <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-12 text-center">
@@ -386,9 +301,9 @@ const Home = () => {
                 </div>
             </div>
 
-            <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
+            {/* <div className="hidden 2xl:block fixed top-20 left-[calc(50%+540px+2rem)] w-[200px] h-[600px] bg-gray-100 border border-gray-200 z-10 flex items-center justify-center">
                 <span className="text-gray-500">Right Ad (200x600)</span>
-            </div>
+            </div> */}
         </div>
     );
 };
