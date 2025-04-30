@@ -21,12 +21,11 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
         setSelectedOption(null);
     }, [currentIndex]);
 
-    const handleOptionClick = (index: number) => {
+    const handleAnswer = (index: number) => {
         setSelectedOption(index);
         setTimeout(() => {
             onAnswer(index);
-            setSelectedOption(null);
-        }, 300);
+        }, 100);
     };
 
     return (
@@ -51,7 +50,9 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
                 {question.options.map((option, index) => (
                     <button
                         key={index}
-                        onClick={() => handleOptionClick(index)}
+                        onTouchStart={() => setSelectedOption(index)}
+                        onTouchEnd={() => handleAnswer(index)}
+                        onClick={() => handleAnswer(index)}
                         className={`w-full p-4 border-2 rounded-lg transition-colors text-left touch-manipulation ${
                             selectedOption === index
                                 ? 'border-blue-500 bg-blue-50'
@@ -64,7 +65,10 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
                             KhtmlUserSelect: 'none',
                             MozUserSelect: 'none',
                             msUserSelect: 'none',
-                            userSelect: 'none'
+                            userSelect: 'none',
+                            touchAction: 'manipulation',
+                            WebkitAppearance: 'none',
+                            appearance: 'none'
                         }}
                     >
                         {option}
