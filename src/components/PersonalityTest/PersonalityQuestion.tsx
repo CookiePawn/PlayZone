@@ -23,7 +23,10 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
 
     const handleOptionClick = (index: number) => {
         setSelectedOption(index);
-        onAnswer(index);
+        setTimeout(() => {
+            onAnswer(index);
+            setSelectedOption(null);
+        }, 300); // 애니메이션 효과를 위해 약간의 지연 추가
     };
 
     return (
