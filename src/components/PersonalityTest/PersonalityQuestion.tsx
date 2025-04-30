@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PersonalityQuestion as QuestionType } from '@/types/personalityTest';
 
 interface PersonalityQuestionProps {
@@ -14,7 +14,17 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
     totalQuestions,
     onAnswer
 }) => {
+    const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const progress = ((currentIndex + 1) / totalQuestions) * 100;
+
+    useEffect(() => {
+        setSelectedOption(null);
+    }, [currentIndex]);
+
+    const handleOptionClick = (index: number) => {
+        setSelectedOption(index);
+        onAnswer(index);
+    };
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
@@ -37,9 +47,13 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
             <div className="space-y-4">
                 {question.options.map((option, index) => (
                     <button
-                        key={`${currentIndex}-${index}`}
-                        onClick={() => onAnswer(index)}
-                        className="w-full p-4 border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-colors text-left"
+                        key={index}
+                        onClick={() => handleOptionClick(index)}
+                        className={`w-full p-4 border-2 rounded-lg transition-colors text-left ${
+                            selectedOption === index
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
+                        }`}
                     >
                         {option}
                     </button>
