@@ -26,7 +26,7 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
         setTimeout(() => {
             onAnswer(index);
             setSelectedOption(null);
-        }, 300); // 애니메이션 효과를 위해 약간의 지연 추가
+        }, 300);
     };
 
     return (
@@ -52,11 +52,20 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
                     <button
                         key={index}
                         onClick={() => handleOptionClick(index)}
-                        className={`w-full p-4 border-2 rounded-lg transition-colors text-left ${
+                        className={`w-full p-4 border-2 rounded-lg transition-colors text-left touch-manipulation ${
                             selectedOption === index
                                 ? 'border-blue-500 bg-blue-50'
                                 : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
                         }`}
+                        style={{
+                            WebkitTapHighlightColor: 'transparent',
+                            WebkitTouchCallout: 'none',
+                            WebkitUserSelect: 'none',
+                            KhtmlUserSelect: 'none',
+                            MozUserSelect: 'none',
+                            msUserSelect: 'none',
+                            userSelect: 'none'
+                        }}
                     >
                         {option}
                     </button>
