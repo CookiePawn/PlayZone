@@ -75,6 +75,22 @@ const Home = () => {
                     })}
                 </div>
             </div>
+
+            <footer className="bg-gray-50 border-t border-gray-200 py-8 mt-12">
+                <div className="max-w-[1080px] mx-auto px-8">
+                    <div className="flex flex-col md:flex-row justify-between gap-4">
+                        <div className="text-gray-600">
+                            <div className="text-sm">
+                                <p>Email: binihaus5117@gmail.com</p>
+                            </div>
+                            <p className="mt-10 text-sm">© 2025 PlayZone. All rights reserved.</p>
+                        </div>
+                        <div className="flex space-x-4">
+                            <a href="#" className="text-gray-600 hover:text-gray-900 text-sm">이용약관</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     );
 };
