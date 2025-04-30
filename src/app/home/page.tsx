@@ -86,7 +86,7 @@ const Home = () => {
                             <p className="mt-10 text-sm">© 2025 PlayZone. All rights reserved.</p>
                         </div>
                         <div className="flex space-x-4">
-                            <a href="#" className="text-gray-600 hover:text-gray-900 text-sm">이용약관</a>
+                            <a href="/terms" className="text-gray-600 hover:text-gray-900 text-sm">이용약관</a>
                         </div>
                     </div>
                 </div>
