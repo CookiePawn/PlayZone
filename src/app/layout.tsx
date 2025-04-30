@@ -28,11 +28,11 @@ export default function RootLayout({
                     `}
                 </Script>
                 <Script
-                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7246292657634923"
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4743705134165634"
                     strategy="afterInteractive"
                     crossOrigin="anonymous"
                 />
-                <meta name="google-adsense-account" content="ca-pub-7246292657634923" />
+                <meta name="google-adsense-account" content="ca-pub-4743705134165634" />
             </head>
             <body className={inter.className}>
                 <noscript>
