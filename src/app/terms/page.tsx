@@ -1,11 +1,20 @@
 import React from 'react';
+import Link from 'next/link';
 
 const TermsPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
                 <div className="bg-white shadow rounded-lg p-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-8">이용약관</h1>
+                    <div className="flex justify-between items-center mb-8">
+                        <h1 className="text-3xl font-bold text-gray-900">이용약관</h1>
+                        <Link 
+                            href="/"
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                        >
+                            홈으로
+                        </Link>
+                    </div>
                     
                     <div className="space-y-6 text-gray-700">
                         <section>
@@ -47,7 +56,24 @@ const TermsPage = () => {
                         </section>
 
                         <section>
-                            <h2 className="text-xl font-semibold mb-4">5. 서비스 변경 및 중단</h2>
+                            <h2 className="text-xl font-semibold mb-4">5. 광고 서비스</h2>
+                            <p className="mb-4">
+                                본 서비스는 Google AdSense를 통해 광고를 제공합니다. Google AdSense는 다음과 같은 정보를 수집할 수 있습니다:
+                            </p>
+                            <ul className="list-disc pl-6 space-y-2">
+                                <li>사용자의 IP 주소</li>
+                                <li>브라우저 정보</li>
+                                <li>쿠키 정보</li>
+                                <li>광고 클릭 및 노출 데이터</li>
+                            </ul>
+                            <p className="mt-4">
+                                이러한 정보는 Google의 개인정보처리방침에 따라 처리되며, 광고 타겟팅 및 서비스 개선을 위해 사용됩니다.
+                                사용자는 Google의 개인정보처리방침을 참고하여 광고 설정을 관리할 수 있습니다.
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2 className="text-xl font-semibold mb-4">6. 서비스 변경 및 중단</h2>
                             <p className="mb-4">
                                 본 서비스는 사전 통보 없이 서비스의 내용을 변경하거나 중단할 수 있습니다. 
                                 이로 인해 발생하는 불편에 대해서는 책임을 지지 않습니다.
@@ -55,7 +81,7 @@ const TermsPage = () => {
                         </section>
 
                         <section>
-                            <h2 className="text-xl font-semibold mb-4">6. 기타</h2>
+                            <h2 className="text-xl font-semibold mb-4">7. 기타</h2>
                             <p className="mb-4">
                                 본 이용약관은 필요한 경우 수정될 수 있으며, 수정된 약관은 서비스 내에 공지됩니다. 
                                 수정된 약관은 공지된 시점부터 효력을 발생합니다.
