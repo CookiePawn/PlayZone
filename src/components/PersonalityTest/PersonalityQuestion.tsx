@@ -50,10 +50,8 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
                 {question.options.map((option, index) => (
                     <button
                         key={index}
-                        onTouchStart={() => setSelectedOption(index)}
-                        onTouchEnd={() => handleAnswer(index)}
                         onClick={() => handleAnswer(index)}
-                        className={`w-full p-4 border-2 rounded-lg transition-colors text-left touch-manipulation ${
+                        className={`w-full p-4 border-2 rounded-lg transition-colors text-left ${
                             selectedOption === index
                                 ? 'border-blue-500 bg-blue-50'
                                 : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
@@ -68,7 +66,8 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
                             userSelect: 'none',
                             touchAction: 'manipulation',
                             WebkitAppearance: 'none',
-                            appearance: 'none'
+                            appearance: 'none',
+                            outline: 'none'
                         }}
                     >
                         {option}
