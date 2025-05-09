@@ -38,7 +38,7 @@ const Home = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {projects.filter((project) => selectedCategory === 'all' || project.category === selectedCategory).map((project) => {
                         const ProjectCard = (
-                            <div className={`bg-white rounded-lg overflow-hidden border ${project.isAd ? 'border-yellow-400' : 'border-gray-200'} h-full flex flex-col shadow-sm hover:shadow-md transition-shadow duration-200 relative`}>
+                            <div className={`bg-white rounded-lg overflow-hidden border ${project.isAd ? 'border-yellow-400' : 'border-gray-200'} h-full flex flex-col hover:border-violet-500 transition-all duration-200 relative`}>
                                 {project.isAd && (
                                     <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-bold">
                                         AD
