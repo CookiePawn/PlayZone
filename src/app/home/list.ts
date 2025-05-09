@@ -1,3 +1,11 @@
+import {
+    AnimalQuizBanner,
+    CultureTmiQuizBanner,
+    ScienceTmiQuizBanner,
+    LegalQuizBanner,
+} from '@/assets'
+import { StaticImageData } from 'next/image';
+
 export const projects: {
     id: string | number;
     title: string;
@@ -11,6 +19,7 @@ export const projects: {
         gradient?: string;
         icon?: string;
         text?: string;
+        image?: StaticImageData;
     };
 }[] = [
         {
@@ -23,7 +32,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-purple-400 to-indigo-500',
-                icon: '⚖️'
+                icon: '⚖️',
+                image: LegalQuizBanner
             },
         },
         {
@@ -36,7 +46,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-green-400 to-blue-500',
-                icon: '💰'
+                icon: '💰',
+                image: LegalQuizBanner
             }
         },
         {
@@ -49,7 +60,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-orange-400 to-pink-500',
-                icon: '🐾'
+                icon: '🐾',
+                image: AnimalQuizBanner
             }
         },
         {
@@ -90,7 +102,8 @@ export const projects: {
                 type: 'gradient',
                 gradient: 'from-blue-500 to-cyan-500',
                 icon: '🔬',
-                text: '과학 TMI 퀴즈'
+                text: '과학 TMI 퀴즈',
+                image: ScienceTmiQuizBanner
             }
         },
         {
@@ -104,7 +117,8 @@ export const projects: {
                 type: 'gradient',
                 gradient: 'from-green-500 to-teal-500',
                 icon: '🌍',
-                text: '국가별 문화 TMI 퀴즈'
+                text: '국가별 문화 TMI 퀴즈',
+                image: CultureTmiQuizBanner
             }
         },
         {
@@ -117,7 +131,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-amber-400 to-orange-500',
-                icon: '🦁'
+                icon: '🦁',
+                image: AnimalQuizBanner
             }
         },
         {

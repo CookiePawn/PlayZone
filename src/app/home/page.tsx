@@ -21,8 +21,8 @@ const Home = () => {
                         <button
                             key={category.name}
                             className={`flex items-center px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200 active:scale-95 relative ${selectedCategory === category.id
-                                    ? 'after:absolute after:inset-[-1px] after:rounded-lg after:bg-gradient-to-r after:from-pink-500 after:to-purple-600 after:-z-10 bg-gradient-to-r from-pink-500 to-purple-600'
-                                    : 'after:absolute after:inset-[-1px] after:rounded-lg after:bg-gray-200 after:-z-10 bg-white'
+                                ? 'after:absolute after:inset-[-1px] after:rounded-lg after:bg-gradient-to-r after:from-pink-500 after:to-purple-600 after:-z-10 bg-gradient-to-r from-pink-500 to-purple-600'
+                                : 'after:absolute after:inset-[-1px] after:rounded-lg after:bg-gray-200 after:-z-10 bg-white'
                                 }`}
                             onClick={() => setSelectedCategory(category.id)}
                         >
@@ -42,9 +42,13 @@ const Home = () => {
                                         AD
                                     </div>
                                 )}
-                                <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500'} text-6xl`}>
-                                    {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
-                                </div>
+                                {project.thumbnail?.image ? (
+                                    <img src={project.thumbnail.image.src} alt={project.title} width={'100%'} height={'100%'} />
+                                ) : (
+                                    <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500'} text-6xl`}>
+                                        {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
+                                    </div>
+                                )}
                                 <div className="p-4 flex flex-col h-[150px]">
                                     <h3 className="text-xl font-semibold mb-1 text-gray-900">{project.title}</h3>
                                     <p className="text-gray-600 mb-3 text-sm line-clamp-2 h-[40px]">{project.description}</p>
