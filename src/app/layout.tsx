@@ -15,13 +15,13 @@ export const metadata: Metadata = {
         url: 'https://ai-playzone.com',
         siteName: '플레이존 - AI 컨텐츠 놀이터',
         type: 'website',
-        // images: [
-        //     {
-        //         url: '/images/og-image.png',
-        //         width: 1200,
-        //         height: 630,
-        //     },
-        // ],
+        images: [
+            {
+                url: '/images/og-image.jpeg',
+                width: 1200,
+                height: 630,
+            },
+        ],
     },
 };
 
