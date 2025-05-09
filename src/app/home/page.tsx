@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { projects } from './list';
 import { categories } from './category';
+import { HeaderImage } from '@/assets/images';
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -11,10 +12,11 @@ const Home = () => {
     return (
         <div className="relative min-h-screen overflow-y-auto">
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
-                <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-12 text-center">
-                    <h1 className="text-4xl font-bold mb-2">AI 놀이터</h1>
+                {/* <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-12 text-center">
+                    <h1 className="text-4xl font-bold mb-2">플레이존</h1>
                     <p className="text-xl">AI가 준비한 심심풀이 컨텐츠!</p>
-                </div>
+                </div> */}
+                <img src={HeaderImage.src} alt="플레이존" className="w-full h-auto rounded-lg mb-12" />
 
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {categories.map((category) => (
