@@ -3,6 +3,17 @@ import {
     CultureTmiQuizBanner,
     ScienceTmiQuizBanner,
     LegalQuizBanner,
+    AnimalOXQuizBanner,
+    ChoicePredictionBanner,
+    ConceptQuizBanner,
+    FakeOptionsQuizBanner,
+    LogicQuizBanner,
+    NumberSequenceQuizBanner,
+    PersonalityTestBanner,
+    TaxQuizBanner,
+    TypoBattleBanner,
+    BrandTmiQuizBanner,
+    SentenceTemperatureBanner,
 } from '@/assets'
 import { StaticImageData } from 'next/image';
 
@@ -47,7 +58,7 @@ export const projects: {
                 type: 'gradient',
                 gradient: 'from-green-400 to-blue-500',
                 icon: '💰',
-                image: LegalQuizBanner
+                image: TaxQuizBanner
             }
         },
         {
@@ -61,7 +72,7 @@ export const projects: {
                 type: 'gradient',
                 gradient: 'from-orange-400 to-pink-500',
                 icon: '🐾',
-                image: AnimalQuizBanner
+                image: AnimalOXQuizBanner
             }
         },
         {
@@ -74,7 +85,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-blue-400 to-cyan-500',
-                icon: '🔍'
+                icon: '🔍',
+                image: ConceptQuizBanner
             }
         },
         {
@@ -88,7 +100,8 @@ export const projects: {
                 type: 'gradient',
                 gradient: 'from-purple-500 to-pink-500',
                 icon: '🏢',
-                text: '브랜드 TMI 퀴즈'
+                text: '브랜드 TMI 퀴즈',
+                image: BrandTmiQuizBanner
             }
         },
         {
@@ -145,7 +158,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-indigo-400 to-violet-500',
-                icon: '🔢'
+                icon: '🔢',
+                image: NumberSequenceQuizBanner
             }
         },
         {
@@ -158,7 +172,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-indigo-500 to-violet-500',
-                icon: '🧠'
+                icon: '🧠',
+                image: LogicQuizBanner
             }
         },
         {
@@ -171,7 +186,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-red-400 to-orange-500',
-                icon: '🌡️'
+                icon: '🌡️',
+                image: SentenceTemperatureBanner
             }
         },
         {
@@ -184,7 +200,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-purple-400 to-pink-500',
-                icon: '🔮'
+                icon: '🔮',
+                image: ChoicePredictionBanner
             }
         },
         {
@@ -197,7 +214,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-orange-400 to-red-500',
-                icon: '🎯'
+                icon: '🎯',
+                image: TypoBattleBanner
             }
         },
         {
@@ -210,7 +228,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-indigo-500 to-violet-500',
-                icon: '🎭'
+                icon: '🎭',
+                image: FakeOptionsQuizBanner
             }
         },
         {
@@ -223,7 +242,8 @@ export const projects: {
             thumbnail: {
                 type: 'gradient',
                 gradient: 'from-cyan-400 to-sky-500',
-                icon: '👤'
+                icon: '👤',
+                image: PersonalityTestBanner
             }
         },
         // {
