@@ -17,6 +17,19 @@ import {
 } from '@/assets'
 import { StaticImageData } from 'next/image';
 
+// 이미지 최적화를 위한 타입 정의
+type ThumbnailType = {
+    type: 'gradient' | 'placeholder';
+    gradient?: string;
+    icon?: string;
+    text?: string;
+    image?: StaticImageData;
+    width?: number;
+    height?: number;
+    priority?: boolean;
+    quality?: number;
+};
+
 export const projects: {
     id: string | number;
     title: string;
@@ -25,13 +38,7 @@ export const projects: {
     href?: string;
     isAd?: boolean;
     quizType?: 'OX 퀴즈' | '4지선다' | '온도 측정' | '오타 찾기' | '성향 테스트' | '결과 예측' | '구별 퀴즈';
-    thumbnail: {
-        type: 'gradient' | 'placeholder';
-        gradient?: string;
-        icon?: string;
-        text?: string;
-        image?: StaticImageData;
-    };
+    thumbnail: ThumbnailType;
 }[] = [
         {
             id: 1,
@@ -44,7 +51,11 @@ export const projects: {
                 type: 'gradient',
                 gradient: 'from-purple-400 to-indigo-500',
                 icon: '⚖️',
-                image: LegalQuizBanner
+                image: LegalQuizBanner,
+                width: 400,
+                height: 300,
+                quality: 75,
+                priority: true // 첫 화면에 보이는 이미지는 우선 로드
             },
         },
         {

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { projects } from './list';
 import { categories } from './category';
 import { HeaderImage } from '@/assets/images';
@@ -16,7 +17,17 @@ const Home = () => {
                     <h1 className="text-4xl font-bold mb-2">플레이존</h1>
                     <p className="text-xl">AI가 준비한 심심풀이 컨텐츠!</p>
                 </div> */}
-                <img src={HeaderImage.src} alt="플레이존" className="w-full h-auto rounded-lg mb-12" />
+                <div className="relative w-full mb-12">
+                    <Image
+                        src={HeaderImage}
+                        alt="플레이존"
+                        className="rounded-lg w-full h-auto"
+                        sizes="(max-width: 1080px) 100vw, 1080px"
+                        priority
+                        loading="eager"
+                        placeholder="blur"
+                    />
+                </div>
 
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {categories.map((category) => (
@@ -45,7 +56,18 @@ const Home = () => {
                                     </div>
                                 )}
                                 {project.thumbnail?.image ? (
-                                    <img src={project.thumbnail.image.src} alt={project.title} width={'100%'} height={'100%'} />
+                                    <div className="relative w-full">
+                                        <Image
+                                            src={project.thumbnail.image}
+                                            alt={project.title}
+                                            className="w-full h-auto object-contain"
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                            quality={project.thumbnail.quality || 75}
+                                            priority={project.thumbnail.priority}
+                                            loading={project.thumbnail.priority ? "eager" : "lazy"}
+                                            placeholder="blur"
+                                        />
+                                    </div>
                                 ) : (
                                     <div className={`h-48 ${project.thumbnail?.type === 'gradient' ? `bg-gradient-to-br ${project.thumbnail.gradient}` : 'bg-gray-100'} flex items-center justify-center ${project.thumbnail?.type === 'gradient' ? 'text-white' : 'text-gray-500'} text-6xl`}>
                                         {project.thumbnail?.type === 'gradient' ? project.thumbnail.icon : project.thumbnail?.text || ''}
