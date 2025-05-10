@@ -17,11 +17,18 @@ export const metadata: Metadata = {
         type: 'website',
         images: [
             {
-                url: '/images/og-image.jpeg',
+                url: 'https://ai-playzone.com/images/og-image.jpeg',
                 width: 1200,
                 height: 630,
+                alt: '플레이존 - AI 컨텐츠 놀이터',
             },
         ],
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: '플레이존 - AI 컨텐츠 놀이터',
+        description: '플레이존은 AI 컨텐츠 놀이터로, 다양한 AI 컨텐츠를 즐길 수 있는 공간입니다.',
+        images: ['https://ai-playzone.com/images/og-image.jpeg'],
     },
 };
 
