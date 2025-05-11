@@ -37,7 +37,8 @@ const TaxQuizPage = () => {
         handleNextQuestion,
         handleResetQuiz,
     } = useLocalQuiz({
-        numberOfQuestions: NUMBER_OF_QUESTIONS
+        numberOfQuestions: NUMBER_OF_QUESTIONS,
+        quizType: 'tax'
     });
 
     // --- Render Logic ---

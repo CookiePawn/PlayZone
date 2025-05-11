@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import easyQuestions from '@/app/tax-quiz/easy.json';
-import hardQuestions from '@/app/tax-quiz/hard.json';
 
 interface Question {
     id: number;
@@ -12,9 +10,10 @@ interface Question {
 
 interface UseLocalQuizProps {
     numberOfQuestions: number;
+    quizType: 'tax' | 'legal' | 'animal';
 }
 
-export function useLocalQuiz({ numberOfQuestions }: UseLocalQuizProps) {
+export function useLocalQuiz({ numberOfQuestions, quizType }: UseLocalQuizProps) {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<boolean | null>(null);
@@ -25,8 +24,25 @@ export function useLocalQuiz({ numberOfQuestions }: UseLocalQuizProps) {
     const [selectedDifficulty, setSelectedDifficulty] = useState<'easy' | 'hard' | null>(null);
     const [validQuestions, setValidQuestions] = useState<Question[]>([]);
     const [isQuizFinished, setIsQuizFinished] = useState(false);
+    const [questions, setQuestions] = useState<{ easy: Question[], hard: Question[] }>({ easy: [], hard: [] });
 
     const currentQuestion = validQuestions[currentQuestionIndex];
+
+    useEffect(() => {
+        const loadQuestions = async () => {
+            try {
+                const easyQuestions = await import(`@/app/${quizType}-quiz/easy.json`);
+                const hardQuestions = await import(`@/app/${quizType}-quiz/hard.json`);
+                setQuestions({
+                    easy: easyQuestions.default,
+                    hard: hardQuestions.default
+                });
+            } catch (err) {
+                setError('퀴즈 데이터를 불러오는 중 오류가 발생했습니다.');
+            }
+        };
+        loadQuestions();
+    }, [quizType]);
 
     const handleDifficultySelect = (difficulty: 'easy' | 'hard') => {
         setSelectedDifficulty(difficulty);
@@ -37,9 +53,9 @@ export function useLocalQuiz({ numberOfQuestions }: UseLocalQuizProps) {
 
         setIsLoading(true);
         try {
-            const questions = selectedDifficulty === 'easy' ? easyQuestions : hardQuestions;
+            const selectedQuestions = selectedDifficulty === 'easy' ? questions.easy : questions.hard;
             // Randomly select questions
-            const shuffled = [...questions].sort(() => 0.5 - Math.random());
+            const shuffled = [...selectedQuestions].sort(() => 0.5 - Math.random());
             const selected = shuffled.slice(0, numberOfQuestions);
             setValidQuestions(selected);
             setShowIntro(false);
