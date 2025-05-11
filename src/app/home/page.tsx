@@ -60,7 +60,7 @@ const Home = () => {
                                         <Image
                                             src={project.thumbnail.image}
                                             alt={project.title}
-                                            className="w-full h-auto object-contain"
+                                            className="w-full h-[200px] object-cover"
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             quality={project.thumbnail.quality || 75}
                                             priority={project.thumbnail.priority}
