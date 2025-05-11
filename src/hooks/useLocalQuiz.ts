@@ -37,7 +37,7 @@ export function useLocalQuiz({ numberOfQuestions, quizType }: UseLocalQuizProps)
                     easy: easyQuestions.default,
                     hard: hardQuestions.default
                 });
-            } catch (err) {
+            } catch {
                 setError('퀴즈 데이터를 불러오는 중 오류가 발생했습니다.');
             }
         };
@@ -59,7 +59,7 @@ export function useLocalQuiz({ numberOfQuestions, quizType }: UseLocalQuizProps)
             const selected = shuffled.slice(0, numberOfQuestions);
             setValidQuestions(selected);
             setShowIntro(false);
-        } catch (err) {
+        } catch {
             setError('퀴즈 데이터를 불러오는 중 오류가 발생했습니다.');
         } finally {
             setIsLoading(false);

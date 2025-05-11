@@ -9,7 +9,6 @@ interface LocalOXQuizIntroProps {
     onStart: () => void;
     isLoading: boolean;
     error: string | null;
-    totalQuestions: number;
     title: string;
     description: string;
     subtitle: string;
@@ -28,7 +27,6 @@ export default function LocalOXQuizIntro({
     onStart,
     isLoading,
     error,
-    totalQuestions,
     title,
     description,
     subtitle,

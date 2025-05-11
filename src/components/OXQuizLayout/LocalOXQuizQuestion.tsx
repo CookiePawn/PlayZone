@@ -27,8 +27,6 @@ export default function LocalOXQuizQuestion({
     currentIndex,
     totalQuestions
 }: LocalOXQuizQuestionProps) {
-    const isCorrect = selectedAnswer === question.answer;
-
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
             <div className="bg-white p-6 md:p-8 rounded-lg border border-gray-200 w-full max-w-2xl flex flex-col min-h-[650px]">

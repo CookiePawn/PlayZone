@@ -50,7 +50,6 @@ const LegalQuizPage = () => {
                 error={error}
                 onDifficultySelect={handleDifficultySelect}
                 onStart={handleStartQuiz}
-                totalQuestions={TOTAL_QUESTIONS}
                 title="⚖️ 법률 OX 퀴즈"
                 description="당신은 법률에 대해 얼마나 알고 있을까?"
                 subtitle="OX 하나로 가려지는 당신의 법률 지식 테스트!"
@@ -70,16 +69,12 @@ const LegalQuizPage = () => {
     }
 
     if (isQuizFinished) {
-        // Calculate percentile based on score
-        const percentile = Math.round((score / validQuestions.length) * 100);
-        
         return (
             <LocalOXQuizResult
                 score={score}
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
                 isLoading={isLoading}
-                percentile={percentile}
             />
         );
     }

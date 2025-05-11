@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import CountUp from 'react-countup';
 
 interface LocalOXQuizResultProps {
@@ -7,7 +6,6 @@ interface LocalOXQuizResultProps {
     totalQuestions: number;
     onReset: () => void;
     isLoading: boolean;
-    percentile: number;
 }
 
 export default function LocalOXQuizResult({
@@ -15,7 +13,6 @@ export default function LocalOXQuizResult({
     totalQuestions,
     onReset,
     isLoading,
-    percentile
 }: LocalOXQuizResultProps) {
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
