@@ -5,7 +5,7 @@ import { useMCQuiz } from '@/hooks/useMCQuiz';
 import MCQuizIntro from '@/components/MCQuizLayout/MCQuizIntro';
 import MCQuizQuestion from '@/components/MCQuizLayout/MCQuizQuestion';
 import MCQuizResult from '@/components/MCQuizLayout/MCQuizResult';
-import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
+import ErrorPage from '@/components/OXQuizLayout/ErrorPage';
 
 const numberSequenceQuizConfig = {
     title: '🔢 숫자 규칙 찾기 퀴즈',

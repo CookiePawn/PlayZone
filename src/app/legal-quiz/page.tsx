@@ -8,7 +8,7 @@ import {
     QuizResult,
     ErrorPage,
     LoadingPage
-} from '@/components/OXQuixLayout';
+} from '@/components/OXQuizLayout';
 
 // --- Constants ---
 const NUMBER_OF_QUESTIONS = 10; // Generate 10 questions at a time

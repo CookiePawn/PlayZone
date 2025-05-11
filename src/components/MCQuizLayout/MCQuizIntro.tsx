@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Difficulty } from '../../models/OXQuiz';
-import LoadingButton from '../OXQuixLayout/LoadingButton';
-import DifficultySelector from '../OXQuixLayout/DifficultySelector';
+import LoadingButton from '../OXQuizLayout/LoadingButton';
+import DifficultySelector from '../OXQuizLayout/DifficultySelector';
 
 interface MCQuizIntroProps {
     config: {

@@ -5,7 +5,7 @@ import { useMCQuiz } from '@/hooks/useMCQuiz';
 import MCQuizIntro from '@/components/MCQuizLayout/MCQuizIntro';
 import MCQuizQuestion from '@/components/MCQuizLayout/MCQuizQuestion';
 import MCQuizResult from '@/components/MCQuizLayout/MCQuizResult';
-import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
+import ErrorPage from '@/components/OXQuizLayout/ErrorPage';
 
 const scienceTmiQuizConfig = {
     title: '🔬 과학 TMI 퀴즈',

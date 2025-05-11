@@ -5,3 +5,8 @@ export { default as DifficultySelector } from './DifficultySelector';
 export { default as LoadingButton } from './LoadingButton';
 export { default as ErrorPage } from './ErrorPage';
 export { default as LoadingPage } from './LoadingPage';
+export { default as LocalOXQuizIntro } from './LocalOXQuizIntro';
+export { default as LocalOXQuizQuestion } from './LocalOXQuizQuestion';
+export { default as LocalOXQuizResult } from './LocalOXQuizResult';
+export { default as LocalOXQuizError } from './LocalOXQuizError';
+export { default as LocalOXQuizLoading } from './LocalOXQuizLoading';

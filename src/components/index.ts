@@ -1,4 +1,4 @@
-export * from './OXQuixLayout';
+export * from './OXQuizLayout';
 export * from './MCQuizLayout';
 export { default as TypoBattleQuestion } from './TypoBattleQuestion';
 export { default as TypoBattleResult } from './TypoBattleResult';

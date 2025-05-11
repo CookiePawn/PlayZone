@@ -5,7 +5,7 @@ import { useMCQuiz } from '@/hooks/useMCQuiz';
 import MCQuizIntro from '@/components/MCQuizLayout/MCQuizIntro';
 import MCQuizQuestion from '@/components/MCQuizLayout/MCQuizQuestion';
 import MCQuizResult from '@/components/MCQuizLayout/MCQuizResult';
-import ErrorPage from '@/components/OXQuixLayout/ErrorPage';
+import ErrorPage from '@/components/OXQuizLayout/ErrorPage';
 
 const fakeOptionsQuizConfig = {
     title: '🎭 가짜 선택지 구별 퀴즈',
