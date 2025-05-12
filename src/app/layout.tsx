@@ -64,6 +64,18 @@ export default function RootLayout({
                     crossOrigin="anonymous"
                 />
                 <meta name="google-adsense-account" content="ca-pub-4743705134165634" />
+                <Script
+                    src="https://www.googletagmanager.com/gtag/js?id=G-FG761FP5GY"
+                    strategy="afterInteractive"
+                />
+                <Script id="google-analytics" strategy="afterInteractive">
+                    {`
+                        window.dataLayer = window.dataLayer || [];
+                        function gtag(){dataLayer.push(arguments);}
+                        gtag('js', new Date());
+                        gtag('config', 'G-FG761FP5GY');
+                    `}
+                </Script>
             </head>
             <body className={inter.className}>
                 <noscript>
