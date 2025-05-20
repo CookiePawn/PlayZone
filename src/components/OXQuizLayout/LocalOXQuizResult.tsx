@@ -1,11 +1,14 @@
 import React from 'react';
 import CountUp from 'react-countup';
+import { useRouter } from 'next/navigation';
 
 interface LocalOXQuizResultProps {
     score: number;
     totalQuestions: number;
     onReset: () => void;
     isLoading: boolean;
+    quizTitle?: string;
+    userName?: string;
 }
 
 export default function LocalOXQuizResult({
@@ -13,7 +16,10 @@ export default function LocalOXQuizResult({
     totalQuestions,
     onReset,
     isLoading,
+    quizTitle = "퀴즈",
+    userName = "익명",
 }: LocalOXQuizResultProps) {
+    const router = useRouter();
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
         if (percentage >= 95) return 1;
@@ -65,6 +71,27 @@ export default function LocalOXQuizResult({
     const calculatedPercentile = calculatePercentile(score, totalQuestions);
     const resultMessage = getResultMessage(percentage);
 
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${calculatedPercentile}&user=${encodeURIComponent(userName)}`;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `${userName}님의 ${quizTitle} 결과`,
+                    text: `${userName}님은 ${quizTitle}에서 상위 ${calculatedPercentile}%)입니다. 과연 나는?`,
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('공유하기 실패:', error);
+                navigator.clipboard.writeText(shareUrl);
+                alert('링크가 클립보드에 복사되었습니다!');
+            }
+        } else {
+            navigator.clipboard.writeText(shareUrl);
+            alert('링크가 클립보드에 복사되었습니다!');
+        }
+    };
+
     if (isLoading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
@@ -112,13 +139,21 @@ export default function LocalOXQuizResult({
                     </p>
                 </div>
 
-                <button
-                    onClick={onReset}
-                    disabled={isLoading}
-                    className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    다시 시작하기
-                </button>
+                <div className="flex gap-4 mt-6">
+                    <button
+                        onClick={onReset}
+                        disabled={isLoading}
+                        className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        다시 시작하기
+                    </button>
+                    <button
+                        onClick={handleShare}
+                        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
+                    >
+                        결과 공유하기
+                    </button>
+                </div>
             </div>
 
             {/* Confetti container */}

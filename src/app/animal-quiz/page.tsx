@@ -75,6 +75,7 @@ const AnimalQuizPage = () => {
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
                 isLoading={isLoading}
+                quizTitle="동물 OX 퀴즈"
             />
         );
     }
