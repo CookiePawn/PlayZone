@@ -76,7 +76,7 @@ export default function LocalOXQuizResult({
             try {
                 await navigator.share({
                     title: `${userName}님의 ${quizTitle} 결과`,
-                    text: `${userName}님은 ${quizTitle}에서 상위 ${calculatedPercentile}%입니다! 나는 어때?`,
+                    text: `${userName}님은 상위 ${calculatedPercentile}%입니다! 나는 어때?`,
                     url: shareUrl,
                 });
             } catch (error) {
