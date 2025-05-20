@@ -18,7 +18,7 @@ export default function LocalOXQuizResult({
     isLoading,
     quizTitle = "퀴즈",
     userName = "익명",
-    image = "animal-ox.png",
+    image = "animal-ox.jpg",
 }: LocalOXQuizResultProps) {
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;

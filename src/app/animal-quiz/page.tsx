@@ -76,7 +76,7 @@ const AnimalQuizPage = () => {
                 onReset={handleResetQuiz}
                 isLoading={isLoading}
                 quizTitle="동물 OX 퀴즈"
-                image="animal-ox.png"
+                image="animal-ox.jpg"
             />
         );
     }

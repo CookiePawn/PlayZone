@@ -8,7 +8,7 @@ export async function generateMetadata(
     const title = searchParams.title as string || '퀴즈';
     const percentile = searchParams.percentile as string || '0';
     const user = searchParams.user as string || '익명';
-    const image = searchParams.image as string || 'animal-ox.png';
+    const image = searchParams.image as string || 'animal-ox.jpg';
 
     return {
         title: `${user}님의 ${title} 결과`,
