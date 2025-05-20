@@ -70,13 +70,13 @@ export default function LocalOXQuizResult({
     const resultMessage = getResultMessage(percentage);
 
     const handleShare = async () => {
-        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&score=${score}&total=${totalQuestions}&percentile=${calculatedPercentile}&user=${encodeURIComponent(userName)}`;
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${calculatedPercentile}&user=${encodeURIComponent(userName)}`;
         
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: `${userName}님의 ${quizTitle} 결과`,
-                    text: `${userName}님이 ${quizTitle}에서 ${score}/${totalQuestions}점(상위 ${calculatedPercentile}%)을 획득했습니다!`,
+                    text: `${userName}님은 ${quizTitle}에서 상위 ${calculatedPercentile}%입니다! 나는 어때?`,
                     url: shareUrl,
                 });
             } catch (error) {
