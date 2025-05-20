@@ -1,18 +1,13 @@
 import { Metadata } from 'next';
 import Script from 'next/script';
 
-interface Props {
-    searchParams: {
-        title?: string;
-        percentile?: string;
-        user?: string;
-    };
-}
-
-export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
-    const title = searchParams.title || '퀴즈';
-    const percentile = searchParams.percentile || '0';
-    const user = searchParams.user || '익명';
+export async function generateMetadata(
+    props: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }
+): Promise<Metadata> {
+    const searchParams = await props.searchParams;
+    const title = searchParams.title as string || '퀴즈';
+    const percentile = searchParams.percentile as string || '0';
+    const user = searchParams.user as string || '익명';
 
     return {
         title: `${user}님의 ${title} 결과`,

@@ -1,6 +1,5 @@
 import React from 'react';
 import CountUp from 'react-countup';
-import { useRouter } from 'next/navigation';
 
 interface LocalOXQuizResultProps {
     score: number;
@@ -19,7 +18,6 @@ export default function LocalOXQuizResult({
     quizTitle = "퀴즈",
     userName = "익명",
 }: LocalOXQuizResultProps) {
-    const router = useRouter();
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
         if (percentage >= 95) return 1;
@@ -72,13 +70,13 @@ export default function LocalOXQuizResult({
     const resultMessage = getResultMessage(percentage);
 
     const handleShare = async () => {
-        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${calculatedPercentile}&user=${encodeURIComponent(userName)}`;
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&score=${score}&total=${totalQuestions}&percentile=${calculatedPercentile}&user=${encodeURIComponent(userName)}`;
         
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: `${userName}님의 ${quizTitle} 결과`,
-                    text: `${userName}님은 ${quizTitle}에서 상위 ${calculatedPercentile}%)입니다. 과연 나는?`,
+                    text: `${userName}님이 ${quizTitle}에서 ${score}/${totalQuestions}점(상위 ${calculatedPercentile}%)을 획득했습니다!`,
                     url: shareUrl,
                 });
             } catch (error) {
