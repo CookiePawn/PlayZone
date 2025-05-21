@@ -5,9 +5,19 @@ interface LocalMCQuizResultProps {
     score: number;
     totalQuestions: number;
     onReset: () => void;
+    quizTitle?: string;
+    image?: string;
+    userName?: string;
 }
 
-export default function LocalMCQuizResult({ score, totalQuestions, onReset }: LocalMCQuizResultProps) {
+export default function LocalMCQuizResult({ 
+    score, 
+    totalQuestions, 
+    onReset,
+    quizTitle = "퀴즈",
+    userName = "익명",
+    image = "animal-ox.jpg",
+}: LocalMCQuizResultProps) {
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
         if (percentage >= 95) return 1;
@@ -58,6 +68,27 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset }: Lo
     const percentile = calculatePercentile(score, totalQuestions);
     const percentage = Math.round((score / totalQuestions) * 100);
     const resultMessage = getResultMessage(percentage);
+
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${percentile}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}`;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `${userName}님의 ${quizTitle} 결과`,
+                    text: `${userName}님은 상위 ${percentage}%입니다! 나는 어때?`,
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('공유하기 실패:', error);
+                navigator.clipboard.writeText(shareUrl);
+                alert('링크가 클립보드에 복사되었습니다!');
+            }
+        } else {
+            navigator.clipboard.writeText(shareUrl);
+            alert('링크가 클립보드에 복사되었습니다!');
+        }
+    };
 
     return (
         <div className="bg-white rounded-lg p-8 text-center border border-gray-200">

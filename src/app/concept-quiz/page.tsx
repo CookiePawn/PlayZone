@@ -82,6 +82,8 @@ export default function ConceptQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle='공통 개념 찾기 퀴즈'
+                        image='concept.png'
                     />
                 ) : (
                     <div className="space-y-8">

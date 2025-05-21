@@ -79,6 +79,8 @@ export default function FakeOptionsQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle='가짜 선택지 구별 퀴즈'
+                        image='fake.png'
                     />
                 ) : (
                     <div className="space-y-8">

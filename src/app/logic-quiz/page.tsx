@@ -82,6 +82,8 @@ export default function LogicQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle='추론 실력 진단 퀴즈'
+                        image='logic.jpg'
                     />
                 ) : (
                     <div className="space-y-8">

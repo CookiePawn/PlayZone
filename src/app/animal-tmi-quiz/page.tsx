@@ -74,6 +74,8 @@ export default function AnimalTmiQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle='동물 TMI 퀴즈'
+                        image='animal.jpg'
                     />
                 ) : (
                     <div className="space-y-8">
