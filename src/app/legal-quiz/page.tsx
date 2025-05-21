@@ -75,6 +75,8 @@ const LegalQuizPage = () => {
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
                 isLoading={isLoading}
+                quizTitle='법률 OX 퀴즈'
+                image='legal.jpg'
             />
         );
     }
