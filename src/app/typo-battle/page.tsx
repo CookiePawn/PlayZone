@@ -70,6 +70,9 @@ export default function TypoBattlePage() {
                         score={score}
                         totalQuestions={currentQuestionIndex + 1}
                         onReset={resetGame}
+                        userName='익명'
+                        quizTitle={gameConfig.title}
+                        image='typo.png'
                     />
                 )}
             </div>

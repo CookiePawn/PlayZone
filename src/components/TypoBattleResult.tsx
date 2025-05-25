@@ -5,9 +5,12 @@ interface TypoBattleResultProps {
     score: number;
     totalQuestions: number;
     onReset: () => void;
+    userName?: string;
+    quizTitle: string;
+    image?: string;
 }
 
-export default function TypoBattleResult({ score, totalQuestions, onReset }: TypoBattleResultProps) {
+export default function TypoBattleResult({ score, totalQuestions, onReset, userName='익명', quizTitle, image='animal.jpg' }: TypoBattleResultProps) {
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
         if (percentage >= 95) return 1;
@@ -59,8 +62,29 @@ export default function TypoBattleResult({ score, totalQuestions, onReset }: Typ
     const percentage = Math.round((score / totalQuestions) * 100);
     const resultMessage = getResultMessage(percentage);
 
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${percentile}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}`;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `${userName}님의 ${quizTitle} 결과`,
+                    text: `${userName}님은 상위 ${percentage}%입니다! 나는 몇퍼일까요?`,
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('공유하기 실패:', error);
+                navigator.clipboard.writeText(shareUrl);
+                alert('링크가 클립보드에 복사되었습니다!');
+            }
+        } else {
+            navigator.clipboard.writeText(shareUrl);
+            alert('링크가 클립보드에 복사되었습니다!');
+        }
+    };
+
     return (
-        <div className="bg-white rounded-lg p-8 text-center border border-gray-200">
+        <div className="bg-white rounded-lg p-8 text-center h-screen flex flex-col justify-center">
             <h2 className="text-3xl font-bold text-purple-600 mb-4">게임 종료!</h2>
             
             <div className="mb-8">
@@ -87,14 +111,14 @@ export default function TypoBattleResult({ score, totalQuestions, onReset }: Typ
                     onClick={onReset}
                     className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200"
                 >
-                    다시 풀기
+                    다시 시작하기
                 </button>
-                <Link
-                    href="/"
-                    className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200"
+                <button
+                    onClick={handleShare}
+                    className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
                 >
-                    홈으로 가기
-                </Link>
+                    결과 공유하기
+                </button>
             </div>
         </div>
     );

@@ -12,9 +12,9 @@ interface LocalMCQuizResultProps {
     userName?: string;
 }
 
-export default function LocalMCQuizResult({ 
-    score, 
-    totalQuestions, 
+export default function LocalMCQuizResult({
+    score,
+    totalQuestions,
     onReset,
     quizTitle = "퀴즈",
     userName = "익명",
@@ -73,7 +73,7 @@ export default function LocalMCQuizResult({
 
     const handleShare = async () => {
         const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${percentile}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}`;
-        
+
         if (navigator.share) {
             try {
                 await navigator.share({
@@ -101,7 +101,7 @@ export default function LocalMCQuizResult({
     return (
         <div className="bg-white rounded-lg p-8 text-center h-screen flex flex-col justify-center">
             <h2 className="text-3xl font-bold text-purple-600 mb-4">퀴즈 완료!</h2>
-            
+
             <div className="mb-8">
                 <p className="text-2xl font-semibold text-gray-800 mb-2">
                     최종 점수: {score} / {totalQuestions}
@@ -129,19 +129,19 @@ export default function LocalMCQuizResult({
                     다시 시작하기
                 </button>
                 <button
-                        onClick={handleShare}
-                        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
-                    >
-                        결과 공유하기
-                    </button>
+                    onClick={handleShare}
+                    className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
+                >
+                    결과 공유하기
+                </button>
             </div>
             {/* Recommended Quizzes Section */}
             <div className="mt-12 w-full max-w-2xl">
                 <h2 className="text-2xl font-bold mb-6 text-center">추천 퀴즈</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {recommendedQuizzes.map((quiz) => (
-                        <Link 
-                            href={quiz.href || '#'} 
+                        <Link
+                            href={quiz.href || '#'}
                             key={quiz.id}
                             className="bg-white p-4 rounded-lg border border-gray-200 hover:border-purple-500 transition-colors"
                         >
