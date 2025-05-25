@@ -49,6 +49,9 @@ export default function SentenceTemperaturePage() {
     const [result, setResult] = useState<{ temperature: number; explanation: string } | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const userName = '익명'
+    const quizTitle = '문장 온도 측정기'
+    const image = 'temperature.png'
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -60,7 +63,7 @@ export default function SentenceTemperaturePage() {
         try {
             const response = await generateContent(prompt + `\n분석할 문장: "${sentence}"`);
             console.log('AI Response:', response);
-            
+
             // 응답에서 JSON 부분만 추출
             const jsonMatch = response.match(/\{[\s\S]*\}/);
             if (!jsonMatch) {
@@ -72,7 +75,7 @@ export default function SentenceTemperaturePage() {
 
             const parsedResponse = JSON.parse(jsonString);
             console.log('Parsed Response:', parsedResponse);
-            
+
             // 응답 형식 검증
             if (typeof parsedResponse.temperature !== 'number' || typeof parsedResponse.explanation !== 'string') {
                 throw new Error('응답 형식이 올바르지 않습니다.');
@@ -84,6 +87,27 @@ export default function SentenceTemperaturePage() {
             setError('분석 중 오류가 발생했습니다. 다시 시도해주세요.');
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${result?.temperature}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}           `;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `${userName}님의 ${quizTitle} 결과`,
+                    text: `${userName}님의 온도는 ${result?.temperature}도 입니다! 나는 몇도일까요?`,
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('공유하기 실패:', error);
+                navigator.clipboard.writeText(shareUrl);
+                alert('링크가 클립보드에 복사되었습니다!');
+            }
+        } else {
+            navigator.clipboard.writeText(shareUrl);
+            alert('링크가 클립보드에 복사되었습니다!');
         }
     };
 
@@ -138,11 +162,17 @@ export default function SentenceTemperaturePage() {
                                 <h3 className="font-semibold text-gray-800 mb-2">분석 근거</h3>
                                 <p className="text-gray-700">{result.explanation}</p>
                             </div>
+                            <button
+                                onClick={handleShare}
+                                className="block w-full text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+                            >
+                                결과 공유하기
+                            </button>
                         </div>
                     )}
 
                     <div className="mt-6">
-                        <Link 
+                        <Link
                             href="/"
                             className="block w-full text-center bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
                         >

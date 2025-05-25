@@ -12,10 +12,14 @@ export async function generateMetadata(
 
     return {
         title: `${user}님의 ${title} 결과`,
-        description: title === '🤔 당신은 어느 쪽?' ? `본인의 성향은 어떨까요?` : `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
+        description: title === '🤔 당신은 어느 쪽?' ? `본인의 성향은 어떨까요?` : 
+                        title === '문장 온도 측정기' ? `${user}님은 온도는 ${percentile}도 입니다! 나는 몇도일까요?` : 
+                            `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
         openGraph: {
             title: `${user}님의 ${title} 결과`,
-            description: `${user}님은 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
+            description: title === '🤔 당신은 어느 쪽?' ? `본인의 성향은 어떨까요?` : 
+                        title === '문장 온도 측정기' ? `${user}님은 온도는 ${percentile}도 입니다! 나는 몇도일까요?` : 
+                            `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
             type: 'website',
             images: [
                 {
@@ -29,7 +33,9 @@ export async function generateMetadata(
         twitter: {
             card: 'summary_large_image',
             title: `${user}님의 ${title} 결과`,
-            description: `${user}님은 ${percentile}%입니다! 나는 몇퍼일까요?`,
+            description: title === '🤔 당신은 어느 쪽?' ? `본인의 성향은 어떨까요?` : 
+                        title === '문장 온도 측정기' ? `${user}님은 온도는 ${percentile}도 입니다! 나는 몇도일까요?` : 
+                            `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
             images: [`https://ai-playzone.com/images/banners/${image}`],
         },
     };
