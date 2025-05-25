@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { projects } from './list';
 import { categories } from './category';
-import { HeaderImage } from '@/assets/images';
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
