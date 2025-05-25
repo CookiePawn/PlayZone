@@ -17,9 +17,9 @@ const PersonalityQuestion: React.FC<PersonalityQuestionProps> = ({
     const progress = ((currentIndex + 1) / totalQuestions) * 100;
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
+        <div className="bg-white p-6 space-y-6 h-screen flex flex-col">
             {/* Progress Bar */}
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-32 mb-16">
                 <div 
                     className="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
                     style={{ width: `${progress}%` }}

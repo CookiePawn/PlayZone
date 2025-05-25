@@ -15,7 +15,7 @@ export default function MCPersonalityResult({
     onReset
 }: MCPersonalityResultProps) {
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6 space-y-6">
+        <div className="bg-white p-6 space-y-6">
             <h2 className="text-2xl font-bold text-center mb-6">당신의 성향 분석 결과</h2>
             
             <div className="space-y-4">
