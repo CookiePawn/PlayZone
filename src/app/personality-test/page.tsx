@@ -61,6 +61,9 @@ export default function PersonalityTestPage() {
                         personalityDescription={result.personalityDescription}
                         traitPercentages={result.traitPercentages}
                         onReset={handleReset}
+                        userName='익명'
+                        quizTitle={personalityTestConfig.title}
+                        image='personality.png'
                     />
                 ) : (
                     <div className="space-y-4">

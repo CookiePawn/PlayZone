@@ -12,7 +12,7 @@ export async function generateMetadata(
 
     return {
         title: `${user}님의 ${title} 결과`,
-        description: `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
+        description: title === '🤔 당신은 어느 쪽?' ? `본인의 성향은 어떨까요?` : `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
         openGraph: {
             title: `${user}님의 ${title} 결과`,
             description: `${user}님은 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
