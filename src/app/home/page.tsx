@@ -10,7 +10,7 @@ const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
 
     return (
-        <div className="relative min-h-screen overflow-y-auto">
+        <div className="relative min-h-screen overflow-y-auto pt-16">
             <div className="min-h-screen p-8 max-w-[1080px] mx-auto">
                 {/* <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-12 text-center">
                     <h1 className="text-4xl font-bold mb-2">플레이존</h1>

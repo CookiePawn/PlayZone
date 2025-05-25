@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <header className="bg-white border-b border-gray-300 sticky top-0 z-50">
+    <header className="bg-white border-b border-gray-300 fixed top-0 left-0 right-0 z-50">
       <nav className="max-w-[1080px] mx-auto px-6">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">

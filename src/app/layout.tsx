@@ -80,18 +80,18 @@ export default function RootLayout({
             </head>
             <body className={inter.className}>
                 <noscript>
-                    <iframe 
+                    <iframe
                         src="https://www.googletagmanager.com/ns.html?id=GTM-NL28L5P3"
-                        height="0" 
-                        width="0" 
+                        height="0"
+                        width="0"
                         style={{ display: 'none', visibility: 'hidden' }}
                     />
                 </noscript>
                 <noscript>
-                    <iframe 
+                    <iframe
                         src="https://www.googletagmanager.com/ns.html?id=GTM-KR3WJCRT"
-                        height="0" 
-                        width="0" 
+                        height="0"
+                        width="0"
                         style={{ display: 'none', visibility: 'hidden' }}
                     />
                 </noscript>
