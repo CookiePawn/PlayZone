@@ -99,7 +99,7 @@ export default function LocalMCQuizResult({
     }, []);
 
     return (
-        <div className="bg-white rounded-lg p-8 text-center border border-gray-200">
+        <div className="bg-white rounded-lg p-8 text-center h-screen flex flex-col justify-center">
             <h2 className="text-3xl font-bold text-purple-600 mb-4">퀴즈 완료!</h2>
             
             <div className="mb-8">

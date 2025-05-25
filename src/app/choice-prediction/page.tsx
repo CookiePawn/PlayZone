@@ -101,7 +101,7 @@ export default function ChoicePredictionPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12">
+        <div className="min-h-screen bg-gray-50">
             <div className="max-w-2xl mx-auto px-4">
                 <div className="bg-white rounded-lg shadow-lg p-6">
                     <div className="flex justify-between items-center mb-4">

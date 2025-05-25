@@ -35,9 +35,9 @@ export default function LocalMCQuizQuestion({
     ));
 
     return (
-        <div className="bg-white rounded-lg p-6 border border-gray-200">
+        <div className="bg-white rounded-lg p-6 h-screen">
             {/* Progress Bar */}
-            <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+            <div className="w-full bg-gray-200 rounded-full h-2.5 mt-32 mb-16">
                 <div
                     className="bg-purple-600 h-2.5 rounded-full transition-all duration-300"
                     style={{ width: `${((currentIndex + 1) / totalQuestions) * 100}%` }}
