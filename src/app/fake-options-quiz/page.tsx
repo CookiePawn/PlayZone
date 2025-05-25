@@ -79,6 +79,8 @@ export default function FakeOptionsQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle={fakeOptionsQuizConfig.title}
+                        image="fake.png"
                     />
                 ) : (
                     <div className="space-y-8">

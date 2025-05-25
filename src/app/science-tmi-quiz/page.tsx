@@ -79,6 +79,8 @@ export default function ScienceTmiQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle={scienceTmiQuizConfig.title}
+                        image="science-tmi.jpg"
                     />
                 ) : (
                     <div className="space-y-8">

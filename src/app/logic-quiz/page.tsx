@@ -82,6 +82,8 @@ export default function LogicQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle={logicQuizConfig.title}
+                        image="logic.jpg"
                     />
                 ) : (
                     <div className="space-y-8">

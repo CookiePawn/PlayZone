@@ -79,6 +79,8 @@ export default function BrandTmiQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle={brandTmiQuizConfig.title}
+                        image="brand.jpg"
                     />
                 ) : (
                     <div className="space-y-8">

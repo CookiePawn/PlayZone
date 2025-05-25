@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
+import { projects } from '@/app/home/list';
+import Image from 'next/image';
 
 interface LocalMCQuizResultProps {
     score: number;
     totalQuestions: number;
     onReset: () => void;
+    quizTitle: string;
+    userName?: string;
+    image?: string;
 }
 
-export default function LocalMCQuizResult({ score, totalQuestions, onReset }: LocalMCQuizResultProps) {
+export default function LocalMCQuizResult({ score, totalQuestions, onReset, quizTitle, userName="익명", image="animal-ox.jpg" }: LocalMCQuizResultProps) {
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
         if (percentage >= 95) return 1;
@@ -59,6 +64,33 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset }: Lo
     const percentage = Math.round((score / totalQuestions) * 100);
     const resultMessage = getResultMessage(percentage);
 
+    const handleShare = async () => {
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${percentage}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}           `;
+        
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: `${userName}님의 ${quizTitle} 결과`,
+                    text: `${userName}님은 상위 ${percentage}%입니다! 나는 어때?`,
+                    url: shareUrl,
+                });
+            } catch (error) {
+                console.error('공유하기 실패:', error);
+                navigator.clipboard.writeText(shareUrl);
+                alert('링크가 클립보드에 복사되었습니다!');
+            }
+        } else {
+            navigator.clipboard.writeText(shareUrl);
+            alert('링크가 클립보드에 복사되었습니다!');
+        }
+    };
+
+    // 랜덤 추천 퀴즈 선택
+    const recommendedQuizzes = useMemo(() => {
+        const shuffled = [...projects].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, 4);
+    }, []);
+
     return (
         <div className="bg-white rounded-lg p-8 text-center border border-gray-200">
             <h2 className="text-3xl font-bold text-purple-600 mb-4">퀴즈 완료!</h2>
@@ -87,14 +119,49 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset }: Lo
                     onClick={onReset}
                     className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200"
                 >
-                    다시 풀기
+                    다시 시작하기
                 </button>
-                <Link
-                    href="/"
-                    className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors duration-200"
-                >
-                    홈으로 가기
-                </Link>
+                <button
+                        onClick={handleShare}
+                        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
+                    >
+                        결과 공유하기
+                    </button>
+            </div>
+            {/* Recommended Quizzes Section */}
+            <div className="mt-12 w-full max-w-2xl">
+                <h2 className="text-2xl font-bold mb-6 text-center">추천 퀴즈</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {recommendedQuizzes.map((quiz) => (
+                        <Link 
+                            href={quiz.href || '#'} 
+                            key={quiz.id}
+                            className="bg-white p-4 rounded-lg border border-gray-200 hover:border-purple-500 transition-colors"
+                        >
+                            <div className="flex items-center space-x-4">
+                                <div className="w-16 h-16 flex-shrink-0">
+                                    {quiz.thumbnail.image ? (
+                                        <Image
+                                            src={quiz.thumbnail.image}
+                                            alt={quiz.title}
+                                            className="w-full h-full object-cover rounded-lg"
+                                            width={64}
+                                            height={64}
+                                        />
+                                    ) : (
+                                        <div className={`w-full h-full rounded-lg bg-gradient-to-br ${quiz.thumbnail.gradient} flex items-center justify-center text-white text-2xl`}>
+                                            {quiz.thumbnail.icon}
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    <h3 className="font-semibold text-gray-900 line-clamp-1">{quiz.title}</h3>
+                                    <p className="text-sm text-gray-600 line-clamp-2">{quiz.description}</p>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
             </div>
         </div>
     );

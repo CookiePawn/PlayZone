@@ -82,6 +82,8 @@ export default function ConceptQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle={conceptQuizConfig.title}
+                        image="concept.png"
                     />
                 ) : (
                     <div className="space-y-8">

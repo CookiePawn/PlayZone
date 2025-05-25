@@ -79,6 +79,8 @@ export default function CultureTmiQuizPage() {
                         score={score}
                         totalQuestions={validQuestions.length}
                         onReset={handleResetQuiz}
+                        quizTitle={cultureTmiQuizConfig.title}
+                        image="culture-tmi.jpg"
                     />
                 ) : (
                     <div className="space-y-8">
