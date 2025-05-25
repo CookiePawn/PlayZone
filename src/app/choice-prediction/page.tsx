@@ -103,8 +103,8 @@ export default function ChoicePredictionPage() {
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="max-w-2xl mx-auto px-4">
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="bg-white p-6 h-screen flex flex-col">
+                    <div className="flex justify-between items-center mb-4 mt-32 mb-16">
                         <h1 className="text-2xl font-bold">선택 후 결과 예측 테스트 🔮</h1>
                     </div>
                     <p className="text-gray-600 mb-6">
