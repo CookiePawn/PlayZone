@@ -78,7 +78,7 @@ export default function LocalOXQuizResult({
 
     const handleShare = async () => {
         const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${calculatedPercentile}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}           `;
-        
+
         if (navigator.share) {
             try {
                 await navigator.share({
@@ -113,10 +113,10 @@ export default function LocalOXQuizResult({
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
-            <div className="bg-white p-8 rounded-lg border border-gray-200 w-full max-w-2xl flex flex-col items-center">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+            <div className="bg-white p-8 rounded-lg border border-gray-200 w-full h-screen max-w-2xl flex flex-col items-center justify-center">
                 <h1 className="text-3xl font-bold mb-6">퀴즈 완료! 🎉</h1>
-                
+
                 {/* Progress bar */}
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8">
                     <div className="bg-purple-600 h-2.5 rounded-full progress-fill" style={{ width: '100%' }}></div>
@@ -165,41 +165,40 @@ export default function LocalOXQuizResult({
                         결과 공유하기
                     </button>
                 </div>
-            </div>
-
-            {/* Recommended Quizzes Section */}
-            <div className="mt-12 w-full max-w-2xl">
-                <h2 className="text-2xl font-bold mb-6 text-center">추천 퀴즈</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {recommendedQuizzes.map((quiz) => (
-                        <Link 
-                            href={quiz.href || '#'} 
-                            key={quiz.id}
-                            className="bg-white p-4 rounded-lg border border-gray-200 hover:border-purple-500 transition-colors"
-                        >
-                            <div className="flex items-center space-x-4">
-                                <div className="w-16 h-16 flex-shrink-0">
-                                    {quiz.thumbnail.image ? (
-                                        <Image
-                                            src={quiz.thumbnail.image}
-                                            alt={quiz.title}
-                                            className="w-full h-full object-cover rounded-lg"
-                                            width={64}
-                                            height={64}
-                                        />
-                                    ) : (
-                                        <div className={`w-full h-full rounded-lg bg-gradient-to-br ${quiz.thumbnail.gradient} flex items-center justify-center text-white text-2xl`}>
-                                            {quiz.thumbnail.icon}
-                                        </div>
-                                    )}
+                {/* Recommended Quizzes Section */}
+                <div className="mt-12 w-full max-w-2xl">
+                    <h2 className="text-2xl font-bold mb-6 text-center">추천 퀴즈</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {recommendedQuizzes.map((quiz) => (
+                            <Link
+                                href={quiz.href || '#'}
+                                key={quiz.id}
+                                className="bg-white p-4 rounded-lg border border-gray-200 hover:border-purple-500 transition-colors"
+                            >
+                                <div className="flex items-center space-x-4">
+                                    <div className="w-16 h-16 flex-shrink-0">
+                                        {quiz.thumbnail.image ? (
+                                            <Image
+                                                src={quiz.thumbnail.image}
+                                                alt={quiz.title}
+                                                className="w-full h-full object-cover rounded-lg"
+                                                width={64}
+                                                height={64}
+                                            />
+                                        ) : (
+                                            <div className={`w-full h-full rounded-lg bg-gradient-to-br ${quiz.thumbnail.gradient} flex items-center justify-center text-white text-2xl`}>
+                                                {quiz.thumbnail.icon}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-semibold text-gray-900 line-clamp-1">{quiz.title}</h3>
+                                        <p className="text-sm text-gray-600 line-clamp-2">{quiz.description}</p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h3 className="font-semibold text-gray-900 line-clamp-1">{quiz.title}</h3>
-                                    <p className="text-sm text-gray-600 line-clamp-2">{quiz.description}</p>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
 

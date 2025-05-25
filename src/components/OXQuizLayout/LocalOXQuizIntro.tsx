@@ -35,8 +35,8 @@ export default function LocalOXQuizIntro({
     startButtonText
 }: LocalOXQuizIntroProps) {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-4 md:p-8 text-center">
-            <div className="bg-white p-8 md:p-12 rounded-lg border border-gray-200 max-w-2xl w-full">
+        <div className="flex flex-col items-center justify-center min-h-screen text-center bg-gray-50">
+            <div className="bg-white p-8 md:p-12 max-w-2xl w-full h-screen flex flex-col items-center justify-center">
                 <h1 className="text-3xl md:text-4xl font-bold mb-6">{title}</h1>
                 <p className="text-lg md:text-xl mb-4">
                     {description}

@@ -28,15 +28,15 @@ export default function LocalOXQuizQuestion({
     totalQuestions
 }: LocalOXQuizQuestionProps) {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4 md:p-8">
-            <div className="bg-white p-6 md:p-8 rounded-lg border border-gray-200 w-full max-w-2xl flex flex-col min-h-[650px]">
-                <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+        <div className="flex flex-col items-center bg-gray-50 h-screen">
+            <div className="bg-white p-6 md:p-8 w-full max-w-2xl flex flex-col h-screen relative">
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mt-32 mb-16">
                     <div 
                         className="bg-purple-600 h-2.5 rounded-full transition-all duration-500 ease-out" 
                         style={{ width: `${((currentIndex) / totalQuestions) * 100}%` }}
                     ></div>
                 </div>
-                <div className="mb-8 text-center h-[150px]">
+                <div className="mb-8 text-center min-h-[150px]">
                     <p className="text-lg md:text-xl font-medium text-gray-800">{question.statement}</p>
                 </div>
 
@@ -94,7 +94,7 @@ export default function LocalOXQuizQuestion({
                         </div>
                     </div>
                 )}
-                <div className="mt-auto text-center py-4">
+                <div className="mt-8 mb-32 text-center">
                     <p className="text-lg text-gray-600">
                         <span className="font-bold text-purple-600">{currentIndex + 1}</span> / {totalQuestions} 
                         <span className="ml-2">(남은 문제: {totalQuestions - (currentIndex)}개)</span>
