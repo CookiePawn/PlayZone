@@ -17,7 +17,7 @@ const Home = () => {
                     <h1 className="text-4xl font-bold mb-2">플레이존</h1>
                     <p className="text-xl">AI가 준비한 심심풀이 컨텐츠!</p>
                 </div> */}
-                <div className="relative w-full mb-12">
+                {/* <div className="relative w-full mb-12">
                     <Image
                         src={HeaderImage}
                         alt="플레이존"
@@ -27,7 +27,7 @@ const Home = () => {
                         loading="eager"
                         placeholder="blur"
                     />
-                </div>
+                </div> */}
 
                 <div className="flex flex-wrap justify-center gap-4 mb-12">
                     {categories.map((category) => (

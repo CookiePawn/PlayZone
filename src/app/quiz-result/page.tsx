@@ -12,10 +12,10 @@ export async function generateMetadata(
 
     return {
         title: `${user}님의 ${title} 결과`,
-        description: `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 어때?`,
+        description: `${user}님은 ${title}에서 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
         openGraph: {
             title: `${user}님의 ${title} 결과`,
-            description: `${user}님은 상위 ${percentile}%입니다! 나는 어때?`,
+            description: `${user}님은 상위 ${percentile}%입니다! 나는 몇퍼일까요?`,
             type: 'website',
             images: [
                 {
@@ -29,7 +29,7 @@ export async function generateMetadata(
         twitter: {
             card: 'summary_large_image',
             title: `${user}님의 ${title} 결과`,
-            description: `${user}님은 ${percentile}%입니다! 나는 어때?`,
+            description: `${user}님은 ${percentile}%입니다! 나는 몇퍼일까요?`,
             images: [`https://ai-playzone.com/images/banners/${image}`],
         },
     };
