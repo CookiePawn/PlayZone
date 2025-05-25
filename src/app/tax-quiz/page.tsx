@@ -75,6 +75,8 @@ const TaxQuizPage = () => {
                 totalQuestions={validQuestions.length}
                 onReset={handleResetQuiz}
                 isLoading={isLoading}
+                quizTitle='세금 OX 퀴즈'
+                image='tax.jpg'
             />
         );
     }

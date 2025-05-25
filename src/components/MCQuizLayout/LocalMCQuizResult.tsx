@@ -1,18 +1,38 @@
+<<<<<<< HEAD
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { projects } from '@/app/home/list';
 import Image from 'next/image';
+=======
+import React from 'react';
+>>>>>>> dfdcd4a2c010337fe22f608ae3c0ff30aaec630f
 
 interface LocalMCQuizResultProps {
     score: number;
     totalQuestions: number;
     onReset: () => void;
+<<<<<<< HEAD
     quizTitle: string;
     userName?: string;
     image?: string;
 }
 
 export default function LocalMCQuizResult({ score, totalQuestions, onReset, quizTitle, userName="익명", image="animal-ox.jpg" }: LocalMCQuizResultProps) {
+=======
+    quizTitle?: string;
+    image?: string;
+    userName?: string;
+}
+
+export default function LocalMCQuizResult({ 
+    score, 
+    totalQuestions, 
+    onReset,
+    quizTitle = "퀴즈",
+    userName = "익명",
+    image = "animal-ox.jpg",
+}: LocalMCQuizResultProps) {
+>>>>>>> dfdcd4a2c010337fe22f608ae3c0ff30aaec630f
     const calculatePercentile = (score: number, totalQuestions: number) => {
         const percentage = (score / totalQuestions) * 100;
         if (percentage >= 95) return 1;
@@ -65,13 +85,13 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset, quiz
     const resultMessage = getResultMessage(percentage);
 
     const handleShare = async () => {
-        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${percentage}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}           `;
+        const shareUrl = `${window.location.origin}/quiz-result?title=${encodeURIComponent(quizTitle)}&percentile=${percentile}&user=${encodeURIComponent(userName)}&image=${encodeURIComponent(image)}`;
         
         if (navigator.share) {
             try {
                 await navigator.share({
                     title: `${userName}님의 ${quizTitle} 결과`,
-                    text: `${userName}님은 상위 ${percentage}%입니다! 나는 어때?`,
+                    text: `${userName}님은 상위 ${percentage}%입니다! 나는 몇퍼일까요?`,
                     url: shareUrl,
                 });
             } catch (error) {
@@ -85,12 +105,15 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset, quiz
         }
     };
 
+<<<<<<< HEAD
     // 랜덤 추천 퀴즈 선택
     const recommendedQuizzes = useMemo(() => {
         const shuffled = [...projects].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, 4);
     }, []);
 
+=======
+>>>>>>> dfdcd4a2c010337fe22f608ae3c0ff30aaec630f
     return (
         <div className="bg-white rounded-lg p-8 text-center border border-gray-200">
             <h2 className="text-3xl font-bold text-purple-600 mb-4">퀴즈 완료!</h2>
@@ -122,6 +145,7 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset, quiz
                     다시 시작하기
                 </button>
                 <button
+<<<<<<< HEAD
                         onClick={handleShare}
                         className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
                     >
@@ -162,6 +186,31 @@ export default function LocalMCQuizResult({ score, totalQuestions, onReset, quiz
                         </Link>
                     ))}
                 </div>
+=======
+                    onClick={handleShare}
+                    className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow hover:bg-blue-700 transition-colors"
+                >
+                    결과 공유하기
+                </button>
+            </div>
+            
+            {/* Confetti container */}
+            <div className="confetti-container">
+                {Array.from({ length: 50 }).map((_, i) => (
+                    <div
+                        key={i}
+                        className="confetti"
+                        style={{
+                            left: `${Math.random() * 100}%`,
+                            animation: `confetti-fall ${Math.random() * 2 + 1}s linear forwards`,
+                            animationDelay: `${Math.random() * 2}s`,
+                            backgroundColor: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                            width: `${Math.random() * 8 + 4}px`,
+                            height: `${Math.random() * 8 + 4}px`,
+                        }}
+                    />
+                ))}
+>>>>>>> dfdcd4a2c010337fe22f608ae3c0ff30aaec630f
             </div>
         </div>
     );
