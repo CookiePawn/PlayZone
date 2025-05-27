@@ -23,7 +23,7 @@ interface PersonalityIntroProps {
 
 export default function PersonalityIntro({ config, onStart }: PersonalityIntroProps) {
     return (
-        <div className="bg-white p-6 space-y-6 h-screen flex flex-col justify-center">
+        <div className="bg-white p-6 space-y-6 min-h-screen flex flex-col justify-center">
             <h1 className="text-3xl font-bold text-center">{config.title}</h1>
             
             <div className="text-center space-y-2">

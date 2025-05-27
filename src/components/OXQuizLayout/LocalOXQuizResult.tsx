@@ -114,7 +114,7 @@ export default function LocalOXQuizResult({
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-            <div className="bg-white p-8 rounded-lg border border-gray-200 w-full h-screen max-w-2xl flex flex-col items-center justify-center">
+            <div className="bg-white p-8 rounded-lg border border-gray-200 w-full min-h-screen max-w-2xl flex flex-col items-center justify-center">
                 <h1 className="text-3xl font-bold mb-6">퀴즈 완료! 🎉</h1>
 
                 {/* Progress bar */}

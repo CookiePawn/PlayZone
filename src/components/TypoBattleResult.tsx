@@ -92,7 +92,7 @@ export default function TypoBattleResult({ score, totalQuestions, onReset, userN
     }, []);
 
     return (
-        <div className="bg-white rounded-lg p-8 text-center h-screen flex flex-col justify-center">
+        <div className="bg-white p-8 text-center min-h-screen flex flex-col justify-center">
             <h2 className="text-3xl font-bold text-purple-600 mb-4">게임 종료!</h2>
             
             <div className="mb-8">

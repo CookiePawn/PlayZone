@@ -35,7 +35,7 @@ export default function TypoBattleQuestion({
     };
 
     return (
-        <div className="bg-white rounded-lg p-8 text-center h-screen">
+        <div className="bg-white p-8 text-center min-h-screen">
             <div className="flex justify-between items-center mb-6 gap-6">
                 <div className="w-full mt-32 mb-16">
                     <div className="h-4 bg-gray-200 rounded-full overflow-hidden">

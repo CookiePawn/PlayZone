@@ -114,7 +114,7 @@ export default function SentenceTemperaturePage() {
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="max-w-2xl mx-auto px-4">
-                <div className="bg-white p-6 h-screen">
+                <div className="bg-white p-6 min-h-screen">
                     <div className="flex justify-between items-center mt-32 mb-16">
                         <h1 className="text-2xl font-bold">문장 온도 측정기 🌡️</h1>
                     </div>

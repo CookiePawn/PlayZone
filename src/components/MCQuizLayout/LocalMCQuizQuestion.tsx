@@ -35,7 +35,7 @@ export default function LocalMCQuizQuestion({
     ));
 
     return (
-        <div className="bg-white rounded-lg p-6 h-screen">
+        <div className="bg-white p-6 min-h-screen">
             {/* Progress Bar */}
             <div className="w-full bg-gray-200 rounded-full h-2.5 mt-32 mb-16">
                 <div
