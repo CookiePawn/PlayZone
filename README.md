@@ -13,8 +13,7 @@
 
 # Project Period
 
-    Main WEB DEV. 2025/04/09 ~
-    법률 퀴즈(Legal Quiz) DEV. 2025/04/09 ~ 2025/04/10
+    Main WEB DEV. 2025.04.09 ~
 
 ## USING
 > https://github.com/CookiePawn/template-cli.git
@@ -23,12 +22,14 @@
 
 
 ## Version
-> ## v0.0.1
+>## v0.0.2
+> [2025-04-19]
+> - 4지선다 문제 추가
+>
+>## v0.0.1
 > [2025-04-09]
->
-> Create Main Web
->
-> Create Legal Quiz(법률 퀴즈)
+> - Create Main Web
+> - Create Legal Quiz(법률 퀴즈)
     
 
   
